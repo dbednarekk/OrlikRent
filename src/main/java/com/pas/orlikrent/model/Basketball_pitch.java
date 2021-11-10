@@ -15,20 +15,20 @@ public class Basketball_pitch {
     private UUID id;
     private String name;
     private Double price;
-    private Boolean is_lights;
+    private Boolean lights;
     private Sector sector;
     private Integer min_people;
     private Integer max_people;
-    private Boolean is_rented;
+    private Boolean rented;
 
     public Basketball_pitch(String name, Double price, Boolean is_lights, Sector sector, Integer min_people, Integer max_people) {
         this.id= UUID.randomUUID();
         this.name = name;
         this.price = price;
-        this.is_lights = is_lights;
+        this.lights = is_lights;
         this.sector = sector;
         this.min_people = min_people;
         this.max_people = max_people;
-        this.is_rented=false;
+        this.rented=false;
     }
 }

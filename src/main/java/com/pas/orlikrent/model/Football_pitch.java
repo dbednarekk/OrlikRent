@@ -16,20 +16,20 @@ public class Football_pitch {
     private String name;
     private Ground_type grass_type;
     private Double price;
-    private Boolean is_goal_nets;
-    private Boolean is_lights;
+    private Boolean goal_nets;
+    private Boolean lights;
     private Sector sector;
     private Integer min_people;
     private Integer max_people;
     private Boolean is_rented;
 
-    public Football_pitch(String name, Ground_type grass_type, Double price, Boolean is_goal_nets, Boolean is_lights, Sector sector, Integer min_people, Integer max_people) {
+    public Football_pitch(String name, Ground_type grass_type, Double price, Boolean goal_nets, Boolean is_lights, Sector sector, Integer min_people, Integer max_people) {
         this.id = UUID.randomUUID();
         this.name = name;
         this.grass_type = grass_type;
         this.price = price;
-        this.is_goal_nets = is_goal_nets;
-        this.is_lights = is_lights;
+        this.goal_nets = goal_nets;
+        this.lights = is_lights;
         this.sector = sector;
         this.min_people = min_people;
         this.max_people = max_people;
