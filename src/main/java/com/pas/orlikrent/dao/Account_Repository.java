@@ -1,6 +1,6 @@
 package com.pas.orlikrent.dao;
 
-import com.pas.orlikrent.Exceptions.Account_Repo_Exception;
+import com.pas.orlikrent.exceptions.Account_Repo_Exception;
 import com.pas.orlikrent.model.Account;
 
 import javax.annotation.PostConstruct;
@@ -16,13 +16,13 @@ public class Account_Repository implements IdentityStore {
 
     private List<Account> accounts = Collections.synchronizedList(new ArrayList<>());
 
-    @PostConstruct
+/*    @PostConstruct
     private void InitData() {
         accounts.add(new Account("dbednarek","abcABC123*","bednarek@gmail.com","Damian","Bednarek","ADMINISTRATOR"));
         accounts.add(new Account("mklyz","abcABC123*","klyz@gmail.com","Michał","Kłyż","MANAGER"));
         accounts.add(new Account("jkowalski","abcABC123*","kowalski@gmail.com","Jan","Kowalski","USER"));
         accounts.add(new Account("tnowak","abcABC123*","nowak@gmail.com","Tomasz","Nowak","USER"));
-    }
+    }*/
 
     public List<Account> getAllAccounts(){
         return Collections.unmodifiableList(accounts);

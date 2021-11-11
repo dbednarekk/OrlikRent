@@ -1,38 +1,34 @@
 package com.pas.orlikrent.model;
 
-import com.pas.orlikrent.model.Pitch_Types.Ground_type;
-import com.pas.orlikrent.model.Pitch_Types.Sector;
+import com.pas.orlikrent.model.enums.Ground_type;
+import com.pas.orlikrent.model.enums.Sector;
 import lombok.*;
 
+import javax.json.bind.annotation.JsonbCreator;
+import javax.json.bind.annotation.JsonbProperty;
 import java.util.UUID;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
-@NoArgsConstructor
-public class Football_pitch {
-    private UUID id;
-    private String name;
-    private Ground_type grass_type;
-    private Double price;
-    private Boolean goal_nets;
-    private Boolean lights;
-    private Sector sector;
-    private Integer min_people;
-    private Integer max_people;
-    private Boolean is_rented;
 
-    public Football_pitch(String name, Ground_type grass_type, Double price, Boolean goal_nets, Boolean is_lights, Sector sector, Integer min_people, Integer max_people) {
-        this.id = UUID.randomUUID();
-        this.name = name;
-        this.grass_type = grass_type;
-        this.price = price;
-        this.goal_nets = goal_nets;
-        this.lights = is_lights;
-        this.sector = sector;
-        this.min_people = min_people;
-        this.max_people = max_people;
-        this.is_rented = false;
-    }
+@Data
+public class Football_pitch  extends Pitch {
+
+    private Ground_type grass_type;
+    private Boolean goal_nets;
+
+
+    @JsonbCreator
+    public Football_pitch( @JsonbProperty("uuid") UUID uuid,
+                           @JsonbProperty("name") String name,
+                           @JsonbProperty("price") Double price,
+                           @JsonbProperty("lights") Boolean lights,
+                           @JsonbProperty("sector") Sector sector,
+                           @JsonbProperty("min_people") Integer min_people,
+                           @JsonbProperty("max_people") Integer max_people,
+                           @JsonbProperty("goal_nets") Boolean goal_nets,
+                           @JsonbProperty("grass_type") Ground_type grass_type){ //todo implement validation
+
+                  super(uuid,name,price,lights,sector,min_people,max_people);
+                  this.grass_type = grass_type;
+                  this.goal_nets = goal_nets;
+                }
 }

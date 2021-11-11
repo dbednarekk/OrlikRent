@@ -1,4 +1,4 @@
-package com.pas.orlikrent.model.Pitch_Types;
+package com.pas.orlikrent.model.enums;
 
 public enum Sector {
     FULL_SIZE,
