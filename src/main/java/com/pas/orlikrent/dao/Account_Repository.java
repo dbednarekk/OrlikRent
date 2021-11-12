@@ -1,6 +1,6 @@
 package com.pas.orlikrent.dao;
 
-import com.pas.orlikrent.exceptions.Account_Repo_Exception;
+import com.pas.orlikrent.exceptions.Account__Exception;
 import com.pas.orlikrent.model.Account;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public class Account_Repository {
+public class Account_Repository implements IAccount_Repo{
 
     private List<Account> accounts = Collections.synchronizedList(new ArrayList<>());
 
@@ -26,48 +26,73 @@ public class Account_Repository {
         //todo change this
     }
 
-    public List<Account> getAllAccounts() {
+    public List<Account> getAll() {
         synchronized (this.accounts) {
             return Collections.unmodifiableList(accounts);
         }
     }
 
-    public Account getAccount(UUID id) throws Account_Repo_Exception {
+    public Account getByID(UUID id) throws Account__Exception {
         for (Account ac : accounts) {
             if (ac.getId().equals(id)) {
                 return ac;
             }
         }
-        throw new Account_Repo_Exception("Cannot find account with given uuid");
+        throw new Account__Exception("Cannot find account with given uuid");
     }
 
-    public void addAccount(Account acc) throws Account_Repo_Exception {
+    public List<Account> getByLogin(String login) throws Account__Exception {
+        List<Account> tmp = new ArrayList<>();
+        for (Account ac : accounts) {
+            if (ac.getLogin().contains(login)) {
+               tmp.add(ac);
+            }
+        }
+        if(tmp.size()==0) throw new Account__Exception("Cannot find account with given login");
+        return tmp;
+    }
+
+    public void add(Account acc) throws Account__Exception {
         synchronized (this.accounts) {
             for (Account ac : accounts) {
                 if (ac.getLogin().equals(acc.getLogin())) {
-                    throw new Account_Repo_Exception("User with given login already exits, please choose another login");
+                    throw new Account__Exception("User with given login already exits, please choose another login");
                 }
             }
             accounts.add(acc);
         }
     }
 
-    public void removeAccount(Account acc) throws Account_Repo_Exception {
+    public void remove(Account acc) throws Account__Exception {
         synchronized (this.accounts) {
             try {
                 accounts.remove(acc);
             } catch (Exception e) {
-                throw new Account_Repo_Exception("Cannot remove given account",e);
+                throw new Account__Exception("Cannot remove given account", e);
             }
         }
     }
 
-    public void updateAccount(UUID oldAccount, Account newAccount) {
+    public void update(UUID oldAccount, Account newAccount) {
         synchronized (this.accounts) {
-            for(int i=0;i < accounts.size();i++){
-                if(oldAccount.equals(accounts.get(i).getId())){
-                    this.accounts.set(i,newAccount);
+            for (int i = 0; i < accounts.size(); i++) {
+                if (oldAccount.equals(accounts.get(i).getId())) {
+                    this.accounts.set(i, newAccount);
                 }
+            }
+        }
+    }
+    public void active_account(String login){
+       for(Account ac : accounts){
+           if(ac.getLogin().equals(login)){
+               ac.setActive(true);
+           }
+       }
+    }
+    public void deactive_account(String login){
+        for(Account ac : accounts){
+            if(ac.getLogin().equals(login)){
+                ac.setActive(false);
             }
         }
     }
