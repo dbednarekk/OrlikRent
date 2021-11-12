@@ -30,7 +30,7 @@ public abstract class Pitch implements Serializable {
     @JsonbProperty
     private Boolean rented = false;
 
-/*    public Pitch(String name, Double price, Boolean lights, Sector sector, Integer min_people, Integer max_people) { //todo implement validation
+/*    public Pitch(String name, Double price, Boolean lights, Sector sector, Integer min_people, Integer max_people) {
         this.name = name;
         this.price = price;
         this.lights = lights;
