@@ -18,7 +18,8 @@ import java.util.UUID;
 @ToString
 public  abstract class Account implements Serializable {
     @JsonbProperty
-    private UUID id;
+//    private UUID id;
+    private String id;
     @JsonbProperty
     private String login;
     @JsonbTypeAdapter(CustomAdapter.class)
@@ -38,7 +39,7 @@ public  abstract class Account implements Serializable {
         this.role = role;
     }
 
-    public Account(UUID id, String login, String password, String email, Boolean active, String role) {
+    public Account(String id, String login, String password, String email, Boolean active, String role) {
         this.id = id;
         this.login = login;
         this.password = password;

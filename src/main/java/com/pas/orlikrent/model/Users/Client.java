@@ -23,7 +23,7 @@ public class Client extends Account{
         this.last_name = last_name;
     }
 
-    public Client(UUID id, String login, String password, String email, Boolean active, String role, String first_name, String last_name) {
+    public Client(String id, String login, String password, String email, Boolean active, String role, String first_name, String last_name) {
         super(id, login, password, email, active, role);
         this.first_name = first_name;
         this.last_name = last_name;
