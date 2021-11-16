@@ -2,7 +2,7 @@ package com.pas.orlikrent.managers;
 
 import com.pas.orlikrent.dao.IAccount_Repo;
 import com.pas.orlikrent.exceptions.Base_Exception;
-import com.pas.orlikrent.model.Account;
+import com.pas.orlikrent.model.Users.Account;
 import lombok.NoArgsConstructor;
 
 import javax.enterprise.context.ApplicationScoped;

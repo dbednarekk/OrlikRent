@@ -1,5 +1,6 @@
 package com.pas.orlikrent.model;
 
+import com.pas.orlikrent.model.Users.Account;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

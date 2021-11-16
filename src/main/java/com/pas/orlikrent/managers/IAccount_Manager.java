@@ -1,6 +1,6 @@
 package com.pas.orlikrent.managers;
 
-import com.pas.orlikrent.model.Account;
+import com.pas.orlikrent.model.Users.Account;
 
 import java.util.UUID;
 
