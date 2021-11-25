@@ -10,19 +10,18 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@ToString
 public class Admin extends Account{
 
-        @JsonbProperty
-        private Boolean Active;  // moze coś w zamian
+      /*  @JsonbProperty
+        private Boolean Active;  // moze coś w zamian*/
 
-        public Admin(String login, String password, String email, Boolean active, String role, Boolean Active) {
+        public Admin(String login, String password, String email, Boolean active, String role) {
                 super(login, password, email, active, role);
-                this.Active = Active;
+
         }
 
-        public Admin(UUID id, String login, String password, String email, Boolean active, String role, Boolean Active) {
+    /*    public Admin(UUID id, String login, String password, String email, Boolean active, String role, Boolean Active) {
                 super(id, login, password, email, active, role);
                 this.Active = Active;
-        }
+        }*/
 }

@@ -22,7 +22,7 @@ public class Account_Repository implements IAccount_Repo{
 
     @PostConstruct
     private void InitData() {
-        accounts.add(new Admin("dbednarek", "abcABC123*", "bednarek@gmail.com", true, "ADMINISTRATOR", true));
+        accounts.add(new Admin("dbednarek", "abcABC123*", "bednarek@gmail.com", true, "ADMINISTRATOR"));
         accounts.add(new Manager("mklyz", "abcABC123*", "klyz@gmail.com", true, "MANAGER", 2300, 12 ));
         accounts.add(new Client("jkowalski", "abcABC123*", "kowalski@gmail.com", true, "USER", "Jan","Kowalski" ));
         accounts.add(new Client("tnowak", "abcABC123*", "nowak@gmail.com", false, "USER", "Tomasz","Nowak"));

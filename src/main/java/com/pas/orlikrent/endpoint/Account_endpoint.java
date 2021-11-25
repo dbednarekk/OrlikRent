@@ -1,6 +1,7 @@
 package com.pas.orlikrent.endpoint;
 
 import com.pas.orlikrent.managers.Client_Manager;
+import com.pas.orlikrent.managers.IAccount_Manager;
 import com.pas.orlikrent.model.Users.Client;
 
 import javax.enterprise.context.RequestScoped;
@@ -14,10 +15,10 @@ import java.util.UUID;
 
 @RequestScoped
 @Path("/Client")
-public class Client_endpoint {
+public class Account_endpoint {
 
     @Inject
-    private Client_Manager clientManager;
+    private IAccount_Manager accountManager;
 
     @GET
     @Path("/{id}")
@@ -28,7 +29,7 @@ public class Client_endpoint {
     @GET
     @Path("/{id}")
     public Client getClientById(@PathParam("id") String id){
-        Client client = clientManager.getClientById(id);
+        Client client = accountManager.getByID(id);
         return client;
     }
 

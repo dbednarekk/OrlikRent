@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@ToString
 public  abstract class Account implements Serializable {
     @JsonbProperty
 //    private UUID id;
@@ -39,16 +38,16 @@ public  abstract class Account implements Serializable {
         this.role = role;
     }
 
-    public Account(String id, String login, String password, String email, Boolean active, String role) {
+  /*  public Account(String id, String login, String password, String email, Boolean active, String role) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
         this.active = active;
         this.role = role;
-    }
+    }*/
 
-    @Override
+  /*  @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -70,7 +69,7 @@ public  abstract class Account implements Serializable {
                 ", email='" + email + '\'' +
                 ", active=" + active +
                 '}';
-    }
+    }*/
 
 
     //    @JsonbProperty
