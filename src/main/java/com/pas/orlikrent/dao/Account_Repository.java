@@ -26,6 +26,9 @@ public class Account_Repository implements IAccount_Repo{
         accounts.add(new Manager("mklyz", "abcABC123*", "klyz@gmail.com", true, "MANAGER", 2300, 12 ));
         accounts.add(new Client("jkowalski", "abcABC123*", "kowalski@gmail.com", true, "USER", "Jan","Kowalski" ));
         accounts.add(new Client("tnowak", "abcABC123*", "nowak@gmail.com", false, "USER", "Tomasz","Nowak"));
+        for(Account acc : accounts){
+            acc.setId(UUID.randomUUID().toString());
+        }
         //todo change this
     }
 
@@ -57,6 +60,7 @@ public class Account_Repository implements IAccount_Repo{
 
     public void add(Account acc) throws Account__Exception {
         synchronized (this.accounts) {
+            acc.setId(UUID.randomUUID().toString());
             for (Account ac : accounts) {
                 if (ac.getLogin().equals(acc.getLogin())) {
                     throw new Account__Exception("User with given login already exits, please choose another login");

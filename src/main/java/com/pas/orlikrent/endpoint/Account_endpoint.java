@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 //@RequestScoped
@@ -55,9 +56,9 @@ public class Account_endpoint {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/{id}")
-    public Account getAccountByID(@PathParam("id") String id) throws Base_Exception {
+    public Response getAccountByID(@PathParam("id") String id) throws Base_Exception {
         Account account = accountManager.getByID(id);
-        return account;
+        return Response.ok().entity(account).header("Etag",EntityIdentitySignerVerifier.calculateEntitySignature(account)).build();
     }
 
     @POST

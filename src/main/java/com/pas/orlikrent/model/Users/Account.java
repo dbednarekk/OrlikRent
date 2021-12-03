@@ -19,7 +19,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public  abstract class Account implements Serializable, SignableEntity {
     @JsonbProperty
-//    private UUID id;
     private String id;
     @JsonbProperty
     private String login;
@@ -31,6 +30,11 @@ public  abstract class Account implements Serializable, SignableEntity {
     private Boolean active;
     @JsonbProperty
     private String role;
+    @JsonbTransient
+    @Override
+    public String getSignablePayload() {
+        return this.id;
+    }
 
     public Account(String login, String password, String email, Boolean active, String role) {
         this.login = login;
@@ -39,11 +43,7 @@ public  abstract class Account implements Serializable, SignableEntity {
         this.active = active;
         this.role = role;
     }
-    @JsonbTransient
-    @Override
-    public String getSignablePayload() {
-        return this.id;
-    }
+
   /*  public Account(String id, String login, String password, String email, Boolean active, String role) {
         this.id = id;
         this.login = login;
