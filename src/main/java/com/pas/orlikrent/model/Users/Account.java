@@ -2,12 +2,14 @@ package com.pas.orlikrent.model.Users;
 
 
 import com.pas.orlikrent.model.jsonbCustomAdapter.CustomAdapter;
+import com.pas.orlikrent.security.SignableEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.json.bind.annotation.JsonbTypeAdapter;
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,7 +17,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public  abstract class Account implements Serializable {
+public  abstract class Account implements Serializable, SignableEntity {
     @JsonbProperty
 //    private UUID id;
     private String id;
@@ -37,7 +39,11 @@ public  abstract class Account implements Serializable {
         this.active = active;
         this.role = role;
     }
-
+    @JsonbTransient
+    @Override
+    public String getSignablePayload() {
+        return this.id;
+    }
   /*  public Account(String id, String login, String password, String email, Boolean active, String role) {
         this.id = id;
         this.login = login;
