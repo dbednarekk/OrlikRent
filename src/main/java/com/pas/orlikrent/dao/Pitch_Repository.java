@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public class Pitch_Repository implements IRepository<Pitch,UUID>{
+public class Pitch_Repository implements IRepository<Pitch,String>{
 
     private List<Pitch> pitches = Collections.synchronizedList(new ArrayList<>());
 
@@ -28,13 +28,13 @@ public class Pitch_Repository implements IRepository<Pitch,UUID>{
         }
     }
 
-    public Pitch getByID(UUID id) throws Pitch__Exception {
+    public Pitch getByID(String id) throws Pitch__Exception {
         for (Pitch pitch : pitches) {
             if (pitch.getId().equals(id)) {
                 return pitch;
             }
         }
-        throw new Pitch__Exception("Cannot find pitch with given uuid");
+        throw new Pitch__Exception("Cannot find pitch with given String");
     }
 
     public void add(Pitch pitch) throws Pitch__Exception {
@@ -58,7 +58,7 @@ public class Pitch_Repository implements IRepository<Pitch,UUID>{
         }
     }
 
-    public void update(UUID oldPitch, Pitch newPitch) {
+    public void update(String oldPitch, Pitch newPitch) {
         synchronized (this.pitches) {
             for (int i = 0; i < pitches.size(); i++) {
                 if (oldPitch.equals(pitches.get(i).getId())) {

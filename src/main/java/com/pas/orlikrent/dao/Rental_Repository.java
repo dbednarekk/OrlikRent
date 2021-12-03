@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public class Rental_Repository implements IRepository<Pitch_Rental,UUID>{
+public class Rental_Repository implements IRepository<Pitch_Rental,String>{
     private List<Pitch_Rental> rentals =  Collections.synchronizedList(new ArrayList<>());
 
     @PostConstruct
@@ -26,13 +26,13 @@ public class Rental_Repository implements IRepository<Pitch_Rental,UUID>{
             return Collections.unmodifiableList(rentals);
         }
     }
-    public Pitch_Rental getByID( UUID id) throws Rental__Exception {
+    public Pitch_Rental getByID( String id) throws Rental__Exception {
         for( Pitch_Rental rent: rentals){
             if(rent.getId().equals(id)){
                 return rent;
             }
         }
-        throw new Rental__Exception("Cannot find rental with given uuid");
+        throw new Rental__Exception("Cannot find rental with given id");
     }
 
     public void add(Pitch_Rental rent) throws Rental__Exception {
@@ -54,7 +54,7 @@ public class Rental_Repository implements IRepository<Pitch_Rental,UUID>{
             }
         }
     }
-    public void update(UUID oldRent, Pitch_Rental newRent){
+    public void update(String oldRent, Pitch_Rental newRent){
         synchronized (this.rentals) {
             for (int i = 0; i < rentals.size(); i++) {
                 if (oldRent.equals(rentals.get(i).getId())) {

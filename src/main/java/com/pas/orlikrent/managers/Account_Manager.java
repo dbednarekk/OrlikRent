@@ -29,7 +29,7 @@ public class Account_Manager implements IAccount_Manager {
     }
 
     @Override
-    public Account getByID(UUID id) throws Base_Exception {
+    public Account getByID(String id) throws Base_Exception {
         return this.accountRepository.getByID(id);
     }
 
@@ -44,7 +44,7 @@ public class Account_Manager implements IAccount_Manager {
     }
 
     @Override
-    public void update(UUID id, Account o) throws Base_Exception {
+    public void update(String id, Account o) throws Base_Exception {
         this.accountRepository.update(id, o);
     }
 

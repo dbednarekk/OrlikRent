@@ -35,13 +35,13 @@ public class Account_Repository implements IAccount_Repo{
         }
     }
 
-    public Account getByID(UUID id) throws Account__Exception {
+    public Account getByID(String id) throws Account__Exception {
         for (Account ac : accounts) {
             if (ac.getId().equals(id)) {
                 return ac;
             }
         }
-        throw new Account__Exception("Cannot find account with given uuid");
+        throw new Account__Exception("Cannot find account with given id");
     }
 
     public List<Account> getByLogin(String login) throws Account__Exception {
@@ -76,7 +76,7 @@ public class Account_Repository implements IAccount_Repo{
         }
     }
 
-    public void update(UUID oldAccount, Account newAccount) {
+    public void update(String oldAccount, Account newAccount) {
         synchronized (this.accounts) {
             for (int i = 0; i < accounts.size(); i++) {
                 if (oldAccount.equals(accounts.get(i).getId())) {

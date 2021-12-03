@@ -13,7 +13,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class Pitch_Rental implements Serializable { //todo check if date time is correct
-    private UUID id;
+    private String id;
     private Account account;
     private Pitch pitch;
     private Date start_date_rental;

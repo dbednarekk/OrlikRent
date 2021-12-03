@@ -14,7 +14,7 @@ import java.util.UUID;
 public abstract class Pitch implements Serializable {
 
     @JsonbProperty
-    private UUID id;
+    private String id;
     @JsonbProperty
     private String name;
     @JsonbProperty
@@ -40,7 +40,7 @@ public abstract class Pitch implements Serializable {
     }*/
 
     @JsonbCreator
-    public Pitch( @JsonbProperty("uuid") UUID uuid,
+    public Pitch( @JsonbProperty("id") String id,
                   @JsonbProperty("name") String name,
                   @JsonbProperty("price") Double price,
                   @JsonbProperty("lights") Boolean lights,

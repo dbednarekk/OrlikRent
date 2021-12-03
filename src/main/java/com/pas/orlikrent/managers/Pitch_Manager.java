@@ -10,11 +10,11 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
-public class Pitch_Manager implements IManager<Pitch, UUID> {
+public class Pitch_Manager implements IManager<Pitch, String> {
 
     @Inject
-    private IRepository<Pitch,UUID> pitches_repo;
-    @Inject IRepository<Pitch_Rental,UUID> rentals;
+    private IRepository<Pitch,String> pitches_repo;
+    @Inject IRepository<Pitch_Rental,String> rentals;
 
     @Override
     public List<Pitch> getAll() {
@@ -22,7 +22,7 @@ public class Pitch_Manager implements IManager<Pitch, UUID> {
     }
 
     @Override
-    public Pitch getByID(UUID id) throws Base_Exception {
+    public Pitch getByID(String id) throws Base_Exception {
         return pitches_repo.getByID(id);
     }
 
@@ -42,7 +42,7 @@ public class Pitch_Manager implements IManager<Pitch, UUID> {
     }
 
     @Override
-    public void update(UUID id, Pitch o) throws Base_Exception {
+    public void update(String id, Pitch o) throws Base_Exception {
         pitches_repo.update(id,o);
     }
 }

@@ -16,7 +16,7 @@ public class Basketball_pitch  extends Pitch {
 
 
     @JsonbCreator
-    public Basketball_pitch( @JsonbProperty("uuid") UUID uuid,
+    public Basketball_pitch( @JsonbProperty("id") String id,
                            @JsonbProperty("name") String name,
                            @JsonbProperty("price") Double price,
                            @JsonbProperty("lights") Boolean lights,
@@ -26,7 +26,7 @@ public class Basketball_pitch  extends Pitch {
                            @JsonbProperty("number_of_baskets") Double number_of_baskets
                           ){ //todo implement validation
 
-        super(uuid,name,price,lights,sector,min_people,max_people);
+        super(id,name,price,lights,sector,min_people,max_people);
         this.numberOfBaskets = number_of_baskets;
     }
 }
