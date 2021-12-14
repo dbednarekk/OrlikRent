@@ -1,17 +1,19 @@
 package com.pas.orlikrent.model;
 
 import com.pas.orlikrent.model.enums.Sector;
+import com.pas.orlikrent.security.SignableEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbTransient;
 import java.io.Serializable;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public abstract class Pitch implements Serializable {
+public abstract class Pitch implements Serializable, SignableEntity {
 
     @JsonbProperty
     private String id;
@@ -29,6 +31,11 @@ public abstract class Pitch implements Serializable {
     private Integer max_people;
     @JsonbProperty
     private Boolean rented = false;
+    @JsonbTransient
+    @Override
+    public String getSignablePayload() {
+        return this.id;
+    }
 
 /*    public Pitch(String name, Double price, Boolean lights, Sector sector, Integer min_people, Integer max_people) {
         this.name = name;
