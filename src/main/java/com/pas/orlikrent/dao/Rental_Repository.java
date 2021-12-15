@@ -42,6 +42,7 @@ public class Rental_Repository implements IRepository<Pitch_Rental,String>{
                     throw new Rental__Exception("There is rental already exists");
                 }
             }
+            rent.setActive(true);
             rentals.add(rent);
         }
     }
