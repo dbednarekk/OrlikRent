@@ -16,17 +16,17 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public class Account_Repository implements IAccount_Repo{
+public class Account_Repository implements IAccount_Repo {
 
     private List<Account> accounts = Collections.synchronizedList(new ArrayList<>());
 
     @PostConstruct
     private void InitData() {
         accounts.add(new Admin("dbednarek", "abcABC123*", "bednarek@gmail.com", true, "ADMINISTRATOR"));
-        accounts.add(new Manager("mklyz", "abcABC123*", "klyz@gmail.com", true, "MANAGER", 2300, 12 ));
-        accounts.add(new Client("jkowalski", "abcABC123*", "kowalski@gmail.com", true, "USER", "Jan","Kowalski" ));
-        accounts.add(new Client("tnowak", "abcABC123*", "nowak@gmail.com", false, "USER", "Tomasz","Nowak"));
-        for(Account acc : accounts){
+        accounts.add(new Manager("mklyz", "abcABC123*", "klyz@gmail.com", true, "MANAGER", 2300.0, 12));
+        accounts.add(new Client("jkowalski", "abcABC123*", "kowalski@gmail.com", true, "USER", "Jan", "Kowalski"));
+        accounts.add(new Client("tnowak", "abcABC123*", "nowak@gmail.com", false, "USER", "Tomasz", "Nowak"));
+        for (Account acc : accounts) {
             acc.setId(UUID.randomUUID().toString());
         }
         //todo change this
@@ -47,15 +47,14 @@ public class Account_Repository implements IAccount_Repo{
         throw new Account__Exception("Cannot find account with given id");
     }
 
-    public List<Account> getByLogin(String login) throws Account__Exception {
-        List<Account> tmp = new ArrayList<>();
+    public Account getByLogin(String login) throws Account__Exception {
         for (Account ac : accounts) {
             if (ac.getLogin().contains(login)) {
-               tmp.add(ac);
+                return ac;
             }
         }
-        if(tmp.size()==0) throw new Account__Exception("Cannot find account with given login");
-        return tmp;
+        throw new Account__Exception("Cannot find account with given login");
+
     }
 
     public void add(Account acc) throws Account__Exception {
@@ -89,16 +88,18 @@ public class Account_Repository implements IAccount_Repo{
             }
         }
     }
-    public void active_account(String login){
-       for(Account ac : accounts){
-           if(ac.getLogin().equals(login)){
-               ac.setActive(true);
-           }
-       }
+
+    public void active_account(String login) {
+        for (Account ac : accounts) {
+            if (ac.getLogin().equals(login)) {
+                ac.setActive(true);
+            }
+        }
     }
-    public void deactive_account(String login){
-        for(Account ac : accounts){
-            if(ac.getLogin().equals(login)){
+
+    public void deactive_account(String login) {
+        for (Account ac : accounts) {
+            if (ac.getLogin().equals(login)) {
                 ac.setActive(false);
             }
         }

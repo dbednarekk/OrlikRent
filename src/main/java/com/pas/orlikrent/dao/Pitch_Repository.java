@@ -9,11 +9,10 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public class Pitch_Repository implements IRepository<Pitch,String>{
+public class Pitch_Repository implements IRepository<Pitch, String> {
 
     private List<Pitch> pitches = Collections.synchronizedList(new ArrayList<>());
 
@@ -41,7 +40,7 @@ public class Pitch_Repository implements IRepository<Pitch,String>{
         synchronized (this.pitches) {
             for (Pitch p : pitches) {
                 if (pitches.contains(p)) {
-                    throw new Pitch__Exception("There is pitch already exists");
+                    throw new Pitch__Exception("Pitch already exists");
                 }
             }
             pitches.add(pitch);

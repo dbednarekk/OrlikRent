@@ -1,10 +1,9 @@
 package com.pas.orlikrent.endpoint;
 
 import com.pas.orlikrent.exceptions.Base_Exception;
-import com.pas.orlikrent.managers.IManager;
 import com.pas.orlikrent.managers.IPitchManager;
-import com.pas.orlikrent.model.Basketball_pitch;
-import com.pas.orlikrent.model.Football_pitch;
+import com.pas.orlikrent.model.BasketballPitch;
+import com.pas.orlikrent.model.FootballPitch;
 import com.pas.orlikrent.model.Pitch;
 import com.pas.orlikrent.security.ETagFilterBinding;
 import com.pas.orlikrent.security.EntityIdentitySignerVerifier;
@@ -53,7 +52,7 @@ public class PitchEndpoint {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/addFootballPitch")
-    public Response createFootballPitch(@NotNull Football_pitch pitch){
+    public Response createFootballPitch(@NotNull FootballPitch pitch){
         try{
             this.pitchManager.add(pitch);
             return Response.status(201).build();
@@ -66,7 +65,7 @@ public class PitchEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/addBasketballPitch")
-    public Response createBasketballPitch(@NotNull Basketball_pitch pitch){
+    public Response createBasketballPitch(@NotNull BasketballPitch pitch){
         try{
             this.pitchManager.add(pitch);
             return Response.status(201).build();
@@ -80,13 +79,13 @@ public class PitchEndpoint {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/FootballPitch/{id}")
     @ETagFilterBinding
-    public Response updateFootballPitch(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue,Football_pitch pitch){
+    public Response updateFootballPitch(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, FootballPitch pitch){
         if(!EntityIdentitySignerVerifier.verifyEntityIntegrity(pitch,etagValue)){
             return Response.status(406).build();
         }
         try {
             Pitch old_pitch = pitchManager.getByID(id);
-            if(!(old_pitch instanceof Football_pitch))
+            if(!(old_pitch instanceof FootballPitch))
                 return Response.status(Response.Status.NOT_FOUND).build();
         } catch (Base_Exception e) {
             e.printStackTrace();
@@ -105,13 +104,13 @@ public class PitchEndpoint {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/BasketballPitch/{id}")
     @ETagFilterBinding
-    public Response updateBasketballPitch(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue,Basketball_pitch pitch){
+    public Response updateBasketballPitch(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, BasketballPitch pitch){
         if(!EntityIdentitySignerVerifier.verifyEntityIntegrity(pitch,etagValue)){
             return Response.status(406).build();
         }
         try {
             Pitch old_pitch = pitchManager.getByID(id);
-            if(!(old_pitch instanceof Basketball_pitch))
+            if(!(old_pitch instanceof BasketballPitch))
                 return Response.status(Response.Status.NOT_FOUND).build();
         } catch (Base_Exception e) {
             e.printStackTrace();

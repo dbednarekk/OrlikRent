@@ -1,6 +1,6 @@
 package com.pas.orlikrent.model.enums;
 
-public enum Ground_type {
+public enum GroundType {
     SILICONE,
     GRANULATE,
     GRASS
