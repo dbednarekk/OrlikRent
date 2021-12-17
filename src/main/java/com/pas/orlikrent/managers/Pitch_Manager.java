@@ -12,13 +12,12 @@ import com.pas.orlikrent.model.BasketballPitch;
 import com.pas.orlikrent.model.FootballPitch;
 import com.pas.orlikrent.model.Pitch;
 import com.pas.orlikrent.model.PitchRental;
-import com.pas.orlikrent.model.Users.Account;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+//todo brak adnotacji chociaż te adnotacje i tak trzeba sprawdzic czy są potrzbene, ale chyba tak
 public class Pitch_Manager implements IPitchManager {
 
     @Inject
@@ -39,12 +38,13 @@ public class Pitch_Manager implements IPitchManager {
     public PitchDTO getByID(String id) throws Base_Exception {
         return PitchMapper.pitchToDTO(pitches_repo.getByID(id));
     }
-//     Abstrakta sie chyba nie da
+
+    //todo remove this
     @Override
-        public void add(PitchDTO o) throws Base_Exception {
+    public void add(PitchDTO o) throws Base_Exception {
         Pitch pitch = pitches_repo.getByID(o.getId());
-            pitches_repo.add(pitch);
-        }
+        pitches_repo.add(pitch);
+    }
 
     @Override
     public void addFootballPitch(FootballPitchDTO f) throws Base_Exception {
@@ -56,10 +56,11 @@ public class Pitch_Manager implements IPitchManager {
         pitches_repo.add(PitchMapper.basketballPitchFromDTO(b));
     }
 
+    //todo change argument to String id, move logic to menager, check if the IF statment is correct
     @Override
     public void remove(PitchDTO o) throws Base_Exception {
-        for(PitchRental r : rentals.getAll()){
-            if(r.getPitch().getId().equals(o.getId())){
+        for (PitchRental r : rentals.getAll()) {
+            if (r.getPitch().getId().equals(o.getId())) {
                 throw new Pitch_Manager_Exception("Cannot remove pitch while it has reservations");
             }
         }
@@ -67,7 +68,8 @@ public class Pitch_Manager implements IPitchManager {
         pitches_repo.remove(pitch);
     }
 
-
+    //todo usunąć linie 72, użyć zamiast tego mapera, w aktualnej wersji przekazujesz aktualizujesz stary pitch starym pitchem, czyli nic nie robisz
+//todo a tak wgl to usunąc to w pizdu bo niżej są już metody do update
     @Override
     public void update(String id, PitchDTO o) throws Base_Exception {
         Pitch pitch = pitches_repo.getByID(o.getId());

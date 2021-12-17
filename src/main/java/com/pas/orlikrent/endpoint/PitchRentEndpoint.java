@@ -3,8 +3,6 @@ package com.pas.orlikrent.endpoint;
 import com.pas.orlikrent.dto.pitch.PitchRentalDTO;
 import com.pas.orlikrent.exceptions.Base_Exception;
 import com.pas.orlikrent.managers.IPitchRentalManager;
-import com.pas.orlikrent.managers.converters.RentMapper;
-import com.pas.orlikrent.model.PitchRental;
 import com.pas.orlikrent.security.ETagFilterBinding;
 import com.pas.orlikrent.security.EntityIdentitySignerVerifier;
 
@@ -24,16 +22,18 @@ public class PitchRentEndpoint {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/")
-    public List<PitchRentalDTO> getALlRents(){
+    public List<PitchRentalDTO> getALlRents() {
         return this.iPitchRentalManager.getAll();
     }
+
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/Rent/{id}")
-    public Response getRentByID(@PathParam("id")String id) throws Base_Exception {
+    public Response getRentByID(@PathParam("id") String id) throws Base_Exception {
         PitchRentalDTO rent = this.iPitchRentalManager.getByID(id);
         return Response.ok().entity(rent).header("Etag", EntityIdentitySignerVerifier.calculateEntitySignature(rent)).build();
     }
+
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/addRent")
@@ -41,11 +41,12 @@ public class PitchRentEndpoint {
         this.iPitchRentalManager.createRent(rent);
         return Response.status(201).build();
     }
+//todo przeniesc logike do managera, zostaiwc pierwszego ifa
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/updateRent/{id}")
     @ETagFilterBinding
-    public Response updateRent(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, PitchRentalDTO rent){
+    public Response updateRent(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, PitchRentalDTO rent) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(rent, etagValue)) {
             return Response.status(406).build();
         }
@@ -62,7 +63,7 @@ public class PitchRentEndpoint {
     @DELETE
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/removeRent/{id}")
-    public Response deleteRent(@PathParam("id")String id) throws Base_Exception {
+    public Response deleteRent(@PathParam("id") String id) throws Base_Exception {
         PitchRentalDTO rent = this.iPitchRentalManager.getByID(id);
         this.iPitchRentalManager.remove(rent);
         return Response.status(201).build();

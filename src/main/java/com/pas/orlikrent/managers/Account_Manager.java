@@ -56,45 +56,48 @@ public class Account_Manager implements IAccount_Manager {
 
     @Override
     public void addClient(ClientForRegistrationDTO o) throws Base_Exception {
-
+            //todo implement this
     }
 
     @Override
     public void addManager(ManagerForRegistrationDTO o) throws Base_Exception {
-
+        //todo implement this
     }
 
     @Override
     public void addAdmin(AdminForRegistrationDTO o) throws Base_Exception {
-
+        //implement this
     }
 
     @Override
     public void updateClient(String id, ClientDTO o) throws Base_Exception {
-
+        //todo implement this
     }
 
     @Override
     public void updateManager(String id, ManagerDTO o) throws Base_Exception {
-
+        //todo implement this
     }
 
     @Override
     public void updateAdmin(String id, AccountDTO o) throws Base_Exception {
-
+        //todo implement this
     }
 
     @Override
     public void remove(String id) throws Base_Exception {
         this.accountRepository.remove(accountRepository.getByID(id));
+        //todo implement validation
     }
 
     public void active_account(String login) {
         this.accountRepository.active_account(login);
+        //todo add exception when account is already active
     }
 
     public void deactive_account(String login) {
         this.accountRepository.deactive_account(login);
+        //todo add exception when account is already deactive or better - merge it into one function with active_account
     }
 
     @Override

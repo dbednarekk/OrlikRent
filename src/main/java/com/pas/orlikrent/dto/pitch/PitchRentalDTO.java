@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor  //todo BŁAGAM POPRAW TO DTO XDD
 public class PitchRentalDTO implements SignableEntity {
 
     private String id;
