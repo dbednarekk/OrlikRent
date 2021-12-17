@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-public abstract class Account implements Serializable, SignableEntity {
+public abstract class Account implements Serializable {
 
     private String id;
     private String login;

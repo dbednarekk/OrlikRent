@@ -1,6 +1,8 @@
 package com.pas.orlikrent.dao;
 
 import com.pas.orlikrent.exceptions.Base_Exception;
+import com.pas.orlikrent.model.BasketballPitch;
+import com.pas.orlikrent.model.FootballPitch;
 
 import java.util.List;
 

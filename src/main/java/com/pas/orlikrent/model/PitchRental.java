@@ -15,13 +15,23 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public class PitchRental implements Serializable, SignableEntity {
+public class PitchRental implements Serializable {
     private String id;
     private Account account;
     private Pitch pitch;
     private LocalDateTime start_date_rental;
     private LocalDateTime end_date_rental;
     private Boolean active = false;
+
+    //??????
+//    public PitchRental(Account account, Pitch pitch, LocalDateTime start_date_rental, LocalDateTime end_date_rental, Boolean active) {
+//        this.id = id;
+//        this.account = account;
+//        this.pitch = pitch;
+//        this.start_date_rental = start_date_rental;
+//        this.end_date_rental = end_date_rental;
+//        this.active = active = false;
+//    }
 
     public PitchRental(Account account, Pitch pitch, LocalDateTime start_date_rental, LocalDateTime end_date_rental) {
         this.account = account;

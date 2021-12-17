@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public abstract class Pitch implements Serializable, SignableEntity {
+public abstract class Pitch implements Serializable {
 
     private String id;
     private String name;

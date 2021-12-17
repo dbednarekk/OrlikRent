@@ -54,6 +54,13 @@
     </dependencies>
 
     <build>
+        <finalName>OrlikiRentPAS</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -62,4 +69,175 @@
             </plugin>
         </plugins>
     </build>
+
+
+
+    <profiles>
+    <profile>
+        <id>dev-without-ui</id>
+        <properties>
+            <app.baseurl>https://localhost:8080</app.baseurl>
+        </properties>
+        <activation>
+            <property>
+                <name>dev-without-ui</name>
+                <value>dev-without-ui</value>
+            </property>
+        </activation>
+    </profile>
+
+    <profile>
+        <id>dev</id>
+        <properties>
+            <app.baseurl>https://localhost:8080</app.baseurl>
+            <app.frontend.url>http://localhost:8080</app.frontend.url>
+        </properties>
+        <activation>
+            <property>
+                <name>env</name>
+                <value>dev</value>
+            </property>
+        </activation>
+
+    </profile>
+
+    <profile>
+    <id>prod</id>
+    <properties>
+        <app.baseurl>https://studapp.it.p.lodz.pl:8403</app.baseurl>
+        <app.frontend.url>https://studapp.it.p.lodz.pl:8403</app.frontend.url>
+    </properties>
+    <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+            <name>prod</name>
+            <value>prod</value>
+        </property>
+    </activation>
+
+    <build>
+    <plugins>
+
+        <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <!-- NB! Set <version> to the latest released version of frontend-maven-plugin, like in README.md -->
+            <version>1.11.3</version>
+
+            <configuration>
+                <installDirectory>target</installDirectory>
+            </configuration>
+
+            <executions>
+
+                <execution>
+                    <id>install node and npm</id>
+                    <goals>
+                        <goal>install-node-and-npm</goal>
+                    </goals>
+                    <configuration>
+                        <!-- See https://nodejs.org/en/download/ for latest node and npm (lts) versions -->
+                        <nodeVersion>v15.14.0</nodeVersion>
+                        <npmVersion>7.11.1</npmVersion>
+                    </configuration>
+                </execution>
+
+                <execution>
+                    <id>npm install</id>
+                    <goals>
+                        <goal>npm</goal>
+                    </goals>
+                    <!-- Optional configuration which provides for running any npm command -->
+                    <configuration>
+                        <arguments>install</arguments>
+                        <environmentVariables>
+                            <REACT_APP_ROUTER_BASE>/${project.artifactId}</REACT_APP_ROUTER_BASE>
+                            <NPM_CONFIG_PREFIX>${project.build.directory}</NPM_CONFIG_PREFIX>
+                        </environmentVariables>
+                        <workingDirectory>${ui.dir}</workingDirectory>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>npm run build</id>
+                    <goals>
+                        <goal>npm</goal>
+                    </goals>
+                    <configuration>
+                        <arguments>run build</arguments>
+                        <workingDirectory>${ui.dir}</workingDirectory>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>3.0.0-M5</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>integration-test</goal>
+                        <goal>verify</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+        <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven3-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>redeploy</id>
+                    <phase>pre-integration-test</phase>
+                    <goals>
+                        <goal>redeploy</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <version>1.9.3</version>
+            <configuration>
+                <container>
+                    <containerId>payara</containerId>
+                    <type>remote</type>
+                </container>
+                <configuration>
+                    <type>runtime</type>
+                    <properties>
+                        <cargo.runtime.args>force=true</cargo.runtime.args>
+                        <cargo.remote.username>admin</cargo.remote.username>
+                        <cargo.remote.password>RirjEwWyg7</cargo.remote.password>
+                        <cargo.glassfish.admin.port>4803</cargo.glassfish.admin.port>
+                        <cargo.hostname>172.16.0.84</cargo.hostname>
+                    </properties>
+                </configuration>
+            </configuration>
+            <!-- provides JSR88 client API to deploy on Payara -->
+            <dependencies>
+                <dependency>
+                    <groupId>org.glassfish.main.deployment</groupId>
+                    <artifactId>deployment-client</artifactId>
+                    <version>5.1.0</version>
+                </dependency>
+                <!-- API, java.xml.bind module -->
+                <dependency>
+                    <groupId>jakarta.xml.bind</groupId>
+                    <artifactId>jakarta.xml.bind-api</artifactId>
+                    <version>2.3.2</version>
+                </dependency>
+
+                <!-- Runtime, com.sun.xml.bind module -->
+                <dependency>
+                    <groupId>org.glassfish.jaxb</groupId>
+                    <artifactId>jaxb-runtime</artifactId>
+                    <version>2.3.2</version>
+                </dependency>
+            </dependencies>
+        </plugin>
+    </plugins>
+    </build>
+    </profile>
+
+    </profiles>
 </project>

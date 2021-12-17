@@ -1,6 +1,10 @@
 package com.pas.orlikrent.dao;
 
+import com.pas.orlikrent.dto.pitch.BasketballPitchDTO;
+import com.pas.orlikrent.dto.pitch.FootballPitchDTO;
 import com.pas.orlikrent.exceptions.Pitch__Exception;
+import com.pas.orlikrent.model.BasketballPitch;
+import com.pas.orlikrent.model.FootballPitch;
 import com.pas.orlikrent.model.Pitch;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +13,11 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-public class Pitch_Repository implements IRepository<Pitch, String> {
+public class Pitch_Repository implements IPitchRepository{
 
     private List<Pitch> pitches = Collections.synchronizedList(new ArrayList<>());
 
@@ -25,6 +30,23 @@ public class Pitch_Repository implements IRepository<Pitch, String> {
         synchronized (this.pitches) {
             return Collections.unmodifiableList(pitches);
         }
+    }
+
+    public List<Pitch> getAllTypedPitch() {
+        List<Pitch> collect = getAll().stream().filter(pitch -> pitch instanceof FootballPitch).collect(Collectors.toList());
+        return collect;
+    }
+
+
+    // ??? Chyba się nie da
+    public List<FootballPitch> getAllFootball() {
+        List<FootballPitch> collect = (List<FootballPitch>) getAll().stream().filter(pitch -> pitch instanceof FootballPitch);
+        return collect;
+    }
+
+    public List<BasketballPitch> getAllBasketball() {
+        List<BasketballPitch> collect = (List<BasketballPitch>) getAll().stream().filter(pitch -> pitch instanceof BasketballPitch);
+        return collect;
     }
 
     public Pitch getByID(String id) throws Pitch__Exception {
