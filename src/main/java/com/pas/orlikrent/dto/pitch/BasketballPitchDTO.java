@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor  //todo BŁAGAM POPRAW TO DTO XDD
-public class BasketballPitchDTO extends PitchDTO implements SignableEntity {
+@NoArgsConstructor
+public class BasketballPitchDTO implements SignableEntity {
 
     private String id;
     private String name;
@@ -19,7 +19,7 @@ public class BasketballPitchDTO extends PitchDTO implements SignableEntity {
     private Sector sector;
     private Integer min_people;
     private Integer max_people;
-    private Boolean rented = false;
+    private Boolean rented;
     private Double numberOfBaskets;
 
 

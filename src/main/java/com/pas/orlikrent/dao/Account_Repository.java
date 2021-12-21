@@ -97,7 +97,7 @@ public class Account_Repository implements IAccount_Repo {
         }
     }
 
-    public void deactive_account(String login) {
+    public void deactivate_account(String login) {
         for (Account ac : accounts) {
             if (ac.getLogin().equals(login)) {
                 ac.setActive(false);

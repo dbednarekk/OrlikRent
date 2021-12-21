@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class ManagerForRegistrationDTO {
 
     private String login;
+    private String password;
     private String email;
     private Double salary;
     private Integer numberOfShifts;

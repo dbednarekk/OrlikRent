@@ -12,12 +12,17 @@ import com.pas.orlikrent.model.BasketballPitch;
 import com.pas.orlikrent.model.FootballPitch;
 import com.pas.orlikrent.model.Pitch;
 import com.pas.orlikrent.model.PitchRental;
+import lombok.NoArgsConstructor;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 
-//todo brak adnotacji chociaż te adnotacje i tak trzeba sprawdzic czy są potrzbene, ale chyba tak
+@Named
+@ApplicationScoped //todo check scope no cvhyba
+@NoArgsConstructor
 public class Pitch_Manager implements IPitchManager {
 
     @Inject
@@ -39,12 +44,23 @@ public class Pitch_Manager implements IPitchManager {
         return PitchMapper.pitchToDTO(pitches_repo.getByID(id));
     }
 
-    //todo remove this
     @Override
-    public void add(PitchDTO o) throws Base_Exception {
-        Pitch pitch = pitches_repo.getByID(o.getId());
-        pitches_repo.add(pitch);
+    public boolean isPitchFootball(String id) throws Base_Exception {
+        Pitch old_pitch = pitches_repo.getByID(id);
+        if (old_pitch instanceof FootballPitch) {
+            return true;
+        } else {
+            return false;
+        }
     }
+    @Override
+    public boolean isPitchBasketball(String id) throws Base_Exception {
+        Pitch old_pitch = pitches_repo.getByID(id);
+        if (old_pitch instanceof BasketballPitch) {
+            return true;
+        } else {
+            return false;
+        }    }
 
     @Override
     public void addFootballPitch(FootballPitchDTO f) throws Base_Exception {
@@ -56,24 +72,16 @@ public class Pitch_Manager implements IPitchManager {
         pitches_repo.add(PitchMapper.basketballPitchFromDTO(b));
     }
 
-    //todo change argument to String id, move logic to menager, check if the IF statment is correct
+    //todo check if the IF statment is correct  chyba tak
     @Override
-    public void remove(PitchDTO o) throws Base_Exception {
+    public void remove(String id) throws Base_Exception {
         for (PitchRental r : rentals.getAll()) {
-            if (r.getPitch().getId().equals(o.getId())) {
+            if (r.getPitch().getId().equals(id)) {
                 throw new Pitch_Manager_Exception("Cannot remove pitch while it has reservations");
             }
         }
-        Pitch pitch = pitches_repo.getByID(o.getId());
+        Pitch pitch = pitches_repo.getByID(id);
         pitches_repo.remove(pitch);
-    }
-
-    //todo usunąć linie 72, użyć zamiast tego mapera, w aktualnej wersji przekazujesz aktualizujesz stary pitch starym pitchem, czyli nic nie robisz
-//todo a tak wgl to usunąc to w pizdu bo niżej są już metody do update
-    @Override
-    public void update(String id, PitchDTO o) throws Base_Exception {
-        Pitch pitch = pitches_repo.getByID(o.getId());
-        pitches_repo.update(id, pitch);
     }
 
     @Override

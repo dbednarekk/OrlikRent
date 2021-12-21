@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor  //todo BŁAGAM POPRAW TO DTO XDD
+@NoArgsConstructor
 public class PitchDTO implements SignableEntity {
 
     private String id;
@@ -19,7 +19,7 @@ public class PitchDTO implements SignableEntity {
     private Sector sector;
     private Integer min_people;
     private Integer max_people;
-    private Boolean rented = false;
+    private Boolean rented ;
 
     @JsonIgnore
     @Override

@@ -12,7 +12,7 @@ public class RentMapper {
     }
 
     public static PitchRental rentalFromDTO(PitchRentalDTO rpDTO){
-        return new PitchRental(rpDTO.getAccount(), rpDTO.getPitch(), rpDTO.getStart_date_rental(), rpDTO.getEnd_date_rental());
+        return new PitchRental(rpDTO.getAccount(), rpDTO.getPitch(), rpDTO.getStart_date_rental(), rpDTO.getEnd_date_rental(), rpDTO.getActive());
     }
 
     public static PitchRentalDTO rentalToDTO(PitchRental rpM){

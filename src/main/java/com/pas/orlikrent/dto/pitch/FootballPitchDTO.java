@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor  //todo BŁAGAM POPRAW TO DTO XDD
-public class FootballPitchDTO extends PitchDTO implements SignableEntity {
+@NoArgsConstructor
+public class FootballPitchDTO implements SignableEntity {
 
     private String id;
     private String name;

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor  //todo BŁAGAM POPRAW TO DTO XDD
+@NoArgsConstructor
 public class PitchRentalDTO implements SignableEntity {
 
     private String id;
@@ -21,7 +21,7 @@ public class PitchRentalDTO implements SignableEntity {
     private Pitch pitch;
     private LocalDateTime start_date_rental;
     private LocalDateTime end_date_rental;
-    private Boolean active = false;
+    private Boolean active;
 
 
     @JsonIgnore

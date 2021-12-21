@@ -3,6 +3,7 @@ package com.pas.orlikrent.endpoint;
 import com.pas.orlikrent.dto.accounts.*;
 import com.pas.orlikrent.exceptions.Base_Exception;
 import com.pas.orlikrent.managers.IAccount_Manager;
+import com.pas.orlikrent.managers.converters.AccountMapper;
 import com.pas.orlikrent.model.Users.Account;
 import com.pas.orlikrent.model.Users.Admin;
 import com.pas.orlikrent.model.Users.Client;
@@ -79,9 +80,9 @@ public class Account_endpoint {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/client")
-    public Response createClient(@NotNull ClientForRegistrationDTO client) {
+    public Response createClient(@NotNull ClientForRegistrationDTO clientDTO) {
         try {
-            this.accountManager.addClient(client);
+            this.accountManager.addClient(clientDTO);
             return Response.status(201).build();
         } catch (Base_Exception e) {
             e.printStackTrace();
@@ -108,6 +109,19 @@ public class Account_endpoint {
     public Response createAdmin(@NotNull AdminForRegistrationDTO admin) {
         try {
             this.accountManager.addAdmin(admin);
+            return Response.status(201).build();
+        } catch (Base_Exception e) {
+            e.printStackTrace();
+            return Response.status(409).build();
+        }
+    }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path("/AccountActivation")
+    public Response de_activeAccount(@NotNull  String login) {
+        try {
+            accountManager.active_deactivate_account(login);
             return Response.status(201).build();
         } catch (Base_Exception e) {
             e.printStackTrace();

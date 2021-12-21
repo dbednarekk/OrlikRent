@@ -41,7 +41,7 @@ public class PitchRentEndpoint {
         this.iPitchRentalManager.createRent(rent);
         return Response.status(201).build();
     }
-//todo przeniesc logike do managera, zostaiwc pierwszego ifa
+//todo przeniesc logike do managera, zostaiwc pierwszego ifa ---  a tak nie było by okey??
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/updateRent/{id}")
@@ -51,7 +51,6 @@ public class PitchRentEndpoint {
             return Response.status(406).build();
         }
         try {
-            PitchRentalDTO old_rent = iPitchRentalManager.getByID(id);
             this.iPitchRentalManager.update(id, rent);
             return Response.status(204).build();
         } catch (Base_Exception e) {

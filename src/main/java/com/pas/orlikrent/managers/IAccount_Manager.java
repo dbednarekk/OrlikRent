@@ -1,6 +1,7 @@
 package com.pas.orlikrent.managers;
 
 import com.pas.orlikrent.dto.accounts.*;
+import com.pas.orlikrent.exceptions.Account__Exception;
 import com.pas.orlikrent.exceptions.Base_Exception;
 import com.pas.orlikrent.model.Users.Account;
 
@@ -24,9 +25,7 @@ public interface IAccount_Manager  {
     void updateManager(String id, ManagerDTO o) throws Base_Exception;
     void updateAdmin(String id, AccountDTO o) throws Base_Exception;
 
-    public void active_account(String login);
-
-    public void deactive_account(String login);
+    public void active_deactivate_account(String login) throws Account__Exception;
 
     public List<ClientDTO> getAllClients();
 

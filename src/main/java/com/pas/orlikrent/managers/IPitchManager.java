@@ -10,13 +10,24 @@ import com.pas.orlikrent.model.Pitch;
 
 import java.util.List;
 
-public interface IPitchManager extends IManager<PitchDTO, String>{
+public interface IPitchManager <T, M>{
+    List<PitchDTO> getAll();
+
+    PitchDTO getByID(String id) throws Base_Exception;
+
     List<FootballPitchDTO> getAllFootballPitches() throws Base_Exception;
+
     List<BasketballPitchDTO> getAllBasketballPitches() throws Base_Exception;
+
+    boolean isPitchFootball(String id) throws Base_Exception;
+
+    boolean isPitchBasketball(String id) throws Base_Exception;
 
     void addFootballPitch(FootballPitchDTO f) throws Base_Exception;
 
     void addBasketballPitch(BasketballPitchDTO b) throws Base_Exception;
+
+    void remove(String id) throws Base_Exception;
 
     void updateFootballPitch(String id, FootballPitchDTO o) throws Base_Exception;
 

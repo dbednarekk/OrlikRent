@@ -23,15 +23,13 @@ public class PitchRental implements Serializable {
     private LocalDateTime end_date_rental;
     private Boolean active = false;
 
-    //??????
-//    public PitchRental(Account account, Pitch pitch, LocalDateTime start_date_rental, LocalDateTime end_date_rental, Boolean active) {
-//        this.id = id;
-//        this.account = account;
-//        this.pitch = pitch;
-//        this.start_date_rental = start_date_rental;
-//        this.end_date_rental = end_date_rental;
-//        this.active = active = false;
-//    }
+    public PitchRental(Account account, Pitch pitch, LocalDateTime start_date_rental, LocalDateTime end_date_rental, Boolean active) {
+        this.account = account;
+        this.pitch = pitch;
+        this.start_date_rental = start_date_rental;
+        this.end_date_rental = end_date_rental;
+        this.active = active;
+    }
 
     public PitchRental(Account account, Pitch pitch, LocalDateTime start_date_rental, LocalDateTime end_date_rental) {
         this.account = account;
