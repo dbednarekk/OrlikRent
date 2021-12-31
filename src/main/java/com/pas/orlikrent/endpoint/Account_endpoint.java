@@ -118,8 +118,8 @@ public class Account_endpoint {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path("/AccountActivation")
-    public Response de_activeAccount(@NotNull  String login) {
+    @Path("/AccountActivation/{login}")
+    public Response de_activeAccount(@NotNull @PathParam("login") String login) {
         try {
             accountManager.active_deactivate_account(login);
             return Response.status(201).build();

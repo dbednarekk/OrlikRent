@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.json.bind.annotation.JsonbTransient;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +23,7 @@ public class PitchDTO implements SignableEntity {
     private Integer max_people;
     private Boolean rented ;
 
-    @JsonIgnore
+    @JsonbTransient
     @Override
     public String getSignablePayload() {
         return id;

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.json.bind.annotation.JsonbTransient;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +20,7 @@ public class ClientDTO implements SignableEntity {
     private String first_name;
     private String last_name;
 
-    @JsonIgnore
+    @JsonbTransient
     @Override
     public String getSignablePayload() {
         return id;

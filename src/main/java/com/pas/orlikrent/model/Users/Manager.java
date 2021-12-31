@@ -17,6 +17,5 @@ public class Manager extends Account {
         this.numberOfShifts = numberOfShifts;
     }
 
-
 }
 

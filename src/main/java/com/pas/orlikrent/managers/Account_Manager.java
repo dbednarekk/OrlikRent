@@ -96,14 +96,12 @@ public class Account_Manager implements IAccount_Manager {
 
     @Override
     public void updateManager(String id, ManagerDTO o) throws Base_Exception {
-        Manager manager = AccountMapper.toManagerFromDTO(o);
-        accountRepository.update((id, manager));
+        accountRepository.update(id, AccountMapper.toManagerFromDTO(o));
     }
 
     @Override
     public void updateAdmin(String id, AccountDTO o) throws Base_Exception {
-        Admin admin = AccountMapper.toAdminFromDTO(o);
-        accountRepository.update(id, admin);
+        accountRepository.update(id, AccountMapper.toAdminFromDTO(o));
     }
 
     @Override

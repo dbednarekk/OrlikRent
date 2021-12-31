@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.json.bind.annotation.JsonbTransient;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +22,7 @@ public class ManagerDTO implements SignableEntity {
     private Integer numberOfShifts;
 
 
-    @JsonIgnore
+    @JsonbTransient
     @Override
     public String getSignablePayload() {
         return id;

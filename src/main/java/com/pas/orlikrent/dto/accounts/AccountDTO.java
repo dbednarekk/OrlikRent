@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.json.bind.annotation.JsonbTransient;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +18,7 @@ public class AccountDTO implements SignableEntity {
     private Boolean active;
     private String role;
 
-    @JsonIgnore
+    @JsonbTransient
     @Override
     public String getSignablePayload() {
         return id;

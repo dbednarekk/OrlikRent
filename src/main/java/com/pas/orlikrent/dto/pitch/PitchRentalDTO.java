@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.json.bind.annotation.JsonbTransient;
 import java.time.LocalDateTime;
 
 @Data
@@ -24,7 +25,7 @@ public class PitchRentalDTO implements SignableEntity {
     private Boolean active;
 
 
-    @JsonIgnore
+    @JsonbTransient
     @Override
     public String getSignablePayload() {
         return id;
