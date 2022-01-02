@@ -6,6 +6,8 @@ import com.pas.orlikrent.exceptions.Pitch__Exception;
 import com.pas.orlikrent.model.BasketballPitch;
 import com.pas.orlikrent.model.FootballPitch;
 import com.pas.orlikrent.model.Pitch;
+import com.pas.orlikrent.model.enums.GroundType;
+import com.pas.orlikrent.model.enums.Sector;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,7 +25,11 @@ public class Pitch_Repository implements IPitchRepository{
 
     @PostConstruct
     private void InitData() {
-        //todo init data
+        pitches.add(new FootballPitch("Football Pitch 1 ", 15.0, true, Sector.FULL_SIZE,2,20,true, GroundType.GRASS));
+        pitches.add(new BasketballPitch("Basketball Pitch 1",10.0,true,Sector.HALF_SIZE,1,10,2));
+        pitches.add(new FootballPitch("Camp Nou",50.0,false,Sector.FULL_SIZE,2,100,false,GroundType.GRANULATE));
+        pitches.add(new BasketballPitch("Indoor Basketball Pitch", (double) 0,false,Sector.HALF_SIZE,1,20,5));
+        //todo change this
     }
 
     public List<Pitch> getAll() {

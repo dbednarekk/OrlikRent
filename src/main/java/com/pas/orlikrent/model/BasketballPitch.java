@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 public class BasketballPitch extends Pitch {
 
-    private Double numberOfBaskets;
+    private Integer numberOfBaskets;
 
 
-    public BasketballPitch(String name, Double price, Boolean lights, Sector sector, Integer min_people, Integer max_people, Double numberOfBaskets
+    public BasketballPitch(String name, Double price, Boolean lights, Sector sector, Integer min_people, Integer max_people, Integer numberOfBaskets
     ) {
 
         super(name, price, lights, sector, min_people, max_people);

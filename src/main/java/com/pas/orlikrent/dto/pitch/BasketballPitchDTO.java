@@ -22,7 +22,7 @@ public class BasketballPitchDTO implements SignableEntity {
     private Integer min_people;
     private Integer max_people;
     private Boolean rented;
-    private Double numberOfBaskets;
+    private Integer numberOfBaskets;
 
 
 //   Do sprawdzenia z extends

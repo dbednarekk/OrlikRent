@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Named
-@ApplicationScoped //todo check scope no cvhyba
+@ApplicationScoped //todo check scope
 @NoArgsConstructor
 public class Pitch_Manager implements IPitchManager {
 
