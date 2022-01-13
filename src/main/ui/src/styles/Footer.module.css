@@ -1,0 +1,24 @@
+.footer {
+    height: 40px;
+    background-color: #181D27;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    display: flex;
+    padding: 20px 60px;
+    position: fixed;
+    color: #DEF4C6;
+    
+}
+h2 {
+    margin-left: auto;
+    margin-right: auto;
+   
+}
+h3 {
+    position: absolute;
+    padding-right: 20px;
+    right: 0;
+   
+}

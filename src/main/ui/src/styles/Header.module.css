@@ -1,0 +1,28 @@
+.header {
+  height: 80px;
+  background-color: #1c7c54;
+  top: 0;
+  left: 0;
+  right: 0;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  padding: 20px 50px;
+  position: fixed;
+}
+.logo {
+  height: 70px;
+  width: 80px;
+  margin-right: 210px;
+}
+.headerButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+h1 {
+  color: #DEF4C6;
+  font-size: 50px;
+  
+}
