@@ -1,5 +1,5 @@
 .header {
-  height: 80px;
+  height: 70px;
   background-color: #1c7c54;
   top: 0;
   left: 0;
@@ -9,6 +9,7 @@
   display: flex;
   padding: 20px 50px;
   position: fixed;
+  z-index: 3001;
 }
 .logo {
   height: 70px;
@@ -21,7 +22,7 @@
   justify-content: space-between;
 
 }
-h1 {
+.headerh1 {
   color: #DEF4C6;
   font-size: 50px;
   

@@ -1,0 +1,9 @@
+.title {
+    display: flex;
+    justify-content: space-around;
+    align-Items: center;
+    width: 70%;
+    position: relative;
+    top: 10vh;
+    left: 15%;
+}

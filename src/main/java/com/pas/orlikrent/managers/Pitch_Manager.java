@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Named
 @ApplicationScoped //todo check scope
@@ -96,19 +97,21 @@ public class Pitch_Manager implements IPitchManager {
 
     @Override
     public List<FootballPitchDTO> getAllFootballPitches() {
-        List<FootballPitchDTO> fpDTO = new ArrayList<>();
-        for (FootballPitch fp : this.pitches_repo.getAllFootball()) {
-            fpDTO.add(PitchMapper.footballPitchToDTO(fp));
+        List<Pitch> pitches = this.pitches_repo.getAll().stream().filter( p -> p instanceof FootballPitch).collect(Collectors.toList());
+        List<FootballPitchDTO> res = new ArrayList<>();
+        for (Pitch fp : pitches) {
+            res.add(PitchMapper.footballPitchToDTO((FootballPitch) fp));
         }
-        return fpDTO;
+        return res;
     }
 
     @Override
     public List<BasketballPitchDTO> getAllBasketballPitches() {
-        List<BasketballPitchDTO> bpDTO = new ArrayList<>();
-        for (BasketballPitch bp : this.pitches_repo.getAllBasketball()) {
-            bpDTO.add(PitchMapper.basketballPitchToDTO(bp));
+        List<Pitch> pitches = this.pitches_repo.getAll().stream().filter( p -> p instanceof BasketballPitch).collect(Collectors.toList());
+        List<BasketballPitchDTO> res = new ArrayList<>();
+        for (Pitch fp : pitches) {
+            res.add(PitchMapper.basketballPitchToDTO((BasketballPitch) fp));
         }
-        return bpDTO;
+        return res;
     }
 }

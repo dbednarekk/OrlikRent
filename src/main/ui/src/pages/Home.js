@@ -9,7 +9,7 @@ import Header from '../components/Header';
 function Home() {
     return (
         <div>
-             <Header></Header>
+             <Header title="Welcome to Pitch rental!"></Header>
       <Box  sx={{
          display: 'flex',
          justifyContent: 'space-around',

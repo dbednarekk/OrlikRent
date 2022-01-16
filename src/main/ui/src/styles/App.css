@@ -8,10 +8,3 @@ body *::after {
     font-family: 'Dosis', sans-serif; 
     
 }
-
-a {
-    color: var(--white);
-    text-decoration: none;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 500;
-}
