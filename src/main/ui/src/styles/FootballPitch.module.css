@@ -4,6 +4,15 @@
     align-Items: center;
     width: 70%;
     position: relative;
-    top: 10vh;
+    top: 10%;
     left: 15%;
+}
+.table {
+    position: relative;
+    justify-content: space-around;
+    align-Items: center;
+    width: 50%;
+    top: 20%;
+    margin: auto;
+   
 }

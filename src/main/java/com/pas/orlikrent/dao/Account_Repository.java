@@ -9,16 +9,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
+@Stateless
 public class Account_Repository implements IAccount_Repo {
 
-    private List<Account> accounts = Collections.synchronizedList(new ArrayList<>());
+    private final List<Account> accounts = Collections.synchronizedList(new ArrayList<>());
 
     @PostConstruct
     private void InitData() {
@@ -26,35 +27,40 @@ public class Account_Repository implements IAccount_Repo {
         accounts.add(new Manager("mklyz", "abcABC123*", "klyz@gmail.com", true, "MANAGER", 2300.0, 12));
         accounts.add(new Client("jkowalski", "abcABC123*", "kowalski@gmail.com", true, "USER", "Jan", "Kowalski"));
         accounts.add(new Client("tnowak", "abcABC123*", "nowak@gmail.com", false, "USER", "Tomasz", "Nowak"));
-        for (Account acc : accounts) {
-            acc.setId(UUID.randomUUID().toString());
-        }
+            accounts.get(0).setId("df3ce38f-60be-46cc-a380-1367b59beeea");
+            accounts.get(1).setId("71176e64-e76b-405f-84dc-c8a2f299a7b8");
+            accounts.get(2).setId("98d0f7fe-8a86-4f47-af82-b7267b02e2d8");
+            accounts.get(3).setId("6cf26622-d95c-40ce-95b0-73a09dee3048");
+
+
         //todo change this
     }
 
     public List<Account> getAll() {
         synchronized (this.accounts) {
-            return Collections.unmodifiableList(accounts);
+            return accounts;
         }
     }
 
     public Account getByID(String id) throws Account__Exception {
-        for (Account ac : accounts) {
+        synchronized (this.accounts){
+        for (Account ac : this.accounts) {
             if (ac.getId().equals(id)) {
                 return ac;
             }
         }
         throw new Account__Exception("Cannot find account with given id");
-    }
+    }}
 
     public Account getByLogin(String login) throws Account__Exception {
-        for (Account ac : accounts) {
-            if (ac.getLogin().contains(login)) {
-                return ac;
+        synchronized (this.accounts) {
+            for (Account ac : accounts) {
+                if (ac.getLogin().contains(login)) {
+                    return ac;
+                }
             }
+            throw new Account__Exception("Cannot find account with given login");
         }
-        throw new Account__Exception("Cannot find account with given login");
-
     }
 
     public void add(Account acc) throws Account__Exception {
@@ -90,17 +96,21 @@ public class Account_Repository implements IAccount_Repo {
     }
 
     public void active_account(String login) {
-        for (Account ac : accounts) {
-            if (ac.getLogin().equals(login)) {
-                ac.setActive(true);
+        synchronized (this.accounts) {
+            for (Account ac : accounts) {
+                if (ac.getLogin().equals(login)) {
+                    ac.setActive(true);
+                }
             }
         }
     }
 
     public void deactivate_account(String login) {
-        for (Account ac : accounts) {
-            if (ac.getLogin().equals(login)) {
-                ac.setActive(false);
+        synchronized (this.accounts) {
+            for (Account ac : accounts) {
+                if (ac.getLogin().equals(login)) {
+                    ac.setActive(false);
+                }
             }
         }
     }

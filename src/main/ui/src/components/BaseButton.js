@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 function BaseButton(props) {
   return (
     <Box>
-      <Button variant="contained" disableElevation >
+      <Button variant="contained" onClick={props.onClick} disabled={props.enable}>
         {props.name}
       </Button>
     </Box>

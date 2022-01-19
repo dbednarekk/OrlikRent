@@ -1,14 +1,22 @@
 package com.pas.orlikrent.managers;
 
+import com.pas.orlikrent.dao.IAccount_Repo;
+import com.pas.orlikrent.dao.IPitchRepository;
+import com.pas.orlikrent.dao.IRentalRepository;
 import com.pas.orlikrent.dao.IRepository;
+import com.pas.orlikrent.dto.pitch.PitchRentDTO;
 import com.pas.orlikrent.dto.pitch.PitchRentalDTO;
 import com.pas.orlikrent.exceptions.Base_Exception;
 import com.pas.orlikrent.exceptions.Pitch_Manager_Exception;
 import com.pas.orlikrent.exceptions.Rental__Exception;
 import com.pas.orlikrent.managers.converters.RentMapper;
+import com.pas.orlikrent.model.Pitch;
 import com.pas.orlikrent.model.PitchRental;
+import com.pas.orlikrent.model.Users.Account;
+import com.pas.orlikrent.model.Users.Client;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ArrayList;
@@ -19,8 +27,11 @@ import java.util.List;
 public class PitchRentalManager implements IPitchRentalManager {
 
     @Inject
-    private IRepository<PitchRental, String> pitch_rental_repo;
-
+    private IRentalRepository pitch_rental_repo;
+    @Inject
+    private IAccount_Repo account_repo;
+    @Inject
+    IPitchRepository pitchRepository;
     @Override
     public List<PitchRentalDTO> getAll() {
         List<PitchRentalDTO> res = new ArrayList<>();
@@ -54,9 +65,9 @@ public class PitchRentalManager implements IPitchRentalManager {
         this.pitch_rental_repo.update(id, RentMapper.rentalFromDTO(o));
     }
     @Override
-    public void createRent(PitchRentalDTO rent) throws Base_Exception {
+    public void createRent(PitchRentDTO rent) throws Base_Exception {
         for (PitchRental r : pitch_rental_repo.getAll()) {
-            if (r.getPitch().equals(rent.getPitch()) &&
+            if (r.getPitch().getId().equals(rent.getPitchID()) &&
                     ( r.getStart_date_rental().equals(rent.getStart_date_rental()) ||
                             (r.getEnd_date_rental().isAfter(rent.getStart_date_rental()) && r.getStart_date_rental().isBefore(rent.getStart_date_rental())) ||
                             (r.getStart_date_rental().isBefore(rent.getEnd_date_rental()) && r.getEnd_date_rental().isAfter(rent.getEnd_date_rental())))
@@ -64,7 +75,10 @@ public class PitchRentalManager implements IPitchRentalManager {
                 throw new Rental__Exception("Can not reserve this pitch while it has reservations at the same time");
             }
         }
-        this.pitch_rental_repo.add(RentMapper.rentalFromDTO(rent));
+        pitchRepository.setRented(rent.getPitchID(),true);
+        this.pitch_rental_repo.add(RentMapper.newRentalFromDTO(rent,account_repo.getByID(rent.getAccountID()),pitchRepository.getByID(rent.getPitchID())));
+
+
     }
 
     @Override
@@ -74,5 +88,10 @@ public class PitchRentalManager implements IPitchRentalManager {
             throw new Rental__Exception("reservation does not exists"); //todo change Base_Exception to RentManager_Exception A nie renatal__Exeption??
         }
         rent.setActive(false);
+    }
+
+    @Override
+    public List<PitchRentalDTO> rentsForPitch(String id){
+            return RentMapper.listRentalToDTO(this.pitch_rental_repo.getRentalsForPitch(id));
     }
 }

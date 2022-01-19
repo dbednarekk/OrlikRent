@@ -6,44 +6,50 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-public class Rental_Repository implements IRepository<PitchRental, String> {
-    private List<PitchRental> rentals = Collections.synchronizedList(new ArrayList<>());
+@Stateless
+public class Rental_Repository implements IRentalRepository {
+    private final List<PitchRental> rentals = Collections.synchronizedList(new ArrayList<>());
+
 
     @PostConstruct
     private void initData() {
-        //todo init data
+
     }
 
     public List<PitchRental> getAll() {
         synchronized (this.rentals) {
-            return Collections.unmodifiableList(rentals);
+            return rentals;
         }
     }
 
     public PitchRental getByID(String id) throws Rental__Exception {
-        for (PitchRental rent : rentals) {
-            if (rent.getId().equals(id)) {
-                return rent;
+        synchronized (this.rentals) {
+            for (PitchRental rent : rentals) {
+                if (rent.getId().equals(id)) {
+                    return rent;
+                }
             }
+            throw new Rental__Exception("Cannot find rental with given id");
         }
-        throw new Rental__Exception("Cannot find rental with given id");
     }
 
     public void add(PitchRental rent) throws Rental__Exception {
         synchronized (this.rentals) {
             for (PitchRental r : rentals) {
-                if (rentals.contains(r)) {
+                if (r.getPitch().getId().equals(rent.getPitch().getId())) {
                     throw new Rental__Exception("There is rental already exists");
                 }
             }
             rent.setActive(true);
             rentals.add(rent);
+
         }
     }
 
@@ -64,6 +70,18 @@ public class Rental_Repository implements IRepository<PitchRental, String> {
                     this.rentals.set(i, newRent);
                 }
             }
+        }
+    }
+    public List<PitchRental> getRentalsForPitch(String id){
+        synchronized (this.rentals) {
+            List<PitchRental> res = new ArrayList<>();
+            for (PitchRental r : rentals
+            ) {
+                if (r.getPitch().getId().equals(id)) {
+                    res.add(r);
+                }
+            }
+            return res;
         }
     }
 }

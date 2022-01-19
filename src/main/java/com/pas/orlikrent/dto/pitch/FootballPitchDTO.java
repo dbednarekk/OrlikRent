@@ -23,7 +23,7 @@ public class FootballPitchDTO implements SignableEntity {
     private Sector sector;
     private Integer min_people;
     private Integer max_people;
-    private Boolean rented = false;
+    private Boolean rented;
 
     private GroundType grass_type;
     private Boolean goal_nets;

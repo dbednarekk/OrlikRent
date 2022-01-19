@@ -1,5 +1,6 @@
 package com.pas.orlikrent.endpoint;
 
+import com.pas.orlikrent.dto.pitch.PitchRentDTO;
 import com.pas.orlikrent.dto.pitch.PitchRentalDTO;
 import com.pas.orlikrent.exceptions.Base_Exception;
 import com.pas.orlikrent.managers.IPitchRentalManager;
@@ -37,7 +38,7 @@ public class PitchRentEndpoint {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/addRent")
-    public Response createRent(PitchRentalDTO rent) throws Base_Exception {
+    public Response createRent(PitchRentDTO rent) throws Base_Exception {
         this.iPitchRentalManager.createRent(rent);
         return Response.status(201).build();
     }
@@ -73,5 +74,11 @@ public class PitchRentEndpoint {
     public Response endRental(@PathParam("id") String id) throws Base_Exception {
         this.iPitchRentalManager.endReservation(id);
         return Response.status(201).build();
+    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("RentsForPitch/{id}")
+    public List<PitchRentalDTO> rentsForPitch(@PathParam("id") String id){
+        return this.iPitchRentalManager.rentsForPitch(id);
     }
 }

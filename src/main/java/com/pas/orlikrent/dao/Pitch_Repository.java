@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,10 +21,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
-@NoArgsConstructor
+@Stateless
 public class Pitch_Repository implements IPitchRepository{
 
-    private List<Pitch> pitches = Collections.synchronizedList(new ArrayList<>());
+    private final List<Pitch> pitches = Collections.synchronizedList(new ArrayList<>());
 
     @PostConstruct
     private void InitData() {
@@ -39,34 +40,52 @@ public class Pitch_Repository implements IPitchRepository{
 
     public List<Pitch> getAll() {
         synchronized (this.pitches) {
-            return Collections.unmodifiableList(pitches);
+            return pitches;
         }
     }
 
     public List<Pitch> getAllTypedPitch() {
-        List<Pitch> collect = getAll().stream().filter(pitch -> pitch instanceof FootballPitch).collect(Collectors.toList());
-        return collect;
+        synchronized (this.pitches) {
+            return getAll().stream().filter(pitch -> pitch instanceof FootballPitch).collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public void setRented(String id, boolean t) {
+        synchronized (this.pitches) {
+            for (Pitch p : pitches
+            ) {
+                if (p.getId().equals(id)) {
+                    p.setRented(t);
+                }
+            }
+        }
     }
 
 
     // ??? Chyba się nie da
     public List<FootballPitch> getAllFootball() {
-        List<FootballPitch> collect = (List<FootballPitch>) getAll().stream().filter(pitch -> pitch instanceof FootballPitch);
-        return collect;
+        synchronized (this.pitches) {
+            return (List<FootballPitch>) getAll().stream().filter(pitch -> pitch instanceof FootballPitch);
+        }
     }
 
     public List<BasketballPitch> getAllBasketball() {
-        List<BasketballPitch> collect = (List<BasketballPitch>) getAll().stream().filter(pitch -> pitch instanceof BasketballPitch);
-        return collect;
+        synchronized (this.pitches) {
+
+            return (List<BasketballPitch>) getAll().stream().filter(pitch -> pitch instanceof BasketballPitch);
+        }
     }
 
     public Pitch getByID(String id) throws Pitch__Exception {
-        for (Pitch pitch : pitches) {
-            if (pitch.getId().equals(id)) {
-                return pitch;
+        synchronized (this.pitches) {
+            for (Pitch pitch : pitches) {
+                if (pitch.getId().equals(id)) {
+                    return pitch;
+                }
             }
+            throw new Pitch__Exception("Cannot find pitch with given String");
         }
-        throw new Pitch__Exception("Cannot find pitch with given String");
     }
 
     public void add(Pitch pitch) throws Pitch__Exception {

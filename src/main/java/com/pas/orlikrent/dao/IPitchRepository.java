@@ -16,4 +16,5 @@ public interface IPitchRepository extends IRepository<Pitch, String>{
     List<BasketballPitch> getAllBasketball();
 
     List<Pitch> getAllTypedPitch();
+    void setRented( String id, boolean t);
 }
