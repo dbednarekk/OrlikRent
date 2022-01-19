@@ -29,15 +29,47 @@ import {makeStyles} from '@mui/styles';
         },
     },
 });
+function SubRentRow(subprops){
+  const {subrow} = subprops;
+  return (
+    <React.Fragment>
+      <TableRow >
+          <TableCell align='center'>{subrow.account.id}</TableCell>
+          <TableCell align='center'>{subrow.start_date_rental}</TableCell>
+          <TableCell align='center'>{subrow.end_date_rental}</TableCell>
+          <TableCell align="center"><ActiveIcon active={subrow.active}/></TableCell>
+  </TableRow>
+  </React.Fragment>
+  )
+}
+SubRentRow.propTypes ={
+  optionalObjectWithShape: PropTypes.shape({
+      account: PropTypes.shape({
+        id: PropTypes.string,
+        login: PropTypes.string,
+        email: PropTypes.string,
+        active: PropTypes.bool,
+        role: PropTypes.string
+      }),
+      start_date_rental: PropTypes.string,
+      end_date_rental: PropTypes.string,
+      active: PropTypes.bool,    
+    }),}
+    
 function Row (props) {
     const {row} = props;
     const {onChange} = props;
     const [open, setOpen] = React.useState(false);
     const [rentals, setRentals] = React.useState(false);
     const [rent,setRent] = React.useState(false);
+    const [rentForPitch, setRentForPitch]= React.useState([])
     const handleSetOpen = async () => {
       setOpen(state => !state);
-    
+       axios.get(`/Rentals/RentsForPitch/${row.id}`).then(res=>{
+        
+        setRentForPitch(res.data)
+       })
+   
     }
     const classes = useRowStyles();
     const [buttonEnable,setButtonEnable] = React.useState('true')
@@ -57,6 +89,7 @@ function Row (props) {
         }
       })
     }
+
     return (
       <React.Fragment>
         <TableRow >
@@ -92,12 +125,24 @@ function Row (props) {
 
                         </TableHead>
                         <TableBody>
-                            <TableRow>
-                                <TableCell align="center">
-                                    <BaseButton name="test1"/>
-                                    <BaseButton name="Test2"/>
-                                </TableCell>
-                            </TableRow>
+                              <TableContainer component={Paper} className={styles.table}>
+                                <Table  aria-label="Rent table">
+                                  <TableHead>
+                                    <TableRow>
+                                    
+                                      <TableCell align="center">Account ID</TableCell>
+                                      <TableCell align="center">Start Date</TableCell>
+                                      <TableCell align="center">End Date</TableCell>
+                                      <TableCell align="center">Active</TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                    {rentForPitch.map((subrow, indexx ) => (
+                                      <SubRentRow key={indexx} subrow={subrow}/>
+                                    ))}
+                                  </TableBody>
+                                </Table>
+                              </TableContainer>
                             </TableBody>
                             </Table>
                         </Box>
