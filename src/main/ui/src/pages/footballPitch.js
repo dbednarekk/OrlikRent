@@ -11,7 +11,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "../Services/URL";
-import PropTypes from "prop-types";
 import ActiveIcon from "../components/ActiveIcon";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -36,20 +35,6 @@ function SubRentRow(subprops) {
     </React.Fragment>
   );
 }
-SubRentRow.propTypes = {
-  optionalObjectWithShape: PropTypes.shape({
-    account: PropTypes.shape({
-      id: PropTypes.string,
-      login: PropTypes.string,
-      email: PropTypes.string,
-      active: PropTypes.bool,
-      role: PropTypes.string,
-    }),
-    start_date_rental: PropTypes.string,
-    end_date_rental: PropTypes.string,
-    active: PropTypes.bool,
-  }),
-};
 
 function Row(props) {
   const { row } = props;
@@ -157,17 +142,6 @@ function Row(props) {
     </React.Fragment>
   );
 }
-Row.propTypes = {
-  optionalObjectWithShape: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    price: PropTypes.number,
-    lights: PropTypes.bool,
-    sector: PropTypes.bool,
-    min_people: PropTypes.number,
-    max_people: PropTypes.number,
-  }),
-};
 function getPitches() {
   return axios.get(`Pitches/footballPitches/`);
 }
