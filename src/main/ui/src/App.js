@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import FootballPitch from "./pages/footballPitch";
 import BasketballPitch from "./pages/basketballPitch";
+import AdminPage from "./pages/admin/AdminPage";
 function App() {
 
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="footballPitch/" element={<FootballPitch/>}/>
         <Route path="basketballPitch/" element={<BasketballPitch/>} />
+        <Route path="admin//*" element={<AdminPage/>} />
       </Routes>
     </Router>
 
