@@ -56,13 +56,14 @@ public class PitchRentalManager implements IPitchRentalManager {
         if(o.getActive()){
             throw new Rental__Exception("Can not delete this this reservation while is active");
         }
-        this.pitch_rental_repo.remove(RentMapper.rentalFromDTO(o));
+        this.pitch_rental_repo.remove(RentMapper.rentalFromDTO(o,account_repo.getByID(o.getAccountID()),pitchRepository.getByID(o.getPitchID())));
     }
 
     //todo też walidacja, że update np jeżeli dostępny jest kolejny termin COOO w sensie jak??
     @Override
     public void update(String id, PitchRentalDTO o) throws Base_Exception {
-        this.pitch_rental_repo.update(id, RentMapper.rentalFromDTO(o));
+
+        this.pitch_rental_repo.update(id, RentMapper.rentalFromDTO(o,account_repo.getByID(o.getAccountID()),pitchRepository.getByID(o.getPitchID())));
     }
     @Override
     public void createRent(PitchRentDTO rent) throws Base_Exception {

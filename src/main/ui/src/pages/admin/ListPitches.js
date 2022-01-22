@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import Box from "@mui/material/Box";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import styles from "../styles/FootballPitch.module.css";
+import styles from "../../styles/FootballPitch.module.css";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,61 +8,34 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import axios from "../Services/URL";
-import ActiveIcon from "../components/ActiveIcon";
+import axios from "../../Services/URL";
+import ActiveIcon from "../../components/ActiveIcon";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Collapse from "@mui/material/Collapse";
-import BaseButton from "../components/BaseButton";
-import Autocomplete from "../components/Autocomplete";
+import BaseButton from "../../components/BaseButton";
+import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
-
-function SubRentRow(subprops) {
-  const { subrow } = subprops;
-  return (
-    <React.Fragment>
-      <TableRow>
-        <TableCell align="center">{subrow.accountID}</TableCell>
-        <TableCell align="center">{subrow.start_date_rental}</TableCell>
-        <TableCell align="center">{subrow.end_date_rental}</TableCell>
-        <TableCell align="center">
-          <ActiveIcon active={subrow.active} />
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
-}
+import { flexbox } from '@mui/system';
 
 function Row(props) {
   const { row } = props;
   const { onChange } = props;
   const [open, setOpen] = React.useState(false);
-  const [rent, setRent] = React.useState(false);
-  const [rentForPitch, setRentForPitch] = React.useState([]);
+
   const handleSetOpen = async () => {
     setOpen((state) => !state);
-    axios.get(`/Rentals/RentsForPitch/${row.id}`).then((res) => {
-      setRentForPitch(res.data);
-    });
   };
-  const handleSetRent = () => {
-    setRent((state) => !state);
-
-    const json = JSON.stringify({
-      accountID: "71176e64-e76b-405f-84dc-c8a2f299a7b8",
-      pitchID: row.id,
-      start_date_rental: "2022-01-18T17:47:20.361",
-      end_date_rental: "2022-01-20T17:47:20.361",
-      active: true,
-    });
-    return axios.post("/Rentals/addRent/", json, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  };
-
+  const handleRemove =() =>{
+    console.log("handle Remove")
+  }
+  const handleEdit =() =>{
+    console.log("handle Edit")
+  }
+  const handleViewDetails =() =>{
+    console.log("handle view details")
+  }
   return (
     <React.Fragment>
       <TableRow>
@@ -82,31 +53,9 @@ function Row(props) {
         </TableCell>
         <TableCell align="center">{row.name}</TableCell>
         <TableCell align="center">{row.price}</TableCell>
-        <TableCell align="center">
-          <ActiveIcon active={row.lights} />
-        </TableCell>
         <TableCell align="center">{row.sector}</TableCell>
-        <TableCell align="center">{row.min_people}</TableCell>
-        <TableCell align="center">{row.max_people}</TableCell>
-        <TableCell align="center">{row.grass_type}</TableCell>
-        <TableCell align="center">
-          <ActiveIcon active={row.goal_nets} />
-        </TableCell>
         <TableCell align="center">
           <ActiveIcon active={row.rented} />
-        </TableCell>
-        <TableCell align="center">
-          <BaseButton
-            name="Rent"
-            onClick={() => {
-              handleSetRent().then((res) => {
-                onChange().then(() => {
-                  console.log("succes!");
-                });
-              });
-            }}
-            enable={row.rented}
-          />{" "}
         </TableCell>
       </TableRow>
       <TableRow>
@@ -117,19 +66,17 @@ function Row(props) {
                 <TableHead></TableHead>
                 <TableBody>
                   <TableContainer component={Paper} className={styles.table}>
-                    <Table aria-label="Rent table">
+                    <Table aria-label="pitch table">
                       <TableHead>
-                        <TableRow>
-                          <TableCell align="center">Account ID</TableCell>
-                          <TableCell align="center">Start Date</TableCell>
-                          <TableCell align="center">End Date</TableCell>
-                          <TableCell align="center">Active</TableCell>
-                        </TableRow>
                       </TableHead>
-                      <TableBody>
-                        {rentForPitch.map((subrow, indexx) => (
-                          <SubRentRow key={indexx} subrow={subrow} />
-                        ))}
+                      <TableBody style={{
+                        display: 'flex',
+              
+                        alignItems: 'center'
+                      }}>
+                      <BaseButton enable={false} name="Remove" onClick={handleRemove}/>
+                      <BaseButton enable={false} name="Edit" onClick={handleEdit}/>
+                      <BaseButton enable={false} name="Details" onClick={handleViewDetails}/>
                       </TableBody>
                     </Table>
                   </TableContainer>
@@ -143,7 +90,7 @@ function Row(props) {
   );
 }
 function getPitches() {
-  return axios.get(`Pitches/footballPitches/`);
+  return axios.get(`Pitches/`);
 }
 function BasicTable() {
   const [pitches, setPitches] = useState([]);
@@ -155,22 +102,22 @@ function BasicTable() {
   useEffect(() => {
     getUpdatedPiches();
   }, []);
-  const accounts = [];
+  const pitchs = [];
   const [searchInput, setSearchInput] = useState("");
 
   function search(rows) {
     if (Array.isArray(rows) && rows.length) {
-      const filteredAccount = rows.filter(
+      const filteredpitch = rows.filter(
         (row) =>
           row.props.row.id.toLowerCase().indexOf(searchInput.toLowerCase()) > -1
       );
 
-      filteredAccount.forEach((account) =>
-        accounts.includes(account.props.row.id)
+      filteredpitch.forEach((pitch) =>
+        pitchs.includes(pitch.props.row.id)
           ? ""
-          : accounts.push(account.props.row.id)
+          : pitchs.push(pitch.props.row.id)
       );
-      return filteredAccount;
+      return filteredpitch;
     } else {
       return rows;
     }
@@ -184,7 +131,7 @@ function BasicTable() {
     >
       <div>
         <Autocomplete
-          options={accounts}
+          options={pitchs}
           inputValue={searchInput}
           noOptionsText="no options"
           onChange={(event, value) => {
@@ -208,12 +155,7 @@ function BasicTable() {
               <TableCell align="center">id</TableCell>
               <TableCell align="center">name</TableCell>
               <TableCell align="center">price</TableCell>
-              <TableCell align="center">lights</TableCell>
               <TableCell align="center">sector</TableCell>
-              <TableCell align="center">min_people</TableCell>
-              <TableCell align="center">max_people</TableCell>
-              <TableCell align="center">grass_type</TableCell>
-              <TableCell align="center">goal_nets</TableCell>
               <TableCell align="center">rented</TableCell>
             </TableRow>
           </TableHead>
@@ -229,21 +171,17 @@ function BasicTable() {
     </Box>
   );
 }
-function footballPitch() {
-  return (
-    <Box>
-      <Header title="Rent a football Pitch" />
-      <Box
-        style={{
-          height: "100vh",
-        }}
-      >
-        <h1 className={styles.title}>Footbal Pitch page</h1>
-        <BasicTable />
-      </Box>
-      <Footer />
-    </Box>
-  );
+const handleAdd =() =>{
+  console.log("Handle add")
 }
 
-export default footballPitch;
+function ListPitches() {
+    return(
+        <div>
+           <BaseButton  enable={false} name="Add Pitch" onClick={handleAdd}/>
+          <BasicTable/>
+         </div>
+     );
+}
+
+export default ListPitches;

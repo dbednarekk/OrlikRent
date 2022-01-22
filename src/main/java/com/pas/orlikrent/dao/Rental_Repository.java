@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Stateless
@@ -48,6 +49,7 @@ public class Rental_Repository implements IRentalRepository {
                 }
             }
             rent.setActive(true);
+            rent.setId(UUID.randomUUID().toString());
             rentals.add(rent);
 
         }

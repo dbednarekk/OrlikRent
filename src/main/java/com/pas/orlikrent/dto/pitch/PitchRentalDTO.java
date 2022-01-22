@@ -1,6 +1,7 @@
 package com.pas.orlikrent.dto.pitch;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pas.orlikrent.dto.accounts.AccountDTO;
 import com.pas.orlikrent.model.Pitch;
 import com.pas.orlikrent.model.Users.Account;
 import com.pas.orlikrent.model.enums.Sector;
@@ -18,8 +19,8 @@ import java.time.LocalDateTime;
 public class PitchRentalDTO implements SignableEntity {
 
     private String id;
-    private Account account;
-    private Pitch pitch;
+    private String accountID;
+    private String pitchID;
     private LocalDateTime start_date_rental;
     private LocalDateTime end_date_rental;
     private Boolean active;

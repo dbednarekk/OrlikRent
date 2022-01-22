@@ -5,6 +5,8 @@ import Footer from '../../components/Footer'
 import PanelLayout from '../../components/PanelLayout';
 import AccountsListIcon from '@mui/icons-material/PeopleAlt';
 import ListAccounts from './ListAccounts';
+import ListPitches from './ListPitches';
+import ListRentals from './ListRentals';
 
 function AdminPage() {
   return <Box>
@@ -24,7 +26,19 @@ function AdminPage() {
                     Icon: AccountsListIcon,
                     text: 'list accounts',
                     Component: ListAccounts
-                }]}>
+                },
+                {
+                  link: 'admin/listPitches',
+                  Icon: AccountsListIcon,
+                  text: 'list Pitches',
+                  Component: ListPitches
+              },
+              {
+                link: 'admin/listRentals',
+                Icon: AccountsListIcon,
+                text: 'list Rentals',
+                Component: ListRentals
+            }]}>
 
                 </PanelLayout>
           </Box>

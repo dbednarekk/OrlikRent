@@ -4,6 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import PanelMenu from './PanelMenu';
 import {Link, Route, Routes} from 'react-router-dom'
+import PropTypes from 'prop-types';
 function PanelLayout(props) {
   return (
       <Box>
@@ -57,5 +58,7 @@ function PanelLayout(props) {
       </Box>
   );
 }
-
+PanelLayout.propTypes = {
+    
+};
 export default PanelLayout;
