@@ -17,7 +17,7 @@ import Collapse from "@mui/material/Collapse";
 import BaseButton from "../../components/BaseButton";
 import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
-
+import useErrorHandler from "../../errorHandler";
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
@@ -98,9 +98,14 @@ function getRentals() {
 }
 function BasicTable() {
   const [rentals, setRentals] = useState([]);
+  const handleError = useErrorHandler()
   const getUpdatedRentals = () => {
     return getRentals().then((res) => {
       setRentals(res.data);
+    }).catch(error =>{
+      console.log(error.response.data)
+      const message = error.response.data
+      handleError(message, error.response.status)
     });
   };
   useEffect(() => {

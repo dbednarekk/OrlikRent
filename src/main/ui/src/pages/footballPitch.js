@@ -19,7 +19,7 @@ import Collapse from "@mui/material/Collapse";
 import BaseButton from "../components/BaseButton";
 import Autocomplete from "../components/Autocomplete";
 import TextField from "@mui/material/TextField";
-
+import useErrorHandler from "../errorHandler";
 function SubRentRow(subprops) {
   const { subrow } = subprops;
   return (
@@ -38,6 +38,7 @@ function SubRentRow(subprops) {
 
 function Row(props) {
   const { row } = props;
+  const handleError = useErrorHandler()
   const { onChange } = props;
   const [open, setOpen] = React.useState(false);
   const [, setRent] = React.useState(false);
@@ -46,6 +47,10 @@ function Row(props) {
     setOpen((state) => !state);
     axios.get(`/Rentals/RentsForPitch/${row.id}`).then((res) => {
       setRentForPitch(res.data);
+    }).catch(error =>{
+      console.log(error.response.data)
+      const message = error.response.data
+      handleError(message, error.response.status)
     });
   };
   const handleSetRent = () => {
@@ -64,7 +69,7 @@ function Row(props) {
       },
     });
   };
-
+ 
   return (
     <React.Fragment>
       <TableRow>
@@ -102,8 +107,12 @@ function Row(props) {
               handleSetRent().then((res) => {
                 onChange().then(() => {
                   console.log("succes!");
-                });
-              });
+                })
+              }).catch(error =>{
+                console.log(error.response.data)
+                const message = error.response.data
+                handleError(message, error.response.status)
+              });;
             }}
             enable={row.rented}
           />{" "}
@@ -147,13 +156,17 @@ function getPitches() {
 }
 function BasicTable() {
   const [pitches, setPitches] = useState([]);
+  const handleError = useErrorHandler()
   const getUpdatedPiches = () => {
     return getPitches().then((res) => {
       setPitches(res.data);
     });
   };
   useEffect(() => {
-    getUpdatedPiches();
+    getUpdatedPiches().catch(error =>{
+      const message = error.response.data
+      handleError(message, error.response.status)
+    });
   }, []);
   const accounts = [];
   const [searchInput, setSearchInput] = useState("");

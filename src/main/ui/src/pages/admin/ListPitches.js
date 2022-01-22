@@ -17,7 +17,7 @@ import Collapse from "@mui/material/Collapse";
 import BaseButton from "../../components/BaseButton";
 import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
-
+import useErrorHandler from "../../errorHandler";
 function Row(props) {
   const { row } = props;
 
@@ -106,9 +106,14 @@ function getPitches() {
 }
 function BasicTable() {
   const [pitches, setPitches] = useState([]);
+  const handleError = useErrorHandler()
   const getUpdatedPiches = () => {
     return getPitches().then((res) => {
       setPitches(res.data);
+    }).catch(error =>{
+      console.log(error.response.data)
+      const message = error.response.data
+      handleError(message, error.response.status)
     });
   };
   useEffect(() => {
