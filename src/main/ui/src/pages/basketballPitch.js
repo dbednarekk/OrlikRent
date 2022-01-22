@@ -25,7 +25,7 @@ function SubRentRow(subprops) {
   return (
     <React.Fragment>
       <TableRow>
-        <TableCell align="center">{subrow.account.id}</TableCell>
+        <TableCell align="center">{subrow.accountID}</TableCell>
         <TableCell align="center">{subrow.start_date_rental}</TableCell>
         <TableCell align="center">{subrow.end_date_rental}</TableCell>
         <TableCell align="center">
@@ -40,7 +40,7 @@ function Row(props) {
   const { row } = props;
   const { onChange } = props;
   const [open, setOpen] = React.useState(false);
-  const [rent, setRent] = React.useState(false);
+  const [, setRent] = React.useState(false);
   const [rentForPitch, setRentForPitch] = React.useState([]);
   const handleSetOpen = async () => {
     setOpen((state) => !state);
