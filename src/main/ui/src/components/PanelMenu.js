@@ -1,12 +1,11 @@
-import React from 'react';
-import { List, ListItem, ListItemIcon, Box  } from '@mui/material';
-import {Link} from 'react-router-dom';
+import React from "react";
+import { List, Box } from "@mui/material";
 function PanelMenu(props) {
-  return( 
+  return (
     <Box>
-         <List component="nav" aria-label="panel menu">
-                {props.children}
-            </List>
+      <List component="nav" aria-label="panel menu">
+        {props.children}
+      </List>
     </Box>
   );
 }

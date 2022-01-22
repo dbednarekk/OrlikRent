@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import styles from "../../styles/FootballPitch.module.css";
 import Table from "@mui/material/Table";
@@ -17,25 +17,24 @@ import Collapse from "@mui/material/Collapse";
 import BaseButton from "../../components/BaseButton";
 import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { flexbox } from '@mui/system';
 
 function Row(props) {
   const { row } = props;
-  const { onChange } = props;
+
   const [open, setOpen] = React.useState(false);
 
   const handleSetOpen = async () => {
     setOpen((state) => !state);
   };
-  const handleRemove =() =>{
-    console.log("handle Remove")
-  }
-  const handleEdit =() =>{
-    console.log("handle Edit")
-  }
-  const handleViewDetails =() =>{
-    console.log("handle view details")
-  }
+  const handleRemove = () => {
+    console.log("handle Remove");
+  };
+  const handleEdit = () => {
+    console.log("handle Edit");
+  };
+  const handleViewDetails = () => {
+    console.log("handle view details");
+  };
   return (
     <React.Fragment>
       <TableRow>
@@ -67,16 +66,29 @@ function Row(props) {
                 <TableBody>
                   <TableContainer component={Paper} className={styles.table}>
                     <Table aria-label="pitch table">
-                      <TableHead>
-                      </TableHead>
-                      <TableBody style={{
-                        display: 'flex',
-              
-                        alignItems: 'center'
-                      }}>
-                      <BaseButton enable={false} name="Remove" onClick={handleRemove}/>
-                      <BaseButton enable={false} name="Edit" onClick={handleEdit}/>
-                      <BaseButton enable={false} name="Details" onClick={handleViewDetails}/>
+                      <TableHead></TableHead>
+                      <TableBody
+                        style={{
+                          display: "flex",
+
+                          alignItems: "center",
+                        }}
+                      >
+                        <BaseButton
+                          enable={false}
+                          name="Remove"
+                          onClick={handleRemove}
+                        />
+                        <BaseButton
+                          enable={false}
+                          name="Edit"
+                          onClick={handleEdit}
+                        />
+                        <BaseButton
+                          enable={false}
+                          name="Details"
+                          onClick={handleViewDetails}
+                        />
                       </TableBody>
                     </Table>
                   </TableContainer>
@@ -135,7 +147,7 @@ function BasicTable() {
           inputValue={searchInput}
           noOptionsText="no options"
           onChange={(event, value) => {
-            setSearchInput(value ? value : '');
+            setSearchInput(value ? value : "");
           }}
           renderInput={(params) => (
             <TextField
@@ -171,17 +183,17 @@ function BasicTable() {
     </Box>
   );
 }
-const handleAdd =() =>{
-  console.log("Handle add")
-}
+const handleAdd = () => {
+  console.log("Handle add");
+};
 
 function ListPitches() {
-    return(
-        <div>
-           <BaseButton  enable={false} name="Add Pitch" onClick={handleAdd}/>
-          <BasicTable/>
-         </div>
-     );
+  return (
+    <div>
+      <BaseButton enable={false} name="Add Pitch" onClick={handleAdd} />
+      <BasicTable />
+    </div>
+  );
 }
 
 export default ListPitches;

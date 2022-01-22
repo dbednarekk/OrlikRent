@@ -40,7 +40,7 @@ function Row(props) {
   const { row } = props;
   const { onChange } = props;
   const [open, setOpen] = React.useState(false);
-  const [rent, setRent] = React.useState(false);
+  const [, setRent] = React.useState(false);
   const [rentForPitch, setRentForPitch] = React.useState([]);
   const handleSetOpen = async () => {
     setOpen((state) => !state);
@@ -188,7 +188,7 @@ function BasicTable() {
           inputValue={searchInput}
           noOptionsText="no options"
           onChange={(event, value) => {
-            setSearchInput(value ? value : '');
+            setSearchInput(value ? value : "");
           }}
           renderInput={(params) => (
             <TextField

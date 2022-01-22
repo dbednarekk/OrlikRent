@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Header from "../components/Header";
@@ -186,7 +185,7 @@ function BasicTable() {
           inputValue={searchInput}
           noOptionsText="no options"
           onChange={(event, value) => {
-            setSearchInput(value ? value : '');
+            setSearchInput(value ? value : "");
           }}
           renderInput={(params) => (
             <TextField
@@ -227,20 +226,20 @@ function BasicTable() {
   );
 }
 function basketballPitch() {
-    return (
-        <Box>
-        <Header title="Rent a basketball Pitch" />
-        <Box
-          style={{
-            height: "100vh",
-          }}
-        >
-          <h1 className={styles.title}>Basketball Pitch page</h1>
-          <BasicTable />
-        </Box>
-        <Footer />
+  return (
+    <Box>
+      <Header title="Rent a basketball Pitch" />
+      <Box
+        style={{
+          height: "100vh",
+        }}
+      >
+        <h1 className={styles.title}>Basketball Pitch page</h1>
+        <BasicTable />
       </Box>
-    )
+      <Footer />
+    </Box>
+  );
 }
 
-export default basketballPitch
+export default basketballPitch;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import styles from "../../styles/FootballPitch.module.css";
 import Table from "@mui/material/Table";
@@ -17,26 +17,24 @@ import Collapse from "@mui/material/Collapse";
 import BaseButton from "../../components/BaseButton";
 import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { flexbox } from '@mui/system';
 
 function Row(props) {
   const { row } = props;
-  const { onChange } = props;
   const [open, setOpen] = React.useState(false);
 
   const handleSetOpen = async () => {
     setOpen((state) => !state);
   };
 
-  const handleBlock =() =>{
-    console.log("handle block")
-  }
-  const handleEdit =() =>{
-    console.log("handle Edit")
-  }
-  const handleViewDetails =() =>{
-    console.log("handle view details")
-  }
+  const handleBlock = () => {
+    console.log("handle block");
+  };
+  const handleEdit = () => {
+    console.log("handle Edit");
+  };
+  const handleViewDetails = () => {
+    console.log("handle view details");
+  };
   return (
     <React.Fragment>
       <TableRow>
@@ -68,16 +66,29 @@ function Row(props) {
                 <TableBody>
                   <TableContainer component={Paper} className={styles.table}>
                     <Table aria-label="account table">
-                      <TableHead>
-                      </TableHead>
-                      <TableBody style={{
-                        display: 'flex',
-              
-                        alignItems: 'center'
-                      }}>
-                      <BaseButton enable={false} name={row.active ? "deactive" : "active"} onClick={handleBlock}/>
-                      <BaseButton enable={false} name="Edit" onClick={handleEdit}/>
-                      <BaseButton enable={false} name="Details" onClick={handleViewDetails}/>
+                      <TableHead></TableHead>
+                      <TableBody
+                        style={{
+                          display: "flex",
+
+                          alignItems: "center",
+                        }}
+                      >
+                        <BaseButton
+                          enable={false}
+                          name={row.active ? "deactive" : "active"}
+                          onClick={handleBlock}
+                        />
+                        <BaseButton
+                          enable={false}
+                          name="Edit"
+                          onClick={handleEdit}
+                        />
+                        <BaseButton
+                          enable={false}
+                          name="Details"
+                          onClick={handleViewDetails}
+                        />
                       </TableBody>
                     </Table>
                   </TableContainer>
@@ -114,7 +125,7 @@ function BasicTable() {
       );
 
       filteredAccount.forEach((account) =>
-      fAccounts.includes(account.props.row.id)
+        fAccounts.includes(account.props.row.id)
           ? ""
           : fAccounts.push(account.props.row.id)
       );
@@ -136,7 +147,7 @@ function BasicTable() {
           inputValue={searchInput}
           noOptionsText="no options"
           onChange={(event, value) => {
-            setSearchInput(value ? value : '');
+            setSearchInput(value ? value : "");
           }}
           renderInput={(params) => (
             <TextField
@@ -172,17 +183,16 @@ function BasicTable() {
     </Box>
   );
 }
-const handleAdd =() =>{
-  console.log("Handle add")
-}
+const handleAdd = () => {
+  console.log("Handle add");
+};
 function ListAccounts() {
-  return(
-     <div>
-        <BaseButton  enable={false} name="Add Account" onClick={handleAdd}/>
-       <BasicTable/>
-      </div>
+  return (
+    <div>
+      <BaseButton enable={false} name="Add Account" onClick={handleAdd} />
+      <BasicTable />
+    </div>
   );
 }
-
 
 export default ListAccounts;
