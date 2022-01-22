@@ -33,14 +33,14 @@ function PanelLayout(props) {
         <Grid item xs={10} md={9} xl={10}>
           {props.menu.map(({ link, text, Component }) => (
             <Routes>
-              <Route exact path={link} element={<Component />}></Route>
+              <Route  path={link} element={<Component />}></Route>
             </Routes>
           ))}
 
           {props.otherRoutes &&
             props.otherRoutes.map(({ to, Component }) => (
               <Routes>
-                <Route key={to} exact path={to} element={<Component />}></Route>
+                <Route key={to}  path={to} element={<Component />}></Route>
               </Routes>
             ))}
         </Grid>

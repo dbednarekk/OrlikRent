@@ -174,14 +174,11 @@ function BasicTable() {
     </Box>
   );
 }
-const handleAdd = () => {
-  console.log("Handle add");
-};
+
 
 function ListRentals() {
   return (
     <div>
-      <BaseButton enable={false} name="Add Rent?" onClick={handleAdd} />
       <BasicTable />
     </div>
   );

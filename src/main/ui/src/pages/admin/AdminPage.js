@@ -26,19 +26,19 @@ function AdminPage() {
           <PanelLayout
             menu={[
               {
-                link: "admin/listAccounts",
+                link: "listAccounts/",
                 Icon: AccountsListIcon,
                 text: "list accounts",
                 Component: ListAccounts,
               },
               {
-                link: "admin/listPitches",
+                link: "listPitches/",
                 Icon: AccountsListIcon,
                 text: "list Pitches",
                 Component: ListPitches,
               },
               {
-                link: "admin/listRentals",
+                link: "listRentals/",
                 Icon: AccountsListIcon,
                 text: "list Rentals",
                 Component: ListRentals,
