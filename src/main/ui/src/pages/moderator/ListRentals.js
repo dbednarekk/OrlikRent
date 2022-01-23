@@ -25,15 +25,11 @@ function Row(props) {
   const handleSetOpen = async () => {
     setOpen((state) => !state);
   };
-
-  const handleBlock = () => {
-    console.log("handle block");
+  const handleRemove = () => {
+    console.log("handle Remove");
   };
   const handleEdit = () => {
     console.log("handle Edit");
-  };
-  const handleViewDetails = () => {
-    console.log("handle view details");
   };
   return (
     <React.Fragment>
@@ -50,12 +46,13 @@ function Row(props) {
         <TableCell align="center" component="th" scope="row">
           {row.id}
         </TableCell>
-        <TableCell align="center">{row.login}</TableCell>
-        <TableCell align="center">{row.email}</TableCell>
+        <TableCell align="center">{row.accountID}</TableCell>
+        <TableCell align="center">{row.pitchID}</TableCell>
+        <TableCell align="center">{row.start_date_rental}</TableCell>
+        <TableCell align="center">{row.end_date_rental}</TableCell>
         <TableCell align="center">
           <ActiveIcon active={row.active} />
         </TableCell>
-        <TableCell align="center">{row.role}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -65,7 +62,7 @@ function Row(props) {
                 <TableHead></TableHead>
                 <TableBody>
                   <TableContainer component={Paper} className={styles.table}>
-                    <Table aria-label="account table">
+                    <Table aria-label="pitch table">
                       <TableHead></TableHead>
                       <TableBody
                         style={{
@@ -76,18 +73,13 @@ function Row(props) {
                       >
                         <BaseButton
                           enable={false}
-                          name={row.active ? "deactive" : "active"}
-                          onClick={handleBlock}
+                          name="Remove"
+                          onClick={handleRemove}
                         />
                         <BaseButton
                           enable={false}
                           name="Edit"
                           onClick={handleEdit}
-                        />
-                        <BaseButton
-                          enable={false}
-                          name="Details"
-                          onClick={handleViewDetails}
                         />
                       </TableBody>
                     </Table>
@@ -101,15 +93,15 @@ function Row(props) {
     </React.Fragment>
   );
 }
-function getAccounts() {
-  return axios.get(`Account/`);
+function getRentals() {
+  return axios.get(`Rentals/`);
 }
 function BasicTable() {
-  const [accounts, setAccounts] = useState([]);
+  const [rentals, setRentals] = useState([]);
   const handleError = useErrorHandler()
-  const getUpdatedAccounts = () => {
-    return getAccounts().then((res) => {
-      setAccounts(res.data);
+  const getUpdatedRentals = () => {
+    return getRentals().then((res) => {
+      setRentals(res.data);
     }).catch(error =>{
       console.log(error.response.data)
       const message = error.response.data
@@ -117,24 +109,22 @@ function BasicTable() {
     });
   };
   useEffect(() => {
-    getUpdatedAccounts();
+    getUpdatedRentals();
   }, []);
-  const fAccounts = [];
+  const rnts = [];
   const [searchInput, setSearchInput] = useState("");
 
   function search(rows) {
     if (Array.isArray(rows) && rows.length) {
-      const filteredAccount = rows.filter(
+      const filteredRent = rows.filter(
         (row) =>
-          row.props.row.id.concat(" ", row.props.row.login).toLowerCase().indexOf(searchInput.toLowerCase()) > -1
+          row.props.row.id.toLowerCase().indexOf(searchInput.toLowerCase()) > -1
       );
 
-      filteredAccount.forEach((account) =>
-        fAccounts.includes(account.props.row.id + " " + account.props.row.login)
-          ? ""
-          : fAccounts.push(account.props.row.id + " " + account.props.row.login)
+      filteredRent.forEach((rent) =>
+        rnts.includes(rent.props.row.id) ? "" : rnts.push(rent.props.row.id)
       );
-      return filteredAccount;
+      return filteredRent;
     } else {
       return rows;
     }
@@ -148,7 +138,7 @@ function BasicTable() {
     >
       <div>
         <Autocomplete
-          options={fAccounts}
+          options={rnts}
           inputValue={searchInput}
           noOptionsText="no options"
           onChange={(event, value) => {
@@ -157,7 +147,7 @@ function BasicTable() {
           renderInput={(params) => (
             <TextField
               {...params}
-              label="search account"
+              label="search Rents"
               variant="outlined"
               onChange={(e) => setSearchInput(e.target.value)}
             />
@@ -170,16 +160,17 @@ function BasicTable() {
             <TableRow>
               <TableCell />
               <TableCell align="center">id</TableCell>
-              <TableCell align="center">login</TableCell>
-              <TableCell align="center">email</TableCell>
+              <TableCell align="center">account ID</TableCell>
+              <TableCell align="center">pitch ID</TableCell>
+              <TableCell align="center">start Date</TableCell>
+              <TableCell align="center">end Date</TableCell>
               <TableCell align="center">active</TableCell>
-              <TableCell align="center">role</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {search(
-              accounts.map((row, index) => (
-                <Row key={index} row={row} onChange={getUpdatedAccounts} />
+              rentals.map((row, index) => (
+                <Row key={index} row={row} onChange={getUpdatedRentals} />
               ))
             )}
           </TableBody>
@@ -188,16 +179,14 @@ function BasicTable() {
     </Box>
   );
 }
-const handleAdd = () => {
-  console.log("Handle add");
-};
-function ListAccounts() {
+
+
+function ListRentals() {
   return (
     <div>
-      <BaseButton enable={false} name="Add Account" onClick={handleAdd} />
       <BasicTable />
     </div>
   );
 }
 
-export default ListAccounts;
+export default ListRentals;

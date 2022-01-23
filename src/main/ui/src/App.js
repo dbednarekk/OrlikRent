@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import FootballPitch from "./pages/footballPitch";
 import BasketballPitch from "./pages/basketballPitch";
 import AdminPage from "./pages/admin/AdminPage";
+import ModeratorPage from "./pages/moderator/ModeratorPage"
 function App() {
 
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="footballPitch/" element={<FootballPitch/>}/>
         <Route path="basketballPitch/" element={<BasketballPitch/>} />
         <Route path="admin//*" element={<AdminPage/>} />
+        <Route path="moderator//*" element={<ModeratorPage/>} />
       </Routes>
     </Router>
 

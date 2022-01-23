@@ -20,6 +20,7 @@ import BaseButton from "../components/BaseButton";
 import Autocomplete from "../components/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useErrorHandler from "../errorHandler";
+import useSnackbarQueue from "../components/Snackbar";
 function SubRentRow(subprops) {
   const { subrow } = subprops;
   return (
@@ -39,6 +40,7 @@ function SubRentRow(subprops) {
 function Row(props) {
   const { row } = props;
   const handleError = useErrorHandler()
+  const showSuccess = useSnackbarQueue('success')
   const { onChange } = props;
   const [open, setOpen] = React.useState(false);
   const [, setRent] = React.useState(false);
@@ -106,7 +108,7 @@ function Row(props) {
             onClick={() => {
               handleSetRent().then((res) => {
                 onChange().then(() => {
-                  console.log("succes!");
+                  showSuccess("successful action")
                 })
               }).catch(error =>{
                 console.log(error.response.data)

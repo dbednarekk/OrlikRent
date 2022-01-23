@@ -20,14 +20,14 @@ import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler";
 function Row(props) {
   const { row } = props;
+
   const [open, setOpen] = React.useState(false);
 
   const handleSetOpen = async () => {
     setOpen((state) => !state);
   };
-
-  const handleBlock = () => {
-    console.log("handle block");
+  const handleRemove = () => {
+    console.log("handle Remove");
   };
   const handleEdit = () => {
     console.log("handle Edit");
@@ -50,12 +50,12 @@ function Row(props) {
         <TableCell align="center" component="th" scope="row">
           {row.id}
         </TableCell>
-        <TableCell align="center">{row.login}</TableCell>
-        <TableCell align="center">{row.email}</TableCell>
+        <TableCell align="center">{row.name}</TableCell>
+        <TableCell align="center">{row.price}</TableCell>
+        <TableCell align="center">{row.sector}</TableCell>
         <TableCell align="center">
-          <ActiveIcon active={row.active} />
+          <ActiveIcon active={row.rented} />
         </TableCell>
-        <TableCell align="center">{row.role}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -65,7 +65,7 @@ function Row(props) {
                 <TableHead></TableHead>
                 <TableBody>
                   <TableContainer component={Paper} className={styles.table}>
-                    <Table aria-label="account table">
+                    <Table aria-label="pitch table">
                       <TableHead></TableHead>
                       <TableBody
                         style={{
@@ -76,8 +76,8 @@ function Row(props) {
                       >
                         <BaseButton
                           enable={false}
-                          name={row.active ? "deactive" : "active"}
-                          onClick={handleBlock}
+                          name="Remove"
+                          onClick={handleRemove}
                         />
                         <BaseButton
                           enable={false}
@@ -101,15 +101,15 @@ function Row(props) {
     </React.Fragment>
   );
 }
-function getAccounts() {
-  return axios.get(`Account/`);
+function getPitches() {
+  return axios.get(`Pitches/`);
 }
 function BasicTable() {
-  const [accounts, setAccounts] = useState([]);
+  const [pitches, setPitches] = useState([]);
   const handleError = useErrorHandler()
-  const getUpdatedAccounts = () => {
-    return getAccounts().then((res) => {
-      setAccounts(res.data);
+  const getUpdatedPiches = () => {
+    return getPitches().then((res) => {
+      setPitches(res.data);
     }).catch(error =>{
       console.log(error.response.data)
       const message = error.response.data
@@ -117,24 +117,24 @@ function BasicTable() {
     });
   };
   useEffect(() => {
-    getUpdatedAccounts();
+    getUpdatedPiches();
   }, []);
-  const fAccounts = [];
+  const pitchs = [];
   const [searchInput, setSearchInput] = useState("");
 
   function search(rows) {
     if (Array.isArray(rows) && rows.length) {
-      const filteredAccount = rows.filter(
+      const filteredpitch = rows.filter(
         (row) =>
-          row.props.row.id.concat(" ", row.props.row.login).toLowerCase().indexOf(searchInput.toLowerCase()) > -1
+          row.props.row.id.toLowerCase().indexOf(searchInput.toLowerCase()) > -1
       );
 
-      filteredAccount.forEach((account) =>
-        fAccounts.includes(account.props.row.id + " " + account.props.row.login)
+      filteredpitch.forEach((pitch) =>
+        pitchs.includes(pitch.props.row.id)
           ? ""
-          : fAccounts.push(account.props.row.id + " " + account.props.row.login)
+          : pitchs.push(pitch.props.row.id)
       );
-      return filteredAccount;
+      return filteredpitch;
     } else {
       return rows;
     }
@@ -148,7 +148,7 @@ function BasicTable() {
     >
       <div>
         <Autocomplete
-          options={fAccounts}
+          options={pitchs}
           inputValue={searchInput}
           noOptionsText="no options"
           onChange={(event, value) => {
@@ -157,7 +157,7 @@ function BasicTable() {
           renderInput={(params) => (
             <TextField
               {...params}
-              label="search account"
+              label="search pitch"
               variant="outlined"
               onChange={(e) => setSearchInput(e.target.value)}
             />
@@ -170,16 +170,16 @@ function BasicTable() {
             <TableRow>
               <TableCell />
               <TableCell align="center">id</TableCell>
-              <TableCell align="center">login</TableCell>
-              <TableCell align="center">email</TableCell>
-              <TableCell align="center">active</TableCell>
-              <TableCell align="center">role</TableCell>
+              <TableCell align="center">name</TableCell>
+              <TableCell align="center">price</TableCell>
+              <TableCell align="center">sector</TableCell>
+              <TableCell align="center">rented</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {search(
-              accounts.map((row, index) => (
-                <Row key={index} row={row} onChange={getUpdatedAccounts} />
+              pitches.map((row, index) => (
+                <Row key={index} row={row} onChange={getUpdatedPiches} />
               ))
             )}
           </TableBody>
@@ -191,13 +191,14 @@ function BasicTable() {
 const handleAdd = () => {
   console.log("Handle add");
 };
-function ListAccounts() {
+
+function ListPitches() {
   return (
     <div>
-      <BaseButton enable={false} name="Add Account" onClick={handleAdd} />
+      <BaseButton enable={false} name="Add Pitch" onClick={handleAdd} />
       <BasicTable />
     </div>
   );
 }
 
-export default ListAccounts;
+export default ListPitches;
