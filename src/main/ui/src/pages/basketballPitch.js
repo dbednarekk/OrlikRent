@@ -253,9 +253,6 @@ function basketballPitch() {
         }}
       >
         <h1 className={styles.title}>Basketball Pitch page</h1>
-        <Link to="/addBPitch/">
-          <h1 className={styles.title}>+ Dodaj boisko</h1>
-        </Link>
         <BasicTable />
       </Box>
       <Footer />

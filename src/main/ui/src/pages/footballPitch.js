@@ -256,9 +256,6 @@ function footballPitch() {
         }}
       >
         <h1 className={styles.title}>Footbal Pitch page</h1>
-        <Link to="/addFPitch/">
-          <h1 className={styles.title}>+ Dodaj boisko</h1>
-        </Link>
         <BasicTable />
       </Box>
       <Footer />

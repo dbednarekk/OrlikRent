@@ -1,18 +1,19 @@
  import { TextField } from '@mui/material';
 import { useState } from "react";
-import {Link} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import styles from '../styles/AddPitch.module.css'
 import { Button } from 'react-bootstrap';
-import React, { Component } from "react";
+import React from "react";
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Select from 'react-select';
-import {makeStyles} from '@mui/styles';
-import { green } from '@mui/material/colors';
+
 import axios from "../Services/URL";
 
 function AddBPitch() {
    
+    const navigate = useNavigate();
+
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
@@ -53,9 +54,8 @@ function AddBPitch() {
 
     return (
         <div style={{ margin: '50px' }}> 
-        <Link to="/basketballPitch/">
-        <p>Cofnij</p>
-        </Link>
+        <button onClick={() => navigate(-1)}>Back</button>
+
 
         <div className={ styles.body }>
             <h1>Dodaj boisko koszykarskie</h1>
