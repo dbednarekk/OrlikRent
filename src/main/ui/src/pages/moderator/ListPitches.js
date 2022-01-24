@@ -18,6 +18,8 @@ import BaseButton from "../../components/BaseButton";
 import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler";
+import {Link} from "react-router-dom";
+
 function Row(props) {
   const { row } = props;
 
@@ -195,7 +197,12 @@ const handleAdd = () => {
 function ListPitches() {
   return (
     <div>
-      <BaseButton enable={false} name="Add Pitch" onClick={handleAdd} />
+       <Link to="/addFPitch/">
+        <BaseButton enable={false} name="Add Football Pitch" />
+      </Link>
+      <Link to="/addBPitch/">
+        <BaseButton enable={false} name="Add Basketball Pitch"  />
+      </Link>
       <BasicTable />
     </div>
   );
