@@ -91,10 +91,11 @@ public class Pitch_Repository implements IPitchRepository{
     public void add(Pitch pitch) throws Pitch__Exception {
         synchronized (this.pitches) {
             for (Pitch p : pitches) {
-                if (pitches.contains(p)) {
+                if (p.getName().equals(pitch.getName())) {
                     throw new Pitch__Exception("Pitch already exists");
                 }
             }
+            pitch.setId(UUID.randomUUID().toString());
             pitches.add(pitch);
         }
     }
