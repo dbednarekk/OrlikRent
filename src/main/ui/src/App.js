@@ -6,6 +6,9 @@ import FootballPitch from "./pages/footballPitch";
 import BasketballPitch from "./pages/basketballPitch";
 import AdminPage from "./pages/admin/AdminPage";
 import ModeratorPage from "./pages/moderator/ModeratorPage"
+import AddFPitch from "./pages/addFPitch";
+import AddBPitch from "./pages/addBPitch";
+
 function App() {
 
   return (
@@ -14,6 +17,8 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="footballPitch/" element={<FootballPitch/>}/>
         <Route path="basketballPitch/" element={<BasketballPitch/>} />
+        <Route path="addFPitch/" element={<AddFPitch/>}/>
+        <Route path="addBPitch/" element={<AddBPitch/>} />
         <Route path="admin//*" element={<AdminPage/>} />
         <Route path="moderator//*" element={<ModeratorPage/>} />
       </Routes>

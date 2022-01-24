@@ -21,6 +21,8 @@ import Autocomplete from "../components/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useErrorHandler from "../errorHandler";
 import useSnackbarQueue from "../components/Snackbar";
+import {Link} from "react-router-dom";
+
 function SubRentRow(subprops) {
   const { subrow } = subprops;
   return (
@@ -251,6 +253,9 @@ function basketballPitch() {
         }}
       >
         <h1 className={styles.title}>Basketball Pitch page</h1>
+        <Link to="/addBPitch/">
+          <h1 className={styles.title}>+ Dodaj boisko</h1>
+        </Link>
         <BasicTable />
       </Box>
       <Footer />
