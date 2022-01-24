@@ -62,12 +62,23 @@ public class Account_Repository implements IAccount_Repo {
             throw new Account__Exception("Cannot find account with given login");
         }
     }
+    public List<Account> getByLoginList(String login) throws Account__Exception {
+        List<Account> res = new ArrayList<>();
+        synchronized (this.accounts) {
+            for (Account ac : accounts) {
+                if (ac.getLogin().contains(login)) {
+                   res.add(ac);
+                }
+            }
+           return res;
+        }
+    }
 
     public void add(Account acc) throws Account__Exception {
         synchronized (this.accounts) {
             acc.setId(UUID.randomUUID().toString());
             for (Account ac : accounts) {
-                if (ac.getLogin().equals(acc.getLogin())) {
+                if (ac.getLogin().equals(acc.getLogin() )) {
                     throw new Account__Exception("User with given login already exits, please choose another login");
                 }
             }
@@ -76,17 +87,12 @@ public class Account_Repository implements IAccount_Repo {
     }
 
     public void remove(Account acc) throws Account__Exception {
-        synchronized (this.accounts) {
-            try {
-                accounts.remove(acc);
-            } catch (Exception e) {
-                throw new Account__Exception("Cannot remove given account", e);
-            }
-        }
+
     }
 
     public void update(String oldAccount, Account newAccount) {
         synchronized (this.accounts) {
+            //todo check if id is given trough frontend, if not, set here id for newAccount, same for active
             for (int i = 0; i < accounts.size(); i++) {
                 if (oldAccount.equals(accounts.get(i).getId())) {
                     this.accounts.set(i, newAccount);

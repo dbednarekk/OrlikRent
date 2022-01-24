@@ -19,6 +19,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class PitchRentalManager implements IPitchRentalManager {
         return RentMapper.rentalToDTO(this.pitch_rental_repo.getByID(id));
     }
 
-    // todo chyba musi być bo interfejs (chyba nie ma problemu ze będzie puste
+
     @Override
     public void add(PitchRentalDTO o) throws Base_Exception {
     }
@@ -59,7 +60,7 @@ public class PitchRentalManager implements IPitchRentalManager {
         this.pitch_rental_repo.remove(RentMapper.rentalFromDTO(o,account_repo.getByID(o.getAccountID()),pitchRepository.getByID(o.getPitchID())));
     }
 
-    //todo też walidacja, że update np jeżeli dostępny jest kolejny termin COOO w sensie jak??
+
     @Override
     public void update(String id, PitchRentalDTO o) throws Base_Exception {
 
@@ -67,14 +68,19 @@ public class PitchRentalManager implements IPitchRentalManager {
     }
     @Override
     public void createRent(PitchRentDTO rent) throws Base_Exception {
+        if(pitchRepository.getByID(rent.getPitchID()).getRented()){
+            throw new Rental__Exception("Can not reserve this pitch while it has reservations at the same time");
+        }
         for (PitchRental r : pitch_rental_repo.getAll()) {
-            if (r.getPitch().getId().equals(rent.getPitchID()) &&
-                    ( r.getStart_date_rental().equals(rent.getStart_date_rental()) ||
-                            (r.getEnd_date_rental().isAfter(rent.getStart_date_rental()) && r.getStart_date_rental().isBefore(rent.getStart_date_rental())) ||
-                            (r.getStart_date_rental().isBefore(rent.getEnd_date_rental()) && r.getEnd_date_rental().isAfter(rent.getEnd_date_rental())))
-                            ) {
+            if (r.getPitch().getId().equals(rent.getPitchID()) && r.getActive()){
                 throw new Rental__Exception("Can not reserve this pitch while it has reservations at the same time");
             }
+        }
+        if(rent.getEnd_date_rental().isBefore(rent.getStart_date_rental()) ||
+                rent.getStart_date_rental().isBefore(LocalDateTime.now().minusMinutes(1)) ||
+                rent.getStart_date_rental().isAfter(rent.getEnd_date_rental()))
+        {
+            throw new Rental__Exception("Reservation dates are not valid");
         }
         pitchRepository.setRented(rent.getPitchID(),true);
         this.pitch_rental_repo.add(RentMapper.newRentalFromDTO(rent,account_repo.getByID(rent.getAccountID()),pitchRepository.getByID(rent.getPitchID())));
@@ -86,9 +92,10 @@ public class PitchRentalManager implements IPitchRentalManager {
     public void endReservation(String id) throws Base_Exception {
         PitchRental rent = this.pitch_rental_repo.getByID(id);
         if (rent == null) {
-            throw new Rental__Exception("reservation does not exists"); //todo change Base_Exception to RentManager_Exception A nie renatal__Exeption??
+            throw new Rental__Exception("reservation does not exists");
         }
-        rent.setActive(false);
+        pitch_rental_repo.endReservation(id);
+        pitchRepository.setRented(rent.getPitch().getId(),false);
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.pas.orlikrent.dto.pitch.FootballPitchDTO;
 import com.pas.orlikrent.dto.pitch.PitchDTO;
 import com.pas.orlikrent.exceptions.Base_Exception;
 import com.pas.orlikrent.managers.IPitchManager;
-import com.pas.orlikrent.model.FootballPitch;
 import com.pas.orlikrent.security.ETagFilterBinding;
 import com.pas.orlikrent.security.EntityIdentitySignerVerifier;
 
@@ -55,27 +54,21 @@ public class PitchEndpoint {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/addFootballPitch")
-    public Response createFootballPitch(@NotNull FootballPitchDTO pitch) {
-        try {
-            this.pitchManager.addFootballPitch(pitch);
-            return Response.status(201).build();
-        } catch (Base_Exception e) {
-            e.printStackTrace();
-            return Response.status(409).build();
-        }
+    public Response createFootballPitch(@NotNull FootballPitchDTO pitch) throws Base_Exception {
+
+        this.pitchManager.addFootballPitch(pitch);
+        return Response.status(201).build();
+
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/addBasketballPitch")
-    public Response createBasketballPitch(@NotNull BasketballPitchDTO pitch) {
-        try {
-            this.pitchManager.addBasketballPitch(pitch);
-            return Response.status(201).build();
-        } catch (Base_Exception e) {
-            e.printStackTrace();
-            return Response.status(409).build();
-        }
+    public Response createBasketballPitch(@NotNull BasketballPitchDTO pitch) throws Base_Exception {
+
+        this.pitchManager.addBasketballPitch(pitch);
+        return Response.status(201).build();
+
     }
 
     @PUT
@@ -84,7 +77,7 @@ public class PitchEndpoint {
     @ETagFilterBinding
     public Response updateFootballPitch(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, FootballPitchDTO pitch) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(pitch, etagValue)) {
-            return Response.status(406).build();
+            return Response.status(412).build();
         }
         try {
             if (!(pitchManager.isPitchFootball(id)))
@@ -101,13 +94,14 @@ public class PitchEndpoint {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/BasketballPitch/{id}")
     @ETagFilterBinding
     public Response updateBasketballPitch(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, BasketballPitchDTO pitch) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(pitch, etagValue)) {
-            return Response.status(406).build();
+            return Response.status(412).build();
         }
         try {
             if (!(pitchManager.isPitchBasketball(id)))
@@ -127,13 +121,10 @@ public class PitchEndpoint {
 
     @DELETE
     @Path("/deletePitch/{id}")
-    public Response deletePitch(@PathParam("id") @NotNull String id) {
-        try {
-            this.pitchManager.remove(id);
-            return Response.status(201).build();
-        } catch (Base_Exception e) {
-            e.printStackTrace();
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+    public Response deletePitch(@PathParam("id") @NotNull String id) throws Base_Exception {
+
+        this.pitchManager.remove(id);
+        return Response.status(200).build();
+
     }
 }

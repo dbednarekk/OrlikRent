@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IRentalRepository extends IRepository<PitchRental,String> {
      List<PitchRental> getRentalsForPitch(String id);
+     void endReservation(String id);
 }

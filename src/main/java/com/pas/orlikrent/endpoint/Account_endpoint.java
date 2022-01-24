@@ -1,6 +1,7 @@
 package com.pas.orlikrent.endpoint;
 
 import com.pas.orlikrent.dto.accounts.*;
+import com.pas.orlikrent.exceptions.Account__Exception;
 import com.pas.orlikrent.exceptions.Base_Exception;
 import com.pas.orlikrent.managers.IAccount_Manager;
 import com.pas.orlikrent.managers.converters.AccountMapper;
@@ -80,53 +81,40 @@ public class Account_endpoint {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/client")
-    public Response createClient(@NotNull ClientForRegistrationDTO clientDTO) {
-        try {
+    public Response createClient(@NotNull ClientForRegistrationDTO clientDTO) throws Base_Exception {
             this.accountManager.addClient(clientDTO);
             return Response.status(201).build();
-        } catch (Base_Exception e) {
-            e.printStackTrace();
-            return Response.status(409).build();
-        }
+
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/manager")
-    public Response createManager(@NotNull ManagerForRegistrationDTO manager) {
-        try {
+    public Response createManager(@NotNull ManagerForRegistrationDTO manager) throws Base_Exception {
+
             this.accountManager.addManager(manager);
             return Response.status(201).build();
-        } catch (Base_Exception e) {
-            e.printStackTrace();
-            return Response.status(409).build();
-        }
+
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/admin")
-    public Response createAdmin(@NotNull AdminForRegistrationDTO admin) {
-        try {
+    public Response createAdmin(@NotNull AdminForRegistrationDTO admin) throws Base_Exception {
+
             this.accountManager.addAdmin(admin);
             return Response.status(201).build();
-        } catch (Base_Exception e) {
-            e.printStackTrace();
-            return Response.status(409).build();
-        }
+
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/AccountActivation/{login}")
-    public Response de_activeAccount(@NotNull @PathParam("login") String login) {
-        try {
+    public Response de_activeAccount(@NotNull @PathParam("login") String login) throws Base_Exception {
+
             accountManager.active_deactivate_account(login);
             return Response.status(201).build();
-        } catch (Base_Exception e) {
-            e.printStackTrace();
-            return Response.status(409).build();
-        }
+
     }
 
     @PUT
@@ -135,7 +123,7 @@ public class Account_endpoint {
     @ETagFilterBinding
     public Response updateClient(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, ClientDTO client) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(client, etagValue)) {
-            return Response.status(406).build();
+            return Response.status(412).build();
         }
         try {
             Account old_client = accountManager.getByID(id);
@@ -161,7 +149,7 @@ public class Account_endpoint {
     @ETagFilterBinding
     public Response updateManager(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, ManagerDTO manager) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(manager, etagValue)) {
-            return Response.status(406).build();
+            return Response.status(412).build();
         }
         try {
             Account old_manager = accountManager.getByID(id);
@@ -187,7 +175,7 @@ public class Account_endpoint {
     @ETagFilterBinding
     public Response updateAdmin(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, AccountDTO admin) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(admin, etagValue)) {
-            return Response.status(406).build();
+            return Response.status(412).build();
         }
         try {
             Account old_admin = accountManager.getByID(id);

@@ -10,7 +10,7 @@ import com.pas.orlikrent.model.Pitch;
 
 import java.util.List;
 
-public interface IPitchManager <T, M>{
+public interface IPitchManager{
     List<PitchDTO> getAll();
 
     PitchDTO getByID(String id) throws Base_Exception;

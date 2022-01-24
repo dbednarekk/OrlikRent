@@ -63,7 +63,7 @@ public class Pitch_Repository implements IPitchRepository{
     }
 
 
-    // ??? Chyba się nie da
+
     public List<FootballPitch> getAllFootball() {
         synchronized (this.pitches) {
             return (List<FootballPitch>) getAll().stream().filter(pitch -> pitch instanceof FootballPitch);
