@@ -55,6 +55,19 @@ public class Account_endpoint {
         return accountManager.getAllAdmins();
     }
 
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/logins/{login}")
+    public List<AccountDTO> getAccountsByLoginList(@PathParam("login") String login) throws Base_Exception {
+        return accountManager.getByLoginList(login);
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/login/{login}")
+    public Response getAccountByLogin(@PathParam("login") String login) throws Base_Exception {
+        AccountDTO account = accountManager.getByLogin(login);
+        return Response.ok().entity(account).header("Etag", EntityIdentitySignerVerifier.calculateEntitySignature(account)).build();
+    }
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/client/{id}")
