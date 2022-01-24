@@ -38,6 +38,7 @@ function Home() {
             description="Choose from various basketball pitches!"
           ></PitchCard>
         </Link>
+       
       </Box>
       <Footer></Footer>
         </div>

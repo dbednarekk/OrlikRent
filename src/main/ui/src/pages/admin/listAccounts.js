@@ -18,6 +18,8 @@ import BaseButton from "../../components/BaseButton";
 import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler";
+import {Link} from "react-router-dom";
+
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
@@ -193,8 +195,10 @@ const handleAdd = () => {
 };
 function ListAccounts() {
   return (
-    <div>
-      <BaseButton enable={false} name="Add Account" onClick={handleAdd} />
+    <div>     
+      <Link to="/addAccount/">
+        <BaseButton enable={false} name="Add Account"/>
+      </Link>
       <BasicTable />
     </div>
   );
