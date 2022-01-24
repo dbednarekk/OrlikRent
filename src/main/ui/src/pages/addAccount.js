@@ -1,16 +1,16 @@
  import { TextField } from '@mui/material';
 import { useState } from "react";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import styles from '../styles/AddPitch.module.css'
 import { Button } from 'react-bootstrap';
-import React, { Component } from "react";
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import React from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
 
 function AddAccount() {
    
+    const navigate = useNavigate();
+
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -82,9 +82,7 @@ function AddAccount() {
     return (
        
         <div style={{ margin: '50px' }}> 
-        <Link to="/admin/listAccounts/">
-        <p>Cofnij</p>
-        </Link>
+        <button onClick={() => navigate(-1)}>Back</button>
         <div className={ styles.body }>
             <h1>Dodaj konto</h1>
             <h3>Login:</h3>
@@ -143,7 +141,7 @@ function AddAccount() {
                     setRole(event.target.value)
                 }}>
             </TextField>
-            <If condition={role == "ADMINISTRATOR"}><Then>
+            <If condition={role === "ADMINISTRATOR"}><Then>
                 <Button
                     variant="success"
                     style={{
@@ -155,7 +153,7 @@ function AddAccount() {
                     onClick={handleAddAdmin}
                 >{"+ Dodaj Admina"}</Button>
             </Then></If>
-            <If condition={role == "MANAGER"}><Then>
+            <If condition={role === "MANAGER"}><Then>
                 <h3>Zarobki:</h3>
                 <TextField
                     placeholder={"Zarobki"}
@@ -191,7 +189,7 @@ function AddAccount() {
                 onClick={handleAddManager}
                 >{"+ Dodaj Managera"}</Button>
             </Then></If>
-            <If condition={role == "USER"}><Then>
+            <If condition={role === "USER"}><Then>
                 <h3>Imię:</h3>
                 <TextField
                     label={"Imię *"}
