@@ -42,14 +42,14 @@ public class PitchRentEndpoint {
         this.iPitchRentalManager.createRent(rent);
         return Response.status(201).build();
     }
-//todo przeniesc logike do managera, zostaiwc pierwszego ifa ---  a tak nie było by okey??
+
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/updateRent/{id}")
     @ETagFilterBinding
     public Response updateRent(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, PitchRentalDTO rent) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(rent, etagValue)) {
-            return Response.status(406).build();
+            return Response.status(412).build();
         }
         try {
             this.iPitchRentalManager.update(id, rent);
@@ -66,14 +66,14 @@ public class PitchRentEndpoint {
     public Response deleteRent(@PathParam("id") String id) throws Base_Exception {
         PitchRentalDTO rent = this.iPitchRentalManager.getByID(id);
         this.iPitchRentalManager.remove(rent);
-        return Response.status(201).build();
+        return Response.status(200).build();
     }
 
     @PATCH
     @Path("endRental/{id}")
     public Response endRental(@PathParam("id") String id) throws Base_Exception {
         this.iPitchRentalManager.endReservation(id);
-        return Response.status(201).build();
+        return Response.status(200).build();
     }
     @GET
     @Produces(MediaType.APPLICATION_JSON)

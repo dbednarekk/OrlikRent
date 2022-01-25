@@ -56,6 +56,20 @@ public class Account_Manager implements IAccount_Manager {
     }
 
     @Override
+    public AccountDTO getByLogin(String login) throws Base_Exception {
+        return AccountMapper.toAccountDTO(this.accountRepository.getByLogin(login));
+    }
+
+    @Override
+    public List<AccountDTO> getByLoginList(String login) throws Base_Exception {
+        List<AccountDTO> res = new ArrayList<>();
+        for (Account ac: this.accountRepository.getByLoginList(login)) {
+            res.add(AccountMapper.toAccountDTO(ac));
+        }
+        return res;
+    }
+
+    @Override
     public void addClient(ClientForRegistrationDTO o) throws Base_Exception {
         Client client = AccountMapper.toClientFromDTO(o);
         for (Account a : accountRepository.getAll()) {
@@ -106,11 +120,10 @@ public class Account_Manager implements IAccount_Manager {
 
     @Override
     public void remove(String id) throws Base_Exception {
-        this.accountRepository.remove(accountRepository.getByID(id));
-        //todo implement validation  JAKIE?? CZy istnieje czy jak?
+
     }
 
-    public void active_deactivate_account(String login) throws Account__Exception {
+    public void active_deactivate_account(String login) throws Base_Exception {
         if (accountRepository.getByLogin(login).getActive()) {
             this.accountRepository.deactivate_account(login);
         } else {

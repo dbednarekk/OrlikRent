@@ -63,8 +63,8 @@ function Row(props) {
     const json = JSON.stringify({
       accountID: "71176e64-e76b-405f-84dc-c8a2f299a7b8",
       pitchID: row.id,
-      start_date_rental: "2022-01-18T17:47:20.361",
-      end_date_rental: "2022-01-20T17:47:20.361",
+      start_date_rental: "2022-01-25T17:47:20.361",
+      end_date_rental: "2022-02-10T17:47:20.361",
       active: true,
     });
     return axios.post("/Rentals/addRent/", json, {

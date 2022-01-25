@@ -118,11 +118,11 @@ function BasicTable() {
     if (Array.isArray(rows) && rows.length) {
       const filteredRent = rows.filter(
         (row) =>
-          row.props.row.id.toLowerCase().indexOf(searchInput.toLowerCase()) > -1
+          row.props.row.id.concat(" ",row.props.row.accountID).concat(" ", row.props.row.pitchID).toLowerCase().indexOf(searchInput.toLowerCase()) > -1
       );
 
       filteredRent.forEach((rent) =>
-        rnts.includes(rent.props.row.id) ? "" : rnts.push(rent.props.row.id)
+        rnts.includes(rent.props.row.id + " " + rent.props.row.accountID + " " + rent.props.row.pitchID) ? "" : rnts.push(rent.props.row.id)
       );
       return filteredRent;
     } else {

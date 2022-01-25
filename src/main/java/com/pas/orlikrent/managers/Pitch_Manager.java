@@ -1,6 +1,7 @@
 package com.pas.orlikrent.managers;
 
 import com.pas.orlikrent.dao.IPitchRepository;
+import com.pas.orlikrent.dao.IRentalRepository;
 import com.pas.orlikrent.dao.IRepository;
 import com.pas.orlikrent.dto.pitch.BasketballPitchDTO;
 import com.pas.orlikrent.dto.pitch.FootballPitchDTO;
@@ -29,7 +30,7 @@ public class Pitch_Manager implements IPitchManager {
     @Inject
     private IPitchRepository pitches_repo;
     @Inject
-    IRepository<PitchRental, String> rentals;
+    IRentalRepository rentals;
 
     @Override
     public List<PitchDTO> getAll() {
@@ -77,7 +78,7 @@ public class Pitch_Manager implements IPitchManager {
     @Override
     public void remove(String id) throws Base_Exception {
         for (PitchRental r : rentals.getAll()) {
-            if (r.getPitch().getId().equals(id)) {
+            if (r.getPitch().getId().equals(id) && r.getActive()) {
                 throw new Pitch_Manager_Exception("Cannot remove pitch while it has reservations");
             }
         }
@@ -87,11 +88,21 @@ public class Pitch_Manager implements IPitchManager {
 
     @Override
     public void updateFootballPitch(String id, FootballPitchDTO o) throws Base_Exception {
+        for (PitchRental r : rentals.getAll()) {
+            if (r.getPitch().getId().equals(id) && r.getActive()) {
+                throw new Pitch_Manager_Exception("Cannot update pitch while it has reservations");
+            }
+        }
         pitches_repo.update(id, PitchMapper.footballPitchFromDTO(o));
     }
 
     @Override
     public void updateBasketballPitch(String id, BasketballPitchDTO o) throws Base_Exception {
+        for (PitchRental r : rentals.getAll()) {
+            if (r.getPitch().getId().equals(id) && r.getActive()) {
+                throw new Pitch_Manager_Exception("Cannot update pitch while it has reservations");
+            }
+        }
         pitches_repo.update(id, PitchMapper.basketballPitchFromDTO(o));
     }
 

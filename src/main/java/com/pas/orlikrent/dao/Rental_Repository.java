@@ -2,6 +2,7 @@ package com.pas.orlikrent.dao;
 
 import com.pas.orlikrent.exceptions.Rental__Exception;
 import com.pas.orlikrent.model.PitchRental;
+import com.pas.orlikrent.model.Users.Account;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -44,7 +45,7 @@ public class Rental_Repository implements IRentalRepository {
     public void add(PitchRental rent) throws Rental__Exception {
         synchronized (this.rentals) {
             for (PitchRental r : rentals) {
-                if (r.getPitch().getId().equals(rent.getPitch().getId())) {
+                if ((r.getPitch().getId().equals(rent.getPitch().getId())) && (r.getActive())) {
                     throw new Rental__Exception("There is rental already exists");
                 }
             }
@@ -57,16 +58,16 @@ public class Rental_Repository implements IRentalRepository {
 
     public void remove(PitchRental rent) throws Rental__Exception {
         synchronized (this.rentals) {
-            try {
-                rentals.remove(rent);
-            } catch (Exception e) {
-                throw new Rental__Exception("Cannot remove given rental ");
+            if(rent.getActive()){
+                throw new Rental__Exception("Cannot remove given rental while it has reservation");
             }
+            rentals.remove(rent);
         }
     }
 
     public void update(String oldRent, PitchRental newRent) {
         synchronized (this.rentals) {
+
             for (int i = 0; i < rentals.size(); i++) {
                 if (oldRent.equals(rentals.get(i).getId())) {
                     this.rentals.set(i, newRent);
@@ -84,6 +85,15 @@ public class Rental_Repository implements IRentalRepository {
                 }
             }
             return res;
+        }
+    }
+    public void endReservation(String id){
+        synchronized (this.rentals) {
+            for (PitchRental r : rentals) {
+                if (r.getId().equals(id)) {
+                    r.setActive(false);
+                }
+            }
         }
     }
 }
