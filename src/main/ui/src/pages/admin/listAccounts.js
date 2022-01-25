@@ -18,19 +18,16 @@ import BaseButton from "../../components/BaseButton";
 import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useSnackbarQueue} from "../../components/Snackbar"
 import { Button } from 'react-bootstrap';
 
  
 function Row(props) {
 
-  const navigate = useNavigate();
-
   const { row } = props;
   const { onChange } = props;
   const [open, setOpen] = React.useState(false);
-  const [accountId, setAccountId] = useState('');
 
   const handleError = useErrorHandler()
   const showSuccess = useSnackbarQueue('success')
@@ -39,25 +36,7 @@ function Row(props) {
   const handleSetOpen = async () => {
     setOpen((state) => !state);
   };
-
-  const handleBlock = (login) => {
-    // const json = JSON.stringify({
-    //   login: login
-    // })
-    console.log(login)
-    axios.post(`/Account/AccountActivation/${login}`, {
-      headers:{
-
-      }
-    })
-  };
  
-  const handleViewDetails2 = (login) => {
-    console.log("handle view details" + login);
-  };
-  const handleViewDetails3 = () => {
-    console.log("handle view details2");
-  };
   const handleViewDetails = () => {
     console.log("handle view details1");
   };
@@ -102,11 +81,11 @@ function Row(props) {
 
                           alignItems: "center",
                         }}>
-                        <Button
+                        <BaseButton
                           enable={false}
                           name={row.active ? "deactive" : "active"}
-                          onClick={() =>
-                            handleBlock(row.login).then(res => {
+                          onClick={() => 
+                            axios.post(`/Account/AccountActivation/${row.login}`).then(res => {
                               onChange().then(()=>{
                                 showSuccess('succesful action')
                               })
@@ -115,8 +94,7 @@ function Row(props) {
                               handleError(message, error.response.status)
                             })
                           }
-                          onClick={handleViewDetails2(row.login)}
-                        >lolll</Button>
+                        />
                         <Link to="/editAccounts">
                         <BaseButton
                           enable={false}
