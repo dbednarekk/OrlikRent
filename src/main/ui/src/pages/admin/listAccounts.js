@@ -20,7 +20,7 @@ import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler";
 import {Link} from "react-router-dom";
 import {useSnackbarQueue} from "../../components/Snackbar"
-import { Button } from 'react-bootstrap';
+import PopupData from "../PopupData.tsx"
 
  
 function Row(props) {
@@ -28,6 +28,7 @@ function Row(props) {
   const { row } = props;
   const { onChange } = props;
   const [open, setOpen] = React.useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
 
   const handleError = useErrorHandler()
   const showSuccess = useSnackbarQueue('success')
@@ -102,11 +103,19 @@ function Row(props) {
                           onClick={()=>handleEdit(row)}
                         />
                         </Link>
-                        <Button
+                        
+                        <BaseButton
                           enable={false}
                           name="Details"
-                          onClick={handleViewDetails}
+                          onClick={() => setOpenPopup(true)}
                         />
+                        <PopupData
+                          open={openPopup}
+                          onCancel={() => {setOpenPopup(false)}}
+                          id={row.id}
+                          role={row.role}
+                        />
+                        
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -205,9 +214,7 @@ function BasicTable() {
     </Box>
   );
 }
-const handleAdd = () => {
-  console.log("Handle add");
-};
+
 function ListAccounts() {
   return (
     <div>     

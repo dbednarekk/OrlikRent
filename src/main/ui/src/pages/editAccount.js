@@ -5,8 +5,6 @@ import styles from '../styles/AddPitch.module.css'
 import { Button } from 'react-bootstrap';
 import React from "react";
 import axios from "../Services/URL";
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import { If, Then } from 'react-if';
 
 function EditAccount() {
@@ -15,15 +13,12 @@ function EditAccount() {
 
     const currentAccount = JSON.parse(sessionStorage.getItem("id"));
     const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [active, setActive] = useState(false);
     const [role, setRole] = useState('');
     const [salary, setSalary] = useState('');
     const [numberOfShifts, setNumberOfShifts] = useState('');
     const [first_name, setFirst_name] = useState('');
     const [last_name, setLast_name] = useState('');
-    const [Account, setAccount] = useState('');
 
     const handleEditAdmin = () => {
         const json = JSON.stringify({
@@ -34,8 +29,8 @@ function EditAccount() {
         axios.put(`Account/UpdateAdmin/${currentAccount.id}`, json,{
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
-                "If-Match": currentAccount.etag,
+            //     "Accept": "application/json",
+            //     // "If-Match": currentAccount.etag,
             }
         })
     }
@@ -71,7 +66,6 @@ function EditAccount() {
     }
 
     const getAccount = () => {
-        console.log(currentAccount.role)
         if(currentAccount.role === "ADMINISTRATOR"){
             return axios.get(`/Account/admin/${currentAccount.id}`, )
         }
@@ -86,9 +80,7 @@ function EditAccount() {
     useEffect( () => {
         getAccount().then(res => {
             setLogin(res.data.login)
-            setPassword(res.data.password)
             setEmail(res.data.email)
-            setActive(res.data.active)
             setRole(res.data.role)
             if(res.data.role === "MANAGER"){
                 setSalary(res.data.salary)
