@@ -18,11 +18,16 @@ import BaseButton from "../../components/BaseButton";
 import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+
 
 function Row(props) {
+
+  const navigate = useNavigate();
+
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const [accountId, setAccountId] = useState('');
 
   const handleSetOpen = async () => {
     setOpen((state) => !state);
@@ -31,12 +36,16 @@ function Row(props) {
   const handleBlock = () => {
     console.log("handle block");
   };
-  const handleEdit = () => {
-    console.log("handle Edit");
-  };
+ 
   const handleViewDetails = () => {
     console.log("handle view details");
   };
+
+  const handleEdit = ( id) => {
+    sessionStorage.setItem("id", JSON.stringify(id));
+  }
+
+
   return (
     <React.Fragment>
       <TableRow>
@@ -81,11 +90,13 @@ function Row(props) {
                           name={row.active ? "deactive" : "active"}
                           onClick={handleBlock}
                         />
+                        <Link to="/editAccounts">
                         <BaseButton
                           enable={false}
                           name="Edit"
-                          onClick={handleEdit}
+                          onClick={handleEdit(row)}
                         />
+                        </Link>
                         <BaseButton
                           enable={false}
                           name="Details"

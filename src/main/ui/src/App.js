@@ -9,6 +9,7 @@ import ModeratorPage from "./pages/moderator/ModeratorPage"
 import AddFPitch from "./pages/addFPitch";
 import AddBPitch from "./pages/addBPitch";
 import AddAccount from "./pages/addAccount";
+import EditAccount from "./pages/editAccount";
 function App() {
 
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="addAccount/" element={<AddAccount/>} />
         <Route path="admin//*" element={<AdminPage/>} />
         <Route path="moderator//*" element={<ModeratorPage/>} />
+        <Route path="editAccounts/" element={<EditAccount/>} />
       </Routes>
     </Router>
 
