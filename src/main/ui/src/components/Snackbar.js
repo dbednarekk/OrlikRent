@@ -1,6 +1,6 @@
 
 import {useSnackbar} from "notistack";
-function useSnackbarQueue(props) {
+export function useSnackbarQueue(props) {
     const {enqueueSnackbar} = useSnackbar();
 
     return (message) => {

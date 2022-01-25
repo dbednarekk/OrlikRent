@@ -25,59 +25,45 @@ function EditAccount() {
     const [last_name, setLast_name] = useState('');
     const [Account, setAccount] = useState('');
 
-
-    const handleChangeActive = (event) => {
-        setActive(
-            event.target.checked,
-            );
-        };
-
-    const handleAddAdmin = () => {
+    const handleEditAdmin = () => {
         const json = JSON.stringify({
             login,
-            password,
             email,
-            active,
-            role
         });
         console.log(json);
-        axios.post('Account/admin', json,{
+        axios.put(`Account/UpdateAdmin/${currentAccount.id}`, json,{
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "If-Match": currentAccount.etag,
             }
         })
     }
 
-    const handleAddManager = () => {
+    const handleEditManager = () => {
         const json = JSON.stringify({
             login,
-            password,
             email,
-            active,
-            role,
             salary,
             numberOfShifts
         });
         console.log(json);
-        axios.post('Account/manager', json,{
+        axios.put(`Account/UpdateManager/${currentAccount.id}`, json,{
             headers: {
                 'Content-Type': 'application/json'
             }
         })
     }
 
-    const handleAddUser = () => {
+    const handleEditUser = () => {
         const json = JSON.stringify({
             login,
-            password,
             email,
-            active,
-            role,
             first_name,
             last_name
         });
         console.log(json);
-        axios.post('Account/client', json,{
+        axios.put(`Account/UpdateClient/${currentAccount.id}`, json,{
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -89,6 +75,12 @@ function EditAccount() {
         if(currentAccount.role === "ADMINISTRATOR"){
             return axios.get(`/Account/admin/${currentAccount.id}`, )
         }
+        if(currentAccount.role === "MANAGER"){
+            return axios.get(`/Account/manager/${currentAccount.id}`, )
+        }
+        if(currentAccount.role === "USER"){
+            return axios.get(`/Account/client/${currentAccount.id}`, )
+        }
     }
 
     useEffect( () => {
@@ -98,23 +90,23 @@ function EditAccount() {
             setEmail(res.data.email)
             setActive(res.data.active)
             setRole(res.data.role)
-        //     if(res.data.role === "MANAGER"){
-        //         setSalary(res.data.salary)
-        //         setNumberOfShifts(res.data.numberOfShifts)
-        //     }
-        //     if(res.data.role === "USER"){
-        //         setFirst_name(res.data.first_name)
-        //         setLast_name(res.data.last_name)
-        //     }
+            if(res.data.role === "MANAGER"){
+                setSalary(res.data.salary)
+                setNumberOfShifts(res.data.numberOfShifts)
+            }
+            if(res.data.role === "USER"){
+                setFirst_name(res.data.first_name)
+                setLast_name(res.data.last_name)
+            }
         })
-    })
+    }, [])
 
     return (
        
         <div style={{ margin: '50px' }}> 
         <button onClick={() => navigate(-1)}>Back</button>
         <div className={ styles.body }>
-            <h1>Edit account</h1>
+            <h1>Edit {currentAccount.role} account </h1>
             <h3>Login:</h3>
             <TextField
                 label={"Login *"}
@@ -125,19 +117,6 @@ function EditAccount() {
                 onChange={event => {
                     setLogin(event.target.value)
                 }}>
-            </TextField>
-            <h3>Password:</h3>
-            <TextField
-                label={"Password *"}
-                placeholder={password}
-                value={password}
-                style={{
-                    marginTop: '16px'}}
-                type="password"
-                onChange={event => {
-                    setPassword(event.target.value)
-                }}
-                min="0">
             </TextField>
             <h3>Email:</h3>
             <TextField
@@ -150,16 +129,6 @@ function EditAccount() {
                     setEmail(event.target.value)
                 }}>
             </TextField>
-            <h3>Active:</h3>
-            <FormControlLabel
-                control={
-                    <Switch checked={active} onChange={handleChangeActive} name="Active" />
-                }
-                label="Active:"
-                labelPlacement="start"
-                style={{
-                    marginTop: '16px'}}
-            />
             <If condition={role === "ADMINISTRATOR"}><Then>
                 <Button
                     variant="success"
@@ -169,7 +138,7 @@ function EditAccount() {
                         padding: '10px 0',
                         marginTop: '16px',
                     }}
-                    onClick={handleAddAdmin}
+                    onClick={handleEditAdmin}
                 >{"Edit Admin"}</Button>
             </Then></If>
             <If condition={role === "MANAGER"}><Then>
@@ -205,7 +174,7 @@ function EditAccount() {
                     padding: '10px 0',
                     marginTop: '16px',
                 }}
-                onClick={handleAddManager}
+                onClick={handleEditManager}
                 >{"Edit Manager"}</Button>
             </Then></If>
             <If condition={role === "USER"}><Then>
@@ -239,7 +208,7 @@ function EditAccount() {
                         padding: '10px 0',
                         marginTop: '16px',
                     }}
-                    onClick={handleAddUser}
+                    onClick={handleEditUser}
                 >{"Edit Client"}</Button>
             </Then></If>
             </div>

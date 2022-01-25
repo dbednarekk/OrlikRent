@@ -19,26 +19,47 @@ import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler";
 import {Link, useNavigate} from "react-router-dom";
+import {useSnackbarQueue} from "../../components/Snackbar"
+import { Button } from 'react-bootstrap';
 
-
+ 
 function Row(props) {
 
   const navigate = useNavigate();
 
   const { row } = props;
+  const { onChange } = props;
   const [open, setOpen] = React.useState(false);
   const [accountId, setAccountId] = useState('');
+
+  const handleError = useErrorHandler()
+  const showSuccess = useSnackbarQueue('success')
+
 
   const handleSetOpen = async () => {
     setOpen((state) => !state);
   };
 
-  const handleBlock = () => {
-    console.log("handle block");
+  const handleBlock = (login) => {
+    // const json = JSON.stringify({
+    //   login: login
+    // })
+    console.log(login)
+    axios.post(`/Account/AccountActivation/${login}`, {
+      headers:{
+
+      }
+    })
   };
  
+  const handleViewDetails2 = (login) => {
+    console.log("handle view details" + login);
+  };
+  const handleViewDetails3 = () => {
+    console.log("handle view details2");
+  };
   const handleViewDetails = () => {
-    console.log("handle view details");
+    console.log("handle view details1");
   };
 
   const handleEdit = ( id) => {
@@ -75,36 +96,41 @@ function Row(props) {
               <Table size="small" aria-label="clients">
                 <TableHead></TableHead>
                 <TableBody>
-                  <TableContainer component={Paper} className={styles.table}>
-                    <Table aria-label="account table">
-                      <TableHead></TableHead>
-                      <TableBody
-                        style={{
+                  <TableRow>
+                  <TableCell  style={{
                           display: "flex",
 
                           alignItems: "center",
-                        }}
-                      >
-                        <BaseButton
+                        }}>
+                        <Button
                           enable={false}
                           name={row.active ? "deactive" : "active"}
-                          onClick={handleBlock}
-                        />
+                          onClick={() =>
+                            handleBlock(row.login).then(res => {
+                              onChange().then(()=>{
+                                showSuccess('succesful action')
+                              })
+                            }).catch(error => {
+                              const message = error.response.data
+                              handleError(message, error.response.status)
+                            })
+                          }
+                          onClick={handleViewDetails2(row.login)}
+                        >lolll</Button>
                         <Link to="/editAccounts">
                         <BaseButton
                           enable={false}
                           name="Edit"
-                          onClick={handleEdit(row)}
+                          onClick={()=>handleEdit(row)}
                         />
                         </Link>
-                        <BaseButton
+                        <Button
                           enable={false}
                           name="Details"
                           onClick={handleViewDetails}
                         />
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
+                    </TableCell>
+                  </TableRow>
                 </TableBody>
               </Table>
             </Box>
