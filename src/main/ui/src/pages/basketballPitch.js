@@ -47,6 +47,8 @@ function Row(props) {
   const [, setRent] = React.useState(false);
   const handleError = useErrorHandler()
   const showSuccess = useSnackbarQueue('success')
+  const [openPopup, setOpenPopup] = useState(false);
+
   const [rentForPitch, setRentForPitch] = React.useState([]);
   const token = sessionStorage.getItem("JWTToken")
   const handleSetOpen = async () => {
