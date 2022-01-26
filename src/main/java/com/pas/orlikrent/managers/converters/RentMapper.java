@@ -3,6 +3,7 @@ package com.pas.orlikrent.managers.converters;
 
 import com.pas.orlikrent.dto.pitch.FootballPitchDTO;
 import com.pas.orlikrent.dto.pitch.PitchRentDTO;
+import com.pas.orlikrent.dto.pitch.PitchRentDTO2;
 import com.pas.orlikrent.dto.pitch.PitchRentalDTO;
 
 import com.pas.orlikrent.model.FootballPitch;
@@ -10,6 +11,9 @@ import com.pas.orlikrent.model.Pitch;
 import com.pas.orlikrent.model.PitchRental;
 import com.pas.orlikrent.model.Users.Account;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,4 +42,8 @@ public class RentMapper {
         return res;
     }
 
+    public static PitchRentDTO rentalDTO2ToDTO(PitchRentDTO2 prD){
+        return new PitchRentDTO(prD.getAccountID(), prD.getPitchID(), LocalDateTime.ofInstant(Instant.parse(prD.getStart_date_rental()), ZoneId.systemDefault()),
+                LocalDateTime.ofInstant(Instant.parse(prD.getEnd_date_rental()), ZoneId.systemDefault()), prD.getActive());
+    }
 }

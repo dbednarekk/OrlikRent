@@ -1,9 +1,11 @@
 package com.pas.orlikrent.endpoint;
 
 import com.pas.orlikrent.dto.pitch.PitchRentDTO;
+import com.pas.orlikrent.dto.pitch.PitchRentDTO2;
 import com.pas.orlikrent.dto.pitch.PitchRentalDTO;
 import com.pas.orlikrent.exceptions.Base_Exception;
 import com.pas.orlikrent.managers.IPitchRentalManager;
+import com.pas.orlikrent.managers.converters.RentMapper;
 import com.pas.orlikrent.security.ETagFilterBinding;
 import com.pas.orlikrent.security.EntityIdentitySignerVerifier;
 
@@ -38,7 +40,8 @@ public class PitchRentEndpoint {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/addRent")
-    public Response createRent(PitchRentDTO rent) throws Base_Exception {
+    public Response createRent(PitchRentDTO2 rent2) throws Base_Exception {
+        PitchRentDTO rent = RentMapper.rentalDTO2ToDTO(rent2);
         this.iPitchRentalManager.createRent(rent);
         return Response.status(201).build();
     }

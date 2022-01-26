@@ -44,11 +44,11 @@ public class Rental_Repository implements IRentalRepository {
 
     public void add(PitchRental rent) throws Rental__Exception {
         synchronized (this.rentals) {
-            for (PitchRental r : rentals) {
-                if ((r.getPitch().getId().equals(rent.getPitch().getId())) && (r.getActive())) {
-                    throw new Rental__Exception("There is rental already exists");
-                }
-            }
+//            for (PitchRental r : rentals) {
+//                if ((r.getPitch().getId().equals(rent.getPitch().getId())) && (r.getActive())) {
+//                    throw new Rental__Exception("There is rental already exists");
+//                }
+//            }
             rent.setActive(true);
             rent.setId(UUID.randomUUID().toString());
             rentals.add(rent);

@@ -6,59 +6,56 @@ import { useState, useEffect } from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
 import styletb from '../styles/tableStyle.module.css'
-
-
-export interface PopupData {
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import BaseButton from "../components/BaseButton";
+import useErrorHandler from "../errorHandler";
+import {useSnackbarQueue} from "../components/Snackbar"
+export interface PopupRentPitch {
     open: boolean,
     onCancel: () => void,
+    onChange: () => void,
     id: string,
-    role: string,
+    pitch: string
 }
 
-export default function PopupData({open, onCancel, id, role}){
-
-    const [login, setLogin] = useState('');
-    const [email, setEmail] = useState('');
-    const [active, setActive] = useState(false);
-    const [role1, setRole] = useState('');
-    const [salary, setSalary] = useState('');
-    const [numberOfShifts, setNumberOfShifts] = useState('');
-    const [first_name, setFirst_name] = useState('');
-    const [last_name, setLast_name] = useState('');
-
-    const handleOpen = () => {
-        if(role === "ADMINISTRATOR"){
-            return axios.get(`/Account/admin/${id}`, )
-        }
-        if(role === "MANAGER"){
-            return axios.get(`/Account/manager/${id}`, )
-        }
-        if(role === "USER"){
-            return axios.get(`/Account/client/${id}`, )
-        }
-    }
-
-    useEffect( () => {
-        handleOpen().then(res => {
-            setLogin(res.data.login)
-            setEmail(res.data.email)
-            setRole(res.data.role)
-            setActive(res.data.active)
-            if(res.data.role === "MANAGER"){
-                setSalary(res.data.salary)
-                setNumberOfShifts(res.data.numberOfShifts)
-            }
-            if(res.data.role === "USER"){
-                setFirst_name(res.data.first_name)
-                setLast_name(res.data.last_name)
-            }
-        })
-    }, [])
+export default function PopupRentPitch({open, onCancel, onChange, id, pitch}){
+    const [pitchName, setPitchName] = useState(pitch)
+    const [start_date_rental, setStart_date_rental] = useState(new Date());
+    const [end_date_rental, setEnd_date_rental] = useState(new Date());
+    const token = sessionStorage.getItem('JWTToken') ;
+    const handleError = useErrorHandler()
+    const showSuccess = useSnackbarQueue('success')
+   
+    const handleSetRent = () => {
+        // setRent((state) => !state);
+    
+        const json = JSON.stringify({
+          accountID: "71176e64-e76b-405f-84dc-c8a2f299a7b8",  //todo dodac prawdziwe id
+          pitchID: id,
+          start_date_rental: start_date_rental.toISOString(),
+          end_date_rental: end_date_rental.toISOString(),
+          active: true,
+        });
+        console.log(json);
+         axios.post("/Rentals/addRent/", json, {
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${token}`
+          }
+        }).then((res) =>  {
+              showSuccess("successful action")
+          }).catch(error =>{
+            console.log(error.response.data)
+            const message = error.response.data
+            handleError(message, error.response.status)
+          });;
+      };
 
     return(
         <Dialog
-
-            maxWidth={false}
+            fullWidth={true}
+            maxWidth={"sm"}
             open={open}
             onClose={onCancel}
             aria-labelledby="alert-dialog-title"
@@ -66,38 +63,34 @@ export default function PopupData({open, onCancel, id, role}){
             <DialogTitle id="alert-dialog-title"></DialogTitle>
             <DialogContent>
             <Grid item style={{display: "block" }} className={styletb['change-item']}>
-                    <tr>
-                        <td className={styletb.td}><h2>{"Login"}</h2></td>
-                        <td className={styletb.td}><h2>{"Email"}</h2></td>
-                        <td className={styletb.td}><h2>{"Active"}</h2></td>
-                        <td className={styletb.td}><h2>{"Role"}</h2></td>
-                        <If condition={role === "MANAGER"}><Then>
-                        <td className={styletb.td}><h2>{"Salary"}</h2></td>
-                        <td className={styletb.td}><h2>{"Number of Shifts"}</h2></td>
-                        </Then></If>
-                        <If condition={role === "USER"}><Then>
-                        <td className={styletb.td}><h2>{"First name"}</h2></td>
-                        <td className={styletb.td}><h2>{"Last name"}</h2></td>
-                        </Then></If>
-
-                    </tr>
-                    <tr>
-                        <td className={styletb.tdData}><h2>{login}</h2></td>
-                        <td className={styletb.tdData}><h2>{email}</h2></td>
-                        <td className={styletb.tdData}><h2>{'' + active}</h2></td>
-                        <td className={styletb.tdData}><h2>{role1}</h2></td>
-                        <If condition={role === "MANAGER"}><Then>
-                        <td className={styletb.tdData}><h2>{salary}</h2></td>
-                        <td className={styletb.tdData}><h2>{numberOfShifts}</h2></td>
-                        </Then></If>
-                        <If condition={role === "USER"}><Then>
-                        <td className={styletb.tdData}><h2>{first_name}</h2></td>
-                        <td className={styletb.tdData}><h2>{last_name}</h2></td>
-                        </Then></If>
-                    </tr>
+                   <div>
+                <DatePicker
+                    selected={start_date_rental}
+                    onChange={date => setStart_date_rental(date)}
+                    showTimeSelect
+                    timeFormat="HH:mm:ss"
+                    timeIntervals={15}
+                    timeCaption="time"
+                    dateFormat="MMM d, yyyy h:mm aa"
+                />
+                <DatePicker
+                    selected={end_date_rental}
+                    onChange={date => setEnd_date_rental(date)}
+                    showTimeSelect
+                    timeFormat="HH:mm"
+                    timeIntervals={15}
+                    timeCaption="time"
+                    dateFormat="MMM d, yyyy h:mm aa"
+                />
+                </div>
+                <div style={{height
+                    : '200px'}}></div>
                 </Grid>
             </DialogContent>
             <DialogActions>
+                <Button onClick={handleSetRent} color="primary" autoFocus>
+                    {'Rent ' + pitch.name}
+                </Button>
                 <Button onClick={onCancel} color="primary" autoFocus>
                     {'cancel'}
                 </Button>

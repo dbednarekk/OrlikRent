@@ -22,6 +22,7 @@ import TextField from "@mui/material/TextField";
 import useErrorHandler from "../errorHandler";
 import useSnackbarQueue from "../components/Snackbar";
 import {Link} from "react-router-dom";
+import PopupData from "../pages/PopupRent.tsx"
 
 function SubRentRow(subprops) {
   const { subrow } = subprops;
@@ -48,6 +49,8 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const [, setRent] = React.useState(false);
   const [rentForPitch, setRentForPitch] = React.useState([]);
+  const [openPopup, setOpenPopup] = useState(false);
+
   const handleSetOpen = async () => {
     setOpen((state) => !state);
     axios.get(`/Rentals/RentsForPitch/${row.id}`,{
@@ -111,6 +114,17 @@ function Row(props) {
           <ActiveIcon active={row.rented} />
         </TableCell>
         <TableCell align="center">
+        <BaseButton
+          enable={false}
+          name="Details"
+          onClick={() => setOpenPopup(true)}
+        />
+        <PopupData
+          open={openPopup}
+          onCancel={() => {setOpenPopup(false)}}
+          id={row.id}
+          pitch={row}
+        />
           <BaseButton
             name="Rent"
             onClick={() => {
@@ -124,7 +138,7 @@ function Row(props) {
                 handleError(message, error.response.status)
               });;
             }}
-            enable={row.rented}
+            enable={true}
           />{" "}
         </TableCell>
       </TableRow>
