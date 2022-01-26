@@ -6,7 +6,8 @@ import { useState, useEffect } from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
 import styletb from '../styles/tableStyle.module.css'
-
+import useErrorHandler from "../errorHandler";
+import {useSnackbarQueue} from "../components/Snackbar"
 
 export interface PopupDataPitch {
     open: boolean,
@@ -25,7 +26,8 @@ export default function PopupDataPitch({open, onCancel, id, pitch}){
     const [maxP, setMaxP] = useState('');
     const token = sessionStorage.getItem("JWTToken")
     const [numberOfBaskets1, setNumberOfBaskets1] = useState(null);
-
+    const handleError = useErrorHandler()
+    const showSuccess = useSnackbarQueue('success')
     const [grasstype, setGrasstype] = useState('');
     const [nets1, setNets1] = useState(null);
 
@@ -35,14 +37,24 @@ export default function PopupDataPitch({open, onCancel, id, pitch}){
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
-            } )
+            } ).then(()=>{
+                  showSuccess('succesful action')
+              }).catch(error => {
+                const message = error.response.data
+                handleError(message, error.response.status)
+              })
         }
         else{
             return axios.get(`/Pitches/basketballById/${id}`,{
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
-            })
+            }).then(()=>{
+                  showSuccess('succesful action')
+              }).catch(error => {
+                const message = error.response.data
+                handleError(message, error.response.status)
+              })
         }
     }
 
