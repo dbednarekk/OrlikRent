@@ -103,21 +103,21 @@ function EditPitch() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                })
+                }})
         }
         if(currentAccount.numberOfBaskets != null){
             return axios.get(`/Pitches/basketballById/${currentAccount.id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                })
+                }})
         }
         else{
             return axios.get(`/Pitches/${currentAccount.id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                })
+                }})
         }
     }
 

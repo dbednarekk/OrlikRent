@@ -139,6 +139,7 @@ function getFootballPitches() {
   })
 }
 function getBasketballPitches() {
+  const token = sessionStorage.getItem("JWTToken")
   return axios.get(`Pitches/basketballPitches/`,{
     headers:{
       'Authorization': `Bearer ${token}`
