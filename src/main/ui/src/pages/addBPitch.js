@@ -24,8 +24,8 @@ function AddBPitch() {
     const [numberOfBaskets, setNumberOfBaskets] = useState('');
     const token = sessionStorage.getItem("JWTToken")
     const options1 = [
-        { value: 'FULL_SIZE', label: 'Pełne' },
-        { value: 'HALF_SIZE', label: 'Połowa' },
+        { value: 'FULL_SIZE', label: 'Full' },
+        { value: 'HALF_SIZE', label: 'Half' },
         ]
 
     const handleChangeLights = (event) => {
@@ -59,11 +59,11 @@ function AddBPitch() {
 
 
         <div className={ styles.body }>
-            <h1>Dodaj boisko koszykarskie</h1>
-            <h3>Nazwa boiska:</h3>
+            <h1>Add BasketballPitch</h1>
+            <h3>BasketballPitch name:</h3>
             <TextField
-                label={"Nazwa *"}
-                placeholder={"Nazwa"}
+                label={"BasketballPitch name *"}
+                placeholder={"BasketballPitch name"}
                 value={name}
                 style={{
                     marginTop: '16px'}}
@@ -71,10 +71,10 @@ function AddBPitch() {
                     setName(event.target.value)
                 }}>
             </TextField>
-            <h3>Cena:</h3>
+            <h3>Price:</h3>
             <TextField
-                label={"Cena *"}
-                placeholder={"Cena"}
+                label={"Price *"}
+                placeholder={"Price"}
                 value={price}
                 style={{
                     marginTop: '16px'}}
@@ -84,29 +84,29 @@ function AddBPitch() {
                 }}
                 min="0">
             </TextField>
-            <h3>Oświetlenie:</h3>
+            <h3>Lights:</h3>
             <FormControlLabel
                 control={
                     <Switch checked={lights} onChange={handleChangeLights} name="lights" />
                 }
-                label="Włącz:"
+                label="Lights:"
                 labelPlacement="start"
                 style={{
                     marginTop: '16px'}}
             />
-            <h3>Sektor:</h3>
+            <h3>Sector:</h3>
             <Select
             defaultValue={sector}
             onChange={setSector}
-            placeholder={"Sektor"}
+            placeholder={"Sector"}
             options={options1}
             style={{
                 marginTop: '16px'}}
             width='200px'>
             </Select>
-            <h3>Min. liczba osób:</h3>
+            <h3>Min. number of people:</h3>
             <TextField
-                placeholder={"Liczba osób"}
+                placeholder={"number of people"}
                 value={minP}
                 type="number"
                 style={{
@@ -116,9 +116,9 @@ function AddBPitch() {
                 }}
                 min="1">
             </TextField>
-            <h3>Max. liczba osób:</h3>
+            <h3>Max. number of people:</h3>
             <TextField
-                placeholder={"Liczba osób"}
+                placeholder={"number of people"}
                 value={maxP}
                 type="number"
                 style={{
@@ -128,9 +128,9 @@ function AddBPitch() {
                 }}
                 min="2">
             </TextField>
-            <h3>Ilość koszy:</h3>
+            <h3>Number of baskets:</h3>
             <TextField
-                placeholder={"Liczba koszy"}
+                placeholder={"Number of baskets"}
                 value={numberOfBaskets}
                 type="number"
                 style={{
@@ -150,7 +150,7 @@ function AddBPitch() {
                     marginTop: '16px',
                 }}
                 onClick={handleAddPitch}
-            >{"+ Dodaj"}</Button>
+            >{"+ Add"}</Button>
             </div>
         </div>
     )

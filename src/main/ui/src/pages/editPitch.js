@@ -6,27 +6,67 @@ import { Button } from 'react-bootstrap';
 import React from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
+import Select from 'react-select';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 function EditPitch() {
-   
-    const navigate = useNavigate();
 
-    const currentAccount = JSON.parse(sessionStorage.getItem("id"));
-    const [login, setLogin] = useState('');
-    const [email, setEmail] = useState('');
-    const [role, setRole] = useState('');
-    const [salary, setSalary] = useState('');
-    const [numberOfShifts, setNumberOfShifts] = useState('');
-    const [first_name, setFirst_name] = useState('');
-    const [last_name, setLast_name] = useState('');
+    const navigate = useNavigate();
     const token = sessionStorage.getItem("JWTToken")
-    const handleEditAdmin = () => {
+    const currentAccount = JSON.parse(sessionStorage.getItem("pitch"));
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [lights, setLights] = useState(false);
+    const [sector, setSector] = useState('');
+    const [minP, setMinP] = useState('');
+    const [maxP, setMaxP] = useState('');
+
+    const [numberOfBaskets, setNumberOfBaskets] = useState(null);
+
+    const [grasstype, setGrasstype] = useState('');
+    const [nets, setNets] = useState(null);
+
+
+    const options1 = [
+        { value: 'FULL_SIZE', label: 'Full' },
+        { value: 'HALF_SIZE', label: 'Half' },
+        ]
+
+    const options2 = [
+        { value: 'SILICONE', label: 'Silicone' },
+        { value: 'GRANULATE', label: 'Grabulate' },
+        { value: 'GRASS', label: 'Grass' }
+        ]
+
+    const handleChangeLights = (event) => {
+        setLights(
+            event.target.checked,
+            );
+        };
+        const handleChangeNets = (event) => {
+        setNets(
+            event.target.checked,
+            );
+        };
+
+
+    const handleEditFootball = () => {
         const json = JSON.stringify({
-            login,
-            email,
+            id: currentAccount.id,
+            name,
+            price,
+            lights,
+            sector,
+            min_people: minP,
+            max_people: maxP,
+            rented: currentAccount.rented,
+            grass_type: grasstype,
+            goal_nets: nets
+
         });
         console.log(json);
-        axios.put(`Account/UpdateAdmin/${currentAccount.id}`, json,{
+        axios.put(`Pitches/FootballPitch/${currentAccount.id}`, json,{
             headers: {
                 "Content-Type": "application/json",
                 'Authorization': `Bearer ${token}`
@@ -36,15 +76,20 @@ function EditPitch() {
         })
     }
 
-    const handleEditManager = () => {
+    const handleEditBasketball = () => {
         const json = JSON.stringify({
-            login,
-            email,
-            salary,
-            numberOfShifts
+            id: currentAccount.id,
+            name,
+            price,
+            lights,
+            sector,
+            min_people: minP,
+            max_people: maxP,
+            rented: currentAccount.rented,
+            numberOfBaskets,
         });
         console.log(json);
-        axios.put(`Account/UpdateManager/${currentAccount.id}`, json,{
+        axios.put(`Pitches/BasketballPitch/${currentAccount.id}`, json,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -52,162 +97,144 @@ function EditPitch() {
         })
     }
 
-    const handleEditUser = () => {
-        const json = JSON.stringify({
-            login,
-            email,
-            first_name,
-            last_name
-        });
-        console.log(json);
-        axios.put(`Account/UpdateClient/${currentAccount.id}`, json,{
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
-    }
-
-    const getAccount = () => {
-        if(currentAccount.role === "ADMINISTRATOR"){
-            return axios.get(`/Account/admin/${currentAccount.id}`,{
-                headers:{
+    const getPitch = () => {
+        if(currentAccount.goal_nets != null){
+            return axios.get(`/Pitches/footballById/${currentAccount.id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }
-            } )
+                })
         }
-        if(currentAccount.role === "MANAGER"){
-            return axios.get(`/Account/manager/${currentAccount.id}`,{
-                headers:{
+        if(currentAccount.numberOfBaskets != null){
+            return axios.get(`/Pitches/basketballById/${currentAccount.id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }
-            } )
+                })
         }
-        if(currentAccount.role === "USER"){
-            return axios.get(`/Account/client/${currentAccount.id}`,{
-                headers:{
+        else{
+            return axios.get(`/Pitches/${currentAccount.id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }
-            } )
+                })
         }
     }
 
     useEffect( () => {
-        getAccount().then(res => {
-            setLogin(res.data.login)
-            setEmail(res.data.email)
-            setRole(res.data.role)
-            if(res.data.role === "MANAGER"){
-                setSalary(res.data.salary)
-                setNumberOfShifts(res.data.numberOfShifts)
+        getPitch().then(res => {
+            setName(res.data.name)
+            setPrice(res.data.price)
+            setLights(res.data.lights)
+            setSector(res.data.sector)
+            setMinP(res.data.min_people)
+            setMaxP(res.data.max_people)
+            if(currentAccount.numberOfBaskets != null){
+                setNumberOfBaskets(res.data.numberOfBaskets)
             }
-            if(res.data.role === "USER"){
-                setFirst_name(res.data.first_name)
-                setLast_name(res.data.last_name)
+            if(currentAccount.goal_nets != null){
+                setGrasstype(res.data.grass_type)
+                setNets(res.data.goal_nets)
             }
         })
     }, [])
 
     return (
-       
-        <div style={{ margin: '50px' }}> 
+
+        <div style={{ margin: '50px' }}>
         <button onClick={() => navigate(-1)}>Back</button>
         <div className={ styles.body }>
-            <h1>Edit {currentAccount.role} account </h1>
-            <h3>Login:</h3>
+            <h1>Edit pitch</h1>
+            <h3>Name:</h3>
             <TextField
-                label={"Login *"}
-                placeholder={login}
-                value={login}
+                label={"Name *"}
+                placeholder={name}
+                value={name}
                 style={{
                     marginTop: '16px'}}
                 onChange={event => {
-                    setLogin(event.target.value)
+                    setName(event.target.value)
                 }}>
             </TextField>
-            <h3>Email:</h3>
+            <h3>Price:</h3>
             <TextField
-                label={"Email *"}
-                placeholder={email}
-                value={email}
+                label={"Price *"}
+                placeholder={price}
+                value={price}
                 style={{
                     marginTop: '16px'}}
+                type="number"
                 onChange={event => {
-                    setEmail(event.target.value)
-                }}>
-            </TextField>
-            <If condition={role === "ADMINISTRATOR"}><Then>
-                <Button
-                    variant="success"
-                    style={{
-                        width: '50%',
-                        fontSize: '2rem',
-                        padding: '10px 0',
-                        marginTop: '16px',
-                    }}
-                    onClick={handleEditAdmin}
-                >{"Edit Admin"}</Button>
-            </Then></If>
-            <If condition={role === "MANAGER"}><Then>
-                <h3>Salary:</h3>
-                <TextField
-                    placeholder={salary}
-                    value={salary}
-                    type="number"
-                    style={{
-                        marginTop: '16px'}}
-                    onChange={event => {
-                        setSalary(event.target.value)
-                    }}
-                    min="2">
-                </TextField>
-                <h3>Number of shifts:</h3>
-                <TextField
-                    placeholder={numberOfShifts}
-                    value={numberOfShifts}
-                    type="number"
-                    style={{
-                        marginTop: '16px'}}
-                    onChange={event => {
-                        setNumberOfShifts(event.target.value)
-                    }}
-                    min="2">
-                </TextField>
-                <Button
-                variant="success"
-                style={{
-                    width: '50%',
-                    fontSize: '2rem',
-                    padding: '10px 0',
-                    marginTop: '16px',
+                    setPrice(event.target.value)
                 }}
-                onClick={handleEditManager}
-                >{"Edit Manager"}</Button>
-            </Then></If>
-            <If condition={role === "USER"}><Then>
-                <h3>Name:</h3>
-                <TextField
-                    label={"Imię *"}
-                    placeholder={first_name}
-                    value={first_name}
-                    style={{
-                        marginTop: '16px'}}
-                    onChange={event => {
-                        setFirst_name(event.target.value)
-                    }}>
-                </TextField>
-                <h3>Surname:</h3>
-                <TextField
-                    label={"Nazwisko *"}
-                    placeholder={last_name}
-                    value={last_name}
-                    style={{
-                        marginTop: '16px'}}
-                    onChange={event => {
-                        setLast_name(event.target.value)
-                    }}>
-                </TextField>
-                <Button
+                min="0">
+            </TextField>
+            <h3>Lights:</h3>
+            <FormControlLabel
+                control={
+                    <Switch checked={lights} onChange={handleChangeLights} name="lights" />
+                }
+                label="Lights:"
+                labelPlacement="start"
+                style={{
+                    marginTop: '16px'}}
+            />
+            <h3>Sector:</h3>
+            <Select
+            defaultValue={sector}
+            onChange={setSector}
+            placeholder={sector}
+            options={options1}
+            style={{
+                marginTop: '16px'}}
+            width='200px'>
+            </Select>
+            <h3>Min. number of people:</h3>
+            <TextField
+                placeholder={minP}
+                value={minP}
+                type="number"
+                style={{
+                    marginTop: '16px'}}
+                onChange={event => {
+                    setMinP(event.target.value)
+                }}
+                min="1">
+            </TextField>
+            <h3>Max. number of people:</h3>
+            <TextField
+                placeholder={maxP}
+                value={maxP}
+                type="number"
+                style={{
+                    marginTop: '16px'}}
+                onChange={event => {
+                    setMaxP(event.target.value)
+                }}
+                min="2">
+            </TextField>
+            <If condition={nets != null}><Then>
+            <h3>Nets:</h3>
+            <FormControlLabel
+                control={
+                    <Switch checked={nets} onChange={handleChangeNets} name="nets" />
+                }
+                label="Nets:"
+                labelPlacement="start"
+                style={{
+                    marginTop: '16px'}}
+            />
+            <h3>Type of grass:</h3>
+            <Select
+            defaultValue={grasstype}
+            onChange={setGrasstype}
+            placeholder={grasstype}
+            options={options2}
+            style={{
+                marginTop: '16px'}}
+            width='200px'>
+            </Select>
+            <Button
                     variant="success"
                     style={{
                         width: '50%',
@@ -215,12 +242,36 @@ function EditPitch() {
                         padding: '10px 0',
                         marginTop: '16px',
                     }}
-                    onClick={handleEditUser}
-                >{"Edit Client"}</Button>
+                    onClick={handleEditFootball}
+                >{"Edit pitch"}</Button>
+            </Then></If>
+            <If condition={numberOfBaskets != null}><Then>
+            <h3>Number of baskets:</h3>
+            <TextField
+                placeholder={numberOfBaskets}
+                value={numberOfBaskets}
+                type="number"
+                style={{
+                    marginTop: '16px'}}
+                onChange={event => {
+                    setNumberOfBaskets(event.target.value)
+                }}
+                min="2">
+            </TextField>
+            <Button
+                    variant="success"
+                    style={{
+                        width: '50%',
+                        fontSize: '2rem',
+                        padding: '10px 0',
+                        marginTop: '16px',
+                    }}
+                    onClick={handleEditBasketball}
+                >{"Edit pitch"}</Button>
             </Then></If>
             </div>
         </div>
     )
 }
-    
+
 export default EditPitch

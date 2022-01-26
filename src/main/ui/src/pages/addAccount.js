@@ -87,7 +87,7 @@ function AddAccount() {
         <div style={{ margin: '50px' }}> 
         <button onClick={() => navigate(-1)}>Back</button>
         <div className={ styles.body }>
-            <h1>Dodaj konto</h1>
+            <h1>Add Account</h1>
             <h3>Login:</h3>
             <TextField
                 label={"Login *"}
@@ -99,10 +99,10 @@ function AddAccount() {
                     setLogin(event.target.value)
                 }}>
             </TextField>
-            <h3>Hasło:</h3>
+            <h3>Password:</h3>
             <TextField
-                label={"Hasło *"}
-                placeholder={"Hasło"}
+                label={"Password *"}
+                placeholder={"Password"}
                 value={password}
                 style={{
                     marginTop: '16px'}}
@@ -133,10 +133,10 @@ function AddAccount() {
                 style={{
                     marginTop: '16px'}}
             /> */}
-            <h3>Rola:</h3>
+            <h3>Role:</h3>
             <TextField
-                label={"Rola *"}
-                placeholder={"Rola"}
+                label={"Role *"}
+                placeholder={"Role"}
                 value={role}
                 style={{
                     marginTop: '16px'}}
@@ -157,9 +157,9 @@ function AddAccount() {
                 >{"+ Dodaj Admina"}</Button>
             </Then></If>
             <If condition={role === "MANAGER"}><Then>
-                <h3>Zarobki:</h3>
+                <h3>Salary:</h3>
                 <TextField
-                    placeholder={"Zarobki"}
+                    placeholder={"Salary"}
                     value={salary}
                     type="number"
                     style={{
@@ -169,9 +169,9 @@ function AddAccount() {
                     }}
                     min="2">
                 </TextField>
-                <h3>Liczba zmian:</h3>
+                <h3>Number of shifts:</h3>
                 <TextField
-                    placeholder={"Liczba zmian"}
+                    placeholder={"Number of shifts"}
                     value={numberOfShifts}
                     type="number"
                     style={{
@@ -193,10 +193,10 @@ function AddAccount() {
                 >{"+ Dodaj Managera"}</Button>
             </Then></If>
             <If condition={role === "USER"}><Then>
-                <h3>Imię:</h3>
+                <h3>Name:</h3>
                 <TextField
-                    label={"Imię *"}
-                    placeholder={"Imię"}
+                    label={"Name *"}
+                    placeholder={"Name"}
                     value={first_name}
                     style={{
                         marginTop: '16px'}}
@@ -204,10 +204,10 @@ function AddAccount() {
                         setFirst_name(event.target.value)
                     }}>
                 </TextField>
-                <h3>Nazwisko:</h3>
+                <h3>Surname:</h3>
                 <TextField
-                    label={"Nazwisko *"}
-                    placeholder={"Nazwisko"}
+                    label={"Surname *"}
+                    placeholder={"Surname"}
                     value={last_name}
                     style={{
                         marginTop: '16px'}}
@@ -224,7 +224,7 @@ function AddAccount() {
                         marginTop: '16px',
                     }}
                     onClick={handleAddUser}
-                >{"+ Dodaj Klienta"}</Button>
+                >{"+ Add Client"}</Button>
             </Then></If>
             </div>
         </div>

@@ -19,7 +19,7 @@ import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler";
 import {useSnackbarQueue} from "../../components/Snackbar"
-import PopupData from "../PopupData.tsx"
+import PopupData from "../PopupDataRent.tsx"
 import {Link} from "react-router-dom";
 
 function Row(props) {

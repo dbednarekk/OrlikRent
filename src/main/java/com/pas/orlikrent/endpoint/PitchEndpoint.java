@@ -51,6 +51,22 @@ public class PitchEndpoint {
         return Response.ok().entity(pitch).header("Etag", EntityIdentitySignerVerifier.calculateEntitySignature(pitch)).build();
     }
 
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/footballById/{id}")
+    public Response getFPitchByID(@PathParam("id") String id) throws Base_Exception {
+        FootballPitchDTO pitch = pitchManager.getFByID(id);
+        return Response.ok().entity(pitch).header("Etag", EntityIdentitySignerVerifier.calculateEntitySignature(pitch)).build();
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/basketballById/{id}")
+    public Response getBPitchByID(@PathParam("id") String id) throws Base_Exception {
+        BasketballPitchDTO pitch = pitchManager.getBByID(id);
+        return Response.ok().entity(pitch).header("Etag", EntityIdentitySignerVerifier.calculateEntitySignature(pitch)).build();
+    }
+
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/addFootballPitch")

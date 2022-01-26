@@ -47,6 +47,16 @@ public class Pitch_Manager implements IPitchManager {
     }
 
     @Override
+    public FootballPitchDTO getFByID(String id) throws Base_Exception {
+        return PitchMapper.footballPitchToDTO((FootballPitch) this.pitches_repo.getByID(id));
+    }
+
+    @Override
+    public BasketballPitchDTO getBByID(String id) throws Base_Exception {
+        return PitchMapper.basketballPitchToDTO((BasketballPitch) this.pitches_repo.getByID(id));
+    }
+
+    @Override
     public boolean isPitchFootball(String id) throws Base_Exception {
         Pitch old_pitch = pitches_repo.getByID(id);
         if (old_pitch instanceof FootballPitch) {
@@ -125,4 +135,6 @@ public class Pitch_Manager implements IPitchManager {
         }
         return res;
     }
+
+
 }

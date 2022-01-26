@@ -12,57 +12,54 @@ export interface PopupDataPitch {
     open: boolean,
     onCancel: () => void,
     id: string,
-    role: string,
+    pitch: [],
 }
 
-export default function PopupDataPitch({open, onCancel, id, role}){
+export default function PopupDataPitch({open, onCancel, id, pitch}){
 
-    const [login, setLogin] = useState('');
-    const [email, setEmail] = useState('');
-    const [active, setActive] = useState(false);
-    const [role1, setRole] = useState('');
-    const [salary, setSalary] = useState('');
-    const [numberOfShifts, setNumberOfShifts] = useState('');
-    const [first_name, setFirst_name] = useState('');
-    const [last_name, setLast_name] = useState('');
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [lights, setLights] = useState(false);
+    const [sector, setSector] = useState('');
+    const [minP, setMinP] = useState('');
+    const [maxP, setMaxP] = useState('');
     const token = sessionStorage.getItem("JWTToken")
+    const [numberOfBaskets1, setNumberOfBaskets1] = useState(null);
+
+    const [grasstype, setGrasstype] = useState('');
+    const [nets1, setNets1] = useState(null);
+
     const handleOpen = () => {
-        if(role === "ADMINISTRATOR"){
-            return axios.get(`/Account/admin/${id}`,{
+        if(pitch.goal_nets != null){
+            return axios.get(`/Pitches/footballById/${id}`,{
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
             } )
         }
-        if(role === "MANAGER"){
-            return axios.get(`/Account/manager/${id}`,{
+        else{
+            return axios.get(`/Pitches/basketballById/${id}`,{
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
-            } )
-        }
-        if(role === "USER"){
-            return axios.get(`/Account/client/${id}`,{
-                headers:{
-                    'Authorization': `Bearer ${token}`
-                }
-            } )
+            })
         }
     }
 
     useEffect( () => {
         handleOpen().then(res => {
-            setLogin(res.data.login)
-            setEmail(res.data.email)
-            setRole(res.data.role)
-            setActive(res.data.active)
-            if(res.data.role === "MANAGER"){
-                setSalary(res.data.salary)
-                setNumberOfShifts(res.data.numberOfShifts)
+            setName(res.data.name)
+            setPrice(res.data.price)
+            setLights(res.data.lights)
+            setSector(res.data.sector)
+            setMinP(res.data.min_people)
+            setMaxP(res.data.max_people)
+            if(res.data.numberOfBaskets != null){
+                setNumberOfBaskets1(res.data.numberOfBaskets)
             }
-            if(res.data.role === "USER"){
-                setFirst_name(res.data.first_name)
-                setLast_name(res.data.last_name)
+            if(res.data.goal_nets != null){
+                setGrasstype(res.data.grass_type)
+                setNets1(res.data.goal_nets)
             }
         })
     }, [])
@@ -79,32 +76,34 @@ export default function PopupDataPitch({open, onCancel, id, role}){
             <DialogContent>
             <Grid item style={{display: "block" }} className={styletb['change-item']}>
                     <tr>
-                        <td className={styletb.td}><h2>{"Login"}</h2></td>
-                        <td className={styletb.td}><h2>{"Email"}</h2></td>
-                        <td className={styletb.td}><h2>{"Active"}</h2></td>
-                        <td className={styletb.td}><h2>{"Role"}</h2></td>
-                        <If condition={role === "MANAGER"}><Then>
-                        <td className={styletb.td}><h2>{"Salary"}</h2></td>
-                        <td className={styletb.td}><h2>{"Number of Shifts"}</h2></td>
+                        <td className={styletb.td}><h2>{"Name"}</h2></td>
+                        <td className={styletb.td}><h2>{"Price"}</h2></td>
+                        <td className={styletb.td}><h2>{"Lights"}</h2></td>
+                        <td className={styletb.td}><h2>{"Sector"}</h2></td>
+                        <td className={styletb.td}><h2>{"Min. number of people"}</h2></td>
+                        <td className={styletb.td}><h2>{"Max. number of people"}</h2></td>
+                        <If condition={nets1 != null}><Then>
+                        <td className={styletb.td}><h2>{"Grass type"}</h2></td>
+                        <td className={styletb.td}><h2>{"Nets"}</h2></td>
                         </Then></If>
-                        <If condition={role === "USER"}><Then>
-                        <td className={styletb.td}><h2>{"First name"}</h2></td>
-                        <td className={styletb.td}><h2>{"Last name"}</h2></td>
+                        <If condition={numberOfBaskets1 != null}><Then>
+                        <td className={styletb.td}><h2>{"Number of baskets"}</h2></td>
                         </Then></If>
 
                     </tr>
                     <tr>
-                        <td className={styletb.tdData}><h2>{login}</h2></td>
-                        <td className={styletb.tdData}><h2>{email}</h2></td>
-                        <td className={styletb.tdData}><h2>{'' + active}</h2></td>
-                        <td className={styletb.tdData}><h2>{role1}</h2></td>
-                        <If condition={role === "MANAGER"}><Then>
-                        <td className={styletb.tdData}><h2>{salary}</h2></td>
-                        <td className={styletb.tdData}><h2>{numberOfShifts}</h2></td>
+                        <td className={styletb.tdData}><h2>{name}</h2></td>
+                        <td className={styletb.tdData}><h2>{price}</h2></td>
+                        <td className={styletb.tdData}><h2>{'' + lights}</h2></td>
+                        <td className={styletb.tdData}><h2>{sector}</h2></td>
+                        <td className={styletb.tdData}><h2>{minP}</h2></td>
+                        <td className={styletb.tdData}><h2>{maxP}</h2></td>
+                        <If condition={nets1 != null}><Then>
+                        <td className={styletb.tdData}><h2>{grasstype}</h2></td>
+                        <td className={styletb.tdData}><h2>{'' + nets1}</h2></td>
                         </Then></If>
-                        <If condition={role === "USER"}><Then>
-                        <td className={styletb.tdData}><h2>{first_name}</h2></td>
-                        <td className={styletb.tdData}><h2>{last_name}</h2></td>
+                        <If condition={numberOfBaskets1 != null}><Then>
+                        <td className={styletb.tdData}><h2>{numberOfBaskets1}</h2></td>
                         </Then></If>
                     </tr>
                 </Grid>

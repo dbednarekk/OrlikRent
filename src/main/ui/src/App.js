@@ -12,6 +12,7 @@ import AddAccount from "./pages/addAccount";
 import EditAccount from "./pages/editAccount";
 import Login from "./pages/Login";
 import EditPitch from "./pages/editPitch";
+import EditRent from "./pages/editRent";
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="editAccounts/" element={<EditAccount/>} />
         <Route path="login/" element={<Login/>}/>
         <Route path="editPitch/" element={<EditPitch/>} />
+        <Route path="editRent/" element={<EditRent/>} />
 
       </Routes>
     </Router>
