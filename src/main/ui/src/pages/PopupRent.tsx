@@ -14,12 +14,11 @@ import {useSnackbarQueue} from "../components/Snackbar"
 export interface PopupRentPitch {
     open: boolean,
     onCancel: () => void,
-    onChange: () => void,
     id: string,
     pitch: string
 }
 
-export default function PopupRentPitch({open, onCancel, onChange, id, pitch}){
+export default function PopupRentPitch({open, onCancel, id, pitch}){
     const [pitchName, setPitchName] = useState(pitch)
     const [start_date_rental, setStart_date_rental] = useState(new Date());
     const [end_date_rental, setEnd_date_rental] = useState(new Date());

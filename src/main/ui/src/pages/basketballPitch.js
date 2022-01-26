@@ -22,6 +22,7 @@ import TextField from "@mui/material/TextField";
 import useErrorHandler from "../errorHandler";
 import useSnackbarQueue from "../components/Snackbar";
 import {Link} from "react-router-dom";
+import PopupData from "../pages/PopupRent.tsx"
 
 function SubRentRow(subprops) {
   const { subrow } = subprops;
@@ -62,23 +63,7 @@ function Row(props) {
       handleError(message, error.response.status)
     });
   };
-  const handleSetRent = () => {
-    setRent((state) => !state);
 
-    const json = JSON.stringify({
-      accountID: "98d0f7fe-8a86-4f47-af82-b7267b02e2d8",
-      pitchID: row.id,
-      start_date_rental: "2022-01-28T17:47:20.361",
-      end_date_rental: "2022-02-20T17:47:20.361",
-      active: true,
-    });
-    return axios.post("/Rentals/addRent/", json, {
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': `Bearer ${token}`
-      },
-    });
-  };
 
   return (
     <React.Fragment>
@@ -108,21 +93,17 @@ function Row(props) {
           <ActiveIcon active={row.rented} />
         </TableCell>
         <TableCell align="center">
-          <BaseButton
-            name="Rent"
-            onClick={() => {
-              handleSetRent().then((res) => {
-                onChange().then(() => {
-                  showSuccess("successful action")
-                });
-              }).catch(error =>{
-                console.log(error.response.data)
-                const message = error.response.data
-                handleError(message, error.response.status)
-              });
-            }}
-            enable={row.rented}
-          />{" "}
+        <BaseButton
+          enable={false}
+          name="Rent"
+          onClick={() => setOpenPopup(true)}
+        />
+        <PopupData
+          open={openPopup}
+          onCancel={() => {setOpenPopup(false)}}
+          id={row.id}
+          pitch={row}
+        />
         </TableCell>
       </TableRow>
       <TableRow>

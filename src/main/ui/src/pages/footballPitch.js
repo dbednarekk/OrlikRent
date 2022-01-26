@@ -65,23 +65,7 @@ function Row(props) {
       handleError(message, error.response.status)
     });
   };
-  const handleSetRent = () => {
-    setRent((state) => !state);
 
-    const json = JSON.stringify({
-      accountID: "71176e64-e76b-405f-84dc-c8a2f299a7b8",
-      pitchID: row.id,
-      start_date_rental: "2022-01-26T17:47:20.361",
-      end_date_rental: "2022-02-10T17:47:20.361",
-      active: true,
-    });
-    return axios.post("/Rentals/addRent/", json, {
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': `Bearer ${token}`
-      },
-    });
-  };
  
   return (
     <React.Fragment>
@@ -116,7 +100,7 @@ function Row(props) {
         <TableCell align="center">
         <BaseButton
           enable={false}
-          name="Details"
+          name="Rent"
           onClick={() => setOpenPopup(true)}
         />
         <PopupData
@@ -125,21 +109,6 @@ function Row(props) {
           id={row.id}
           pitch={row}
         />
-          <BaseButton
-            name="Rent"
-            onClick={() => {
-              handleSetRent().then((res) => {
-                onChange().then(() => {
-                  showSuccess("successful action")
-                })
-              }).catch(error =>{
-                console.log(error.response.data)
-                const message = error.response.data
-                handleError(message, error.response.status)
-              });;
-            }}
-            enable={true}
-          />{" "}
         </TableCell>
       </TableRow>
       <TableRow>
