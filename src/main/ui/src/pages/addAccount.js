@@ -7,6 +7,9 @@ import React from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
 
+import useErrorHandler from "../errorHandler";
+import {useSnackbarQueue} from "../components/Snackbar"
+
 function AddAccount() {
    
     const navigate = useNavigate();
@@ -22,6 +25,8 @@ function AddAccount() {
     const [first_name, setFirst_name] = useState('');
     const [last_name, setLast_name] = useState('');
     const token = sessionStorage.getItem("JWTToken")
+    const handleError = useErrorHandler()
+    const showSuccess = useSnackbarQueue('success')
     // const handleChangeActive = (event) => {
     //     setActive(
     //         event.target.checked,
@@ -42,7 +47,12 @@ function AddAccount() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        })
+        }).then(()=>{
+              showSuccess('succesful action')
+          }).catch(error => {
+            const message = error.response.data
+            handleError(message, error.response.status)
+          })
     }
 
     const handleAddManager = () => {
@@ -61,7 +71,12 @@ function AddAccount() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        })
+        }).then(()=>{
+              showSuccess('succesful action')
+          }).catch(error => {
+            const message = error.response.data
+            handleError(message, error.response.status)
+          })
     }
 
     const handleAddUser = () => {
@@ -80,7 +95,12 @@ function AddAccount() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        })
+        }).then(()=>{
+              showSuccess('succesful action')
+          }).catch(error => {
+            const message = error.response.data
+            handleError(message, error.response.status)
+          })
     }
     return (
        

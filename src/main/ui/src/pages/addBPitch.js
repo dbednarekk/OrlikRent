@@ -8,6 +8,8 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Select from 'react-select';
 
+import useErrorHandler from "../errorHandler";
+import {useSnackbarQueue} from "../components/Snackbar"
 import axios from "../Services/URL";
 
 function AddBPitch() {
@@ -21,6 +23,8 @@ function AddBPitch() {
     const [sector, setSector] = useState('');
     const [minP, setMinP] = useState('');
     const [maxP, setMaxP] = useState('');
+    const handleError = useErrorHandler()
+    const showSuccess = useSnackbarQueue('success')
     const [numberOfBaskets, setNumberOfBaskets] = useState('');
     const token = sessionStorage.getItem("JWTToken")
     const options1 = [
@@ -50,7 +54,12 @@ function AddBPitch() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        })
+        }).then(()=>{
+              showSuccess('succesful action')
+          }).catch(error => {
+            const message = error.response.data
+            handleError(message, error.response.status)
+          })
     }
 
     return (

@@ -7,7 +7,8 @@ import React from "react";
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Select from 'react-select';
-
+import useErrorHandler from "../errorHandler";
+import {useSnackbarQueue} from "../components/Snackbar"
 import axios from "../Services/URL";
 
 
@@ -22,6 +23,8 @@ function AddFPitch() {
     const [sector, setSector] = useState('');
     const [grasstype, setGrasstype] = useState('');
 
+    const handleError = useErrorHandler()
+    const showSuccess = useSnackbarQueue('success')
     const [lights, setLights] = useState(false);
     const [nets, setNets] = useState(false);
     const options1 = [
@@ -62,7 +65,12 @@ function AddFPitch() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        })
+        }).then(()=>{
+              showSuccess('succesful action')
+          }).catch(error => {
+            const message = error.response.data
+            handleError(message, error.response.status)
+          })
     }
 
     return (
