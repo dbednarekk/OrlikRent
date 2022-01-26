@@ -21,9 +21,13 @@ export default function PopupDataRent({open, onCancel, id}){
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [active, setActive] = useState(false);
-
+    const token = sessionStorage.getItem("JWTToken")
     const handleOpen = () => {
-            return axios.get(`/Rentals/Rent/${id}` )
+            return axios.get(`/Rentals/Rent/${id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } )
     }
 
     useEffect( () => {

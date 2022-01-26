@@ -44,7 +44,7 @@ function AddFPitch() {
             event.target.checked,
           );
       };
-
+      const token = sessionStorage.getItem("JWTToken")
     const handleAddPitch = () => {
         const json = JSON.stringify({
             name,
@@ -59,7 +59,8 @@ function AddFPitch() {
         console.log(json);
         axios.post('Pitches/addFootballPitch', json,{
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
     }

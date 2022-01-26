@@ -23,7 +23,7 @@ export default function PopupDataPitch({open, onCancel, id, pitch}){
     const [sector, setSector] = useState('');
     const [minP, setMinP] = useState('');
     const [maxP, setMaxP] = useState('');
-
+    const token = sessionStorage.getItem("JWTToken")
     const [numberOfBaskets1, setNumberOfBaskets1] = useState(null);
 
     const [grasstype, setGrasstype] = useState('');
@@ -31,10 +31,18 @@ export default function PopupDataPitch({open, onCancel, id, pitch}){
 
     const handleOpen = () => {
         if(pitch.goal_nets != null){
-            return axios.get(`/Pitches/footballById/${id}`, )
+            return axios.get(`/Pitches/footballById/${id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } )
         }
         else{
-            return axios.get(`/Pitches/basketballById/${id}`, )
+            return axios.get(`/Pitches/basketballById/${id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            })
         }
     }
 

@@ -22,7 +22,7 @@ function AddBPitch() {
     const [minP, setMinP] = useState('');
     const [maxP, setMaxP] = useState('');
     const [numberOfBaskets, setNumberOfBaskets] = useState('');
-
+    const token = sessionStorage.getItem("JWTToken")
     const options1 = [
         { value: 'FULL_SIZE', label: 'Full' },
         { value: 'HALF_SIZE', label: 'Half' },
@@ -47,7 +47,8 @@ function AddBPitch() {
         console.log(json);
         axios.post('Pitches/addBasketballPitch', json,{
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
     }

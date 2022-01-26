@@ -21,7 +21,7 @@ function AddAccount() {
     const [numberOfShifts, setNumberOfShifts] = useState('');
     const [first_name, setFirst_name] = useState('');
     const [last_name, setLast_name] = useState('');
-    
+    const token = sessionStorage.getItem("JWTToken")
     // const handleChangeActive = (event) => {
     //     setActive(
     //         event.target.checked,
@@ -39,7 +39,8 @@ function AddAccount() {
         console.log(json);
         axios.post('Account/admin', json,{
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
     }
@@ -57,7 +58,8 @@ function AddAccount() {
         console.log(json);
         axios.post('Account/manager', json,{
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
     }
@@ -75,7 +77,8 @@ function AddAccount() {
         console.log(json);
         axios.post('Account/client', json,{
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
     }

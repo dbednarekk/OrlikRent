@@ -11,9 +11,9 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 function EditPitch() {
-   
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
+    const token = sessionStorage.getItem("JWTToken")
     const currentAccount = JSON.parse(sessionStorage.getItem("pitch"));
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
@@ -69,6 +69,7 @@ function EditPitch() {
         axios.put(`Pitches/FootballPitch/${currentAccount.id}`, json,{
             headers: {
                 "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
             //     "Accept": "application/json",
             //     // "If-Match": currentAccount.etag,
             }
@@ -90,20 +91,33 @@ function EditPitch() {
         console.log(json);
         axios.put(`Pitches/BasketballPitch/${currentAccount.id}`, json,{
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
     }
 
     const getPitch = () => {
         if(currentAccount.goal_nets != null){
-            return axios.get(`/Pitches/footballById/${currentAccount.id}`, )
+            return axios.get(`/Pitches/footballById/${currentAccount.id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }})
         }
         if(currentAccount.numberOfBaskets != null){
-            return axios.get(`/Pitches/basketballById/${currentAccount.id}`, )
+            return axios.get(`/Pitches/basketballById/${currentAccount.id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }})
         }
         else{
-            return axios.get(`/Pitches/${currentAccount.id}`, )
+            return axios.get(`/Pitches/${currentAccount.id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }})
         }
     }
 
@@ -126,8 +140,8 @@ function EditPitch() {
     }, [])
 
     return (
-       
-        <div style={{ margin: '50px' }}> 
+
+        <div style={{ margin: '50px' }}>
         <button onClick={() => navigate(-1)}>Back</button>
         <div className={ styles.body }>
             <h1>Edit pitch</h1>
@@ -259,5 +273,5 @@ function EditPitch() {
         </div>
     )
 }
-    
+
 export default EditPitch

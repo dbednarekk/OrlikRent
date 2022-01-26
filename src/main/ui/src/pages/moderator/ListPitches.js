@@ -41,7 +41,7 @@ function Row(props) {
   const handleEdit = (pitch) => {
     sessionStorage.setItem("pitch", JSON.stringify(pitch));
   }
-
+  const token =sessionStorage.getItem("JWTToken")
   return (
     <React.Fragment>
       <TableRow>
@@ -84,8 +84,12 @@ function Row(props) {
                         <BaseButton
                           enable={false}
                           name="Remove"
-                          onClick={() => 
-                            axios.post(`/Pitches/deletePitch/${row.id}`).then(res => {
+                          onClick={() =>
+                            axios.post(`/Pitches/deletePitch/${row.id}`,{
+                              Headers:{
+                                'Authorization': `Bearer ${token}`
+                              }
+                            }).then(res => {
                               onChange().then(()=>{
                                 showSuccess('succesful action')
                               })
@@ -125,11 +129,22 @@ function Row(props) {
     </React.Fragment>
   );
 }
+
 function getFootballPitches() {
-  return axios.get(`Pitches/footballPitches/`) 
+  const token = sessionStorage.getItem("JWTToken")
+  return axios.get(`Pitches/footballPitches/`,{
+    headers:{
+      'Authorization': `Bearer ${token}`
+    }
+  })
 }
 function getBasketballPitches() {
-  return axios.get(`Pitches/basketballPitches/`) 
+  const token = sessionStorage.getItem("JWTToken")
+  return axios.get(`Pitches/basketballPitches/`,{
+    headers:{
+      'Authorization': `Bearer ${token}`
+    }
+  })
 }
 function BasicTable() {
   const [pitches, setPitches] = useState([]);

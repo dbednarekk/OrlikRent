@@ -6,6 +6,13 @@ import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 
 function Header(props) {
+  const isLogged = sessionStorage.getItem("JWTToken") === null ? false : true;
+  const login = sessionStorage.getItem("Login")
+  const auth = sessionStorage.getItem("Auth")
+  const handleLogOut =() =>{
+    sessionStorage.clear()
+    document.location.replace('/OrlikRentPAS/')
+  }
   return (
     <Box className={styles.header}>
       <Link to="/">
@@ -13,10 +20,20 @@ function Header(props) {
       </Link>
       <h1 className={styles.headerh1}> {props.title}</h1>
       <Box className={styles.headerButton}>
-      <Link to="/login">
-        <BaseButton name="Zaloguj się" />
-        </Link>
-        <BaseButton name="Zarejestruj się" />
+        {isLogged ? (
+          <>
+           <h4>{login}</h4>
+           <h4>{auth}</h4>
+           <BaseButton name="Wyloguj się" onClick={handleLogOut}/>
+          </>
+        ) : (
+          <>
+            <Link to="/login">
+              <BaseButton name="Zaloguj się" />
+            </Link>
+            <BaseButton name="Zarejestruj się" />
+          </>
+        )}
       </Box>
     </Box>
   );

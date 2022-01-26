@@ -43,6 +43,7 @@ function Row(props) {
   const handleEdit = (rent) => {
     sessionStorage.setItem("id", JSON.stringify(rent));
   };
+  const token = sessionStorage.getItem("JWTToken")
   return (
     <React.Fragment>
       <TableRow>
@@ -87,7 +88,11 @@ function Row(props) {
                           enable={false}
                           name="Remove"
                           onClick={() => 
-                            axios.post(`/Rentals/removeRent/${row.id}`).then(res => {
+                            axios.post(`/Rentals/removeRent/${row.id}`,{
+                              Headers:{
+                                'Authorization': `Bearer ${token}`
+                              }
+                            }).then(res => {
                               onChange().then(()=>{
                                 showSuccess('succesful action')
                               })
@@ -127,7 +132,13 @@ function Row(props) {
   );
 }
 function getRentals() {
-  return axios.get(`Rentals/`);
+  const token = sessionStorage.getItem("JWTToken")
+  return axios.get(`Rentals/`,{
+    headers:{
+      'Authorization': `Bearer ${token}`
+    }
+    
+  });
 }
 function BasicTable() {
   const [rentals, setRentals] = useState([]);
