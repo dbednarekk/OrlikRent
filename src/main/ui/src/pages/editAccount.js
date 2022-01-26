@@ -6,6 +6,8 @@ import { Button } from 'react-bootstrap';
 import React from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
+import useErrorHandler from "../errorHandler";
+import {useSnackbarQueue} from "../components/Snackbar"
 
 function EditAccount() {
    
@@ -20,6 +22,8 @@ function EditAccount() {
     const [first_name, setFirst_name] = useState('');
     const [last_name, setLast_name] = useState('');
     const token = sessionStorage.getItem("JWTToken")
+    const handleError = useErrorHandler()
+    const showSuccess = useSnackbarQueue('success')
     const handleEditAdmin = () => {
         const json = JSON.stringify({
             id: currentAccount.id,
@@ -36,7 +40,12 @@ function EditAccount() {
             //     "Accept": "application/json",
             //     // "If-Match": currentAccount.etag,
             }
-        })
+        }).then(()=>{
+              showSuccess('succesful action')
+          }).catch(error => {
+            const message = error.response.data
+            handleError(message, error.response.status)
+          })
     }
 
     const handleEditManager = () => {
@@ -55,7 +64,12 @@ function EditAccount() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        })
+        }).then(()=>{
+              showSuccess('succesful action')
+          }).catch(error => {
+            const message = error.response.data
+            handleError(message, error.response.status)
+          })
     }
 
     const handleEditUser = () => {
@@ -74,7 +88,12 @@ function EditAccount() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        })
+        }).then(()=>{
+              showSuccess('succesful action')
+          }).catch(error => {
+            const message = error.response.data
+            handleError(message, error.response.status)
+          })
     }
 
     const getAccount = () => {
@@ -83,21 +102,36 @@ function EditAccount() {
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
-            } )
+            } ).then(()=>{
+                  showSuccess('succesful action')
+              }).catch(error => {
+                const message = error.response.data
+                handleError(message, error.response.status)
+              })
         }
         if(currentAccount.role === "MANAGER"){
             return axios.get(`/Account/manager/${currentAccount.id}`,{
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
-            } )
+            } ).then(()=>{
+                  showSuccess('succesful action')
+              }).catch(error => {
+                const message = error.response.data
+                handleError(message, error.response.status)
+              })
         }
         if(currentAccount.role === "USER"){
             return axios.get(`/Account/client/${currentAccount.id}`,{
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
-            } )
+            } ).then(()=>{
+                  showSuccess('succesful action')
+              }).catch(error => {
+                const message = error.response.data
+                handleError(message, error.response.status)
+              })
         }
     }
 

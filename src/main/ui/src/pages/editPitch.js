@@ -9,6 +9,8 @@ import { If, Then } from 'react-if';
 import Select from 'react-select';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import useErrorHandler from "../errorHandler";
+import {useSnackbarQueue} from "../components/Snackbar"
 
 function EditPitch() {
 
@@ -21,6 +23,8 @@ function EditPitch() {
     const [sector, setSector] = useState('');
     const [minP, setMinP] = useState('');
     const [maxP, setMaxP] = useState('');
+    const handleError = useErrorHandler()
+    const showSuccess = useSnackbarQueue('success')
 
     const [numberOfBaskets, setNumberOfBaskets] = useState(null);
 
@@ -73,7 +77,12 @@ function EditPitch() {
             //     "Accept": "application/json",
             //     // "If-Match": currentAccount.etag,
             }
-        })
+        }).then(()=>{
+              showSuccess('succesful action')
+          }).catch(error => {
+            const message = error.response.data
+            handleError(message, error.response.status)
+          })
     }
 
     const handleEditBasketball = () => {
@@ -94,7 +103,12 @@ function EditPitch() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        })
+        }).then(()=>{
+              showSuccess('succesful action')
+          }).catch(error => {
+            const message = error.response.data
+            handleError(message, error.response.status)
+          })
     }
 
     const getPitch = () => {
@@ -103,21 +117,36 @@ function EditPitch() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }})
+                }}).then(()=>{
+                      showSuccess('succesful action')
+                  }).catch(error => {
+                    const message = error.response.data
+                    handleError(message, error.response.status)
+                  })
         }
         if(currentAccount.numberOfBaskets != null){
             return axios.get(`/Pitches/basketballById/${currentAccount.id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }})
+                }}).then(()=>{
+                      showSuccess('succesful action')
+                  }).catch(error => {
+                    const message = error.response.data
+                    handleError(message, error.response.status)
+                  })
         }
         else{
             return axios.get(`/Pitches/${currentAccount.id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }})
+                }}).then(()=>{
+                      showSuccess('succesful action')
+                  }).catch(error => {
+                    const message = error.response.data
+                    handleError(message, error.response.status)
+                  })
         }
     }
 

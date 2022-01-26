@@ -7,6 +7,8 @@ import React from "react";
 import axios from "../Services/URL";
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import useErrorHandler from "../errorHandler";
+import {useSnackbarQueue} from "../components/Snackbar"
 
 function EditRent() {
    
@@ -18,6 +20,8 @@ function EditRent() {
     const [start_date_rental, setStart_date_rental] = useState('');
     const [end_date_rental, setEnd_date_rental] = useState('');
     const [active, setActive] = useState('');
+    const handleError = useErrorHandler()
+    const showSuccess = useSnackbarQueue('success')
    
     const handleChangeActive = (event) => {
         setActive(
@@ -41,11 +45,21 @@ function EditRent() {
             //     "Accept": "application/json",
             //     // "If-Match": currentAccount.etag,
             }
-        })
+        }).then(()=>{
+              showSuccess('succesful action')
+          }).catch(error => {
+            const message = error.response.data
+            handleError(message, error.response.status)
+          })
     }
 
     const getRent = () => {
-    return axios.get(`/Rentals/Rent/${currentAccount.id}`, )
+    return axios.get(`/Rentals/Rent/${currentAccount.id}`, ).then(()=>{
+          showSuccess('succesful action')
+      }).catch(error => {
+        const message = error.response.data
+        handleError(message, error.response.status)
+      })
     }
 
     useEffect( () => {
