@@ -130,16 +130,25 @@ function Row(props) {
     </React.Fragment>
   );
 }
-function getAccounts() {
-  const token = sessionStorage.getItem("JWTToken").toString()
-  return axios.get(`Account/`,{
-    headers:{
-      'Authorization': `Bearer ${token}`
-    }});
-}
+
 function BasicTable() {
   const [accounts, setAccounts] = useState([]);
   const handleError = useErrorHandler()
+  const showSuccess = useSnackbarQueue('success')
+  
+  const getAccounts = () => {
+    const token = sessionStorage.getItem("JWTToken").toString()
+    return axios.get(`Account/`,{
+      headers:{
+        'Authorization': `Bearer ${token}`
+      }}).then(()=>{
+          showSuccess('succesful action')
+      }).catch(error => {
+        const message = error.response.data
+        handleError(message, error.response.status)
+      })
+  }
+
   const getUpdatedAccounts = () => {
     return getAccounts().then((res) => {
       setAccounts(res.data);

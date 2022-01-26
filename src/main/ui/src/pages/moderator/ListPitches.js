@@ -130,25 +130,25 @@ function Row(props) {
   );
 }
 
-function getFootballPitches() {
-  const token = sessionStorage.getItem("JWTToken")
-  return axios.get(`Pitches/footballPitches/`,{
-    headers:{
-      'Authorization': `Bearer ${token}`
-    }
-  })
-}
-function getBasketballPitches() {
-  const token = sessionStorage.getItem("JWTToken")
-  return axios.get(`Pitches/basketballPitches/`,{
-    headers:{
-      'Authorization': `Bearer ${token}`
-    }
-  })
-}
 function BasicTable() {
   const [pitches, setPitches] = useState([]);
   const handleError = useErrorHandler()
+  const showSuccess = useSnackbarQueue('success')
+
+  const getFootballPitches = () => {
+    const token = sessionStorage.getItem("JWTToken")
+    return axios.get(`Pitches/footballPitches/`,{
+      headers:{
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(()=>{
+        showSuccess('succesful action')
+    }).catch(error => {
+      const message = error.response.data
+      handleError(message, error.response.status)
+    })
+  }
+
   const getUpdatedPiches = () => {
     return getFootballPitches().then((res) => {
       setPitches(res.data);
@@ -235,6 +235,21 @@ function BasicTable() {
 function BasicTableBasketball() {
   const [pitches, setPitches] = useState([]);
   const handleError = useErrorHandler()
+  const showSuccess = useSnackbarQueue('success')
+  const getBasketballPitches = () => {
+    const token = sessionStorage.getItem("JWTToken")
+    return axios.get(`Pitches/basketballPitches/`,{
+      headers:{
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(()=>{
+        showSuccess('succesful action')
+    }).catch(error => {
+      const message = error.response.data
+      handleError(message, error.response.status)
+    })
+  }
+
   const getUpdatedPiches = () => {
     return getBasketballPitches().then((res) => {
       setPitches(res.data);

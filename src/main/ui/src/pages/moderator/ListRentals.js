@@ -131,18 +131,25 @@ function Row(props) {
     </React.Fragment>
   );
 }
-function getRentals() {
-  const token = sessionStorage.getItem("JWTToken")
-  return axios.get(`Rentals/`,{
-    headers:{
-      'Authorization': `Bearer ${token}`
-    }
-    
-  });
-}
+
 function BasicTable() {
   const [rentals, setRentals] = useState([]);
   const handleError = useErrorHandler()
+  const showSuccess = useSnackbarQueue('success')
+  const getRentals = () => {
+    const token = sessionStorage.getItem("JWTToken")
+    return axios.get(`Rentals/`,{
+      headers:{
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(()=>{
+        showSuccess('succesful action')
+    }).catch(error => {
+      const message = error.response.data
+      handleError(message, error.response.status)
+    })
+  }
+
   const getUpdatedRentals = () => {
     return getRentals().then((res) => {
       setRentals(res.data);
