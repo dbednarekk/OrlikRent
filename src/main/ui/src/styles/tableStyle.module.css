@@ -1,0 +1,23 @@
+    .td {
+        text-align: center;
+        padding: 20px;
+    border-bottom: 1px solid;
+    }
+    .tdData {
+        text-align: center;
+        padding: 20px;
+        border-bottom: 5px double;
+    }
+
+    .change-item>div {
+        margin: 16px 0;
+        display: flex;
+    }
+    
+    .change-item>div>* {
+        margin-right: 16px;
+    }
+    
+    .change-item>div>*:last-child {
+        margin-right: 0;
+    }

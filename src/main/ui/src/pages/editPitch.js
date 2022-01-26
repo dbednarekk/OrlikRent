@@ -7,7 +7,7 @@ import React from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
 
-function EditAccount() {
+function EditPitch() {
    
     const navigate = useNavigate();
 
@@ -208,4 +208,4 @@ function EditAccount() {
     )
 }
     
-export default EditAccount
+export default EditPitch

@@ -11,6 +11,8 @@ import AddBPitch from "./pages/addBPitch";
 import AddAccount from "./pages/addAccount";
 import EditAccount from "./pages/editAccount";
 import Login from "./pages/Login";
+import EditPitch from "./pages/editPitch";
+
 function App() {
 
   return (
@@ -26,6 +28,8 @@ function App() {
         <Route path="moderator//*" element={<ModeratorPage/>} />
         <Route path="editAccounts/" element={<EditAccount/>} />
         <Route path="login/" element={<Login/>}/>
+        <Route path="editPitch/" element={<EditPitch/>} />
+
       </Routes>
     </Router>
 

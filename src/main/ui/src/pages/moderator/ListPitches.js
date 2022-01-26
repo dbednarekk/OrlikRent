@@ -19,11 +19,17 @@ import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler";
 import {Link} from "react-router-dom";
+import {useSnackbarQueue} from "../../components/Snackbar"
+import PopupData from "../PopupData.tsx"
 
 function Row(props) {
   const { row } = props;
+  const { onChange } = props;
 
   const [open, setOpen] = React.useState(false);
+
+  const handleError = useErrorHandler()
+  const showSuccess = useSnackbarQueue('success')
 
   const handleSetOpen = async () => {
     setOpen((state) => !state);
@@ -79,13 +85,24 @@ function Row(props) {
                         <BaseButton
                           enable={false}
                           name="Remove"
-                          onClick={handleRemove}
+                          onClick={() => 
+                            axios.post(`/Pitches/deletePitch/${row.id}`).then(res => {
+                              onChange().then(()=>{
+                                showSuccess('succesful action')
+                              })
+                            }).catch(error => {
+                              const message = error.response.data
+                              handleError(message, error.response.status)
+                            })
+                          }
                         />
+                        <Link to="/editPitch">
                         <BaseButton
                           enable={false}
                           name="Edit"
                           onClick={handleEdit}
                         />
+                        </Link>
                         <BaseButton
                           enable={false}
                           name="Details"
