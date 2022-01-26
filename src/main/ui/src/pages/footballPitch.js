@@ -41,6 +41,7 @@ function SubRentRow(subprops) {
 
 function Row(props) {
   const { row } = props;
+  const token = sessionStorage.getItem('JWTToken') ;
   const handleError = useErrorHandler()
   const showSuccess = useSnackbarQueue('success')
   const { onChange } = props;
@@ -49,7 +50,11 @@ function Row(props) {
   const [rentForPitch, setRentForPitch] = React.useState([]);
   const handleSetOpen = async () => {
     setOpen((state) => !state);
-    axios.get(`/Rentals/RentsForPitch/${row.id}`).then((res) => {
+    axios.get(`/Rentals/RentsForPitch/${row.id}`,{
+      headers:{
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((res) => {
       setRentForPitch(res.data);
     }).catch(error =>{
       console.log(error.response.data)
@@ -63,13 +68,14 @@ function Row(props) {
     const json = JSON.stringify({
       accountID: "71176e64-e76b-405f-84dc-c8a2f299a7b8",
       pitchID: row.id,
-      start_date_rental: "2022-01-25T17:47:20.361",
+      start_date_rental: "2022-01-26T17:47:20.361",
       end_date_rental: "2022-02-10T17:47:20.361",
       active: true,
     });
     return axios.post("/Rentals/addRent/", json, {
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${token}`
       },
     });
   };
@@ -156,7 +162,11 @@ function Row(props) {
   );
 }
 function getPitches() {
-  return axios.get(`Pitches/footballPitches/`);
+  const token = sessionStorage.getItem("JWTToken")
+  return axios.get(`Pitches/footballPitches/`,{
+    headers:{
+      'Authorization': `Bearer ${token}`
+    }});
 }
 function BasicTable() {
   const [pitches, setPitches] = useState([]);

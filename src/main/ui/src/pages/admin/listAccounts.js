@@ -28,7 +28,7 @@ function Row(props) {
   const { row } = props;
   const { onChange } = props;
   const [open, setOpen] = React.useState(false);
-
+  const token = sessionStorage.getItem("JWTToken")
   const handleError = useErrorHandler()
   const showSuccess = useSnackbarQueue('success')
 
@@ -85,7 +85,10 @@ function Row(props) {
                           enable={false}
                           name={row.active ? "deactive" : "active"}
                           onClick={() => 
-                            axios.post(`/Account/AccountActivation/${row.login}`).then(res => {
+                            axios.post(`/Account/AccountActivation/${row.login}`,{
+                              headers:{
+                                'Authorization': `Bearer ${token}`
+                              }}).then(res => {
                               onChange().then(()=>{
                                 showSuccess('succesful action')
                               })
@@ -119,7 +122,11 @@ function Row(props) {
   );
 }
 function getAccounts() {
-  return axios.get(`Account/`);
+  const token = sessionStorage.getItem("JWTToken").toString()
+  return axios.get(`Account/`,{
+    headers:{
+      'Authorization': `Bearer ${token}`
+    }});
 }
 function BasicTable() {
   const [accounts, setAccounts] = useState([]);

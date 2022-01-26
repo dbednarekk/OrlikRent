@@ -104,7 +104,11 @@ function Row(props) {
   );
 }
 function getPitches() {
-  return axios.get(`Pitches/`);
+  const token = sessionStorage.getItem("JWTToken")
+  return axios.get(`Pitches/`,{
+    headers:{
+      'Authorization': `Bearer ${token}`
+    }});
 }
 function BasicTable() {
   const [pitches, setPitches] = useState([]);

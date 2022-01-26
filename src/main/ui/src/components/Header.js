@@ -13,7 +13,9 @@ function Header(props) {
       </Link>
       <h1 className={styles.headerh1}> {props.title}</h1>
       <Box className={styles.headerButton}>
+      <Link to="/login">
         <BaseButton name="Zaloguj się" />
+        </Link>
         <BaseButton name="Zarejestruj się" />
       </Box>
     </Box>
