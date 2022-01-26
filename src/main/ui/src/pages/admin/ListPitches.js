@@ -43,6 +43,7 @@ function Row(props) {
   const handleViewDetails = () => {
     console.log("handle view details");
   };
+  const token = sessionStorage.getItem("JWTToken")
   return (
     <React.Fragment>
       <TableRow>
@@ -86,7 +87,11 @@ function Row(props) {
                           enable={false}
                           name="Remove"
                           onClick={() => 
-                            axios.post(`/Pitches/deletePitch/${row.id}`).then(res => {
+                            axios.post(`/Pitches/deletePitch/${row.id}`,{
+                              headers:{
+                                'Authorization': `Bearer ${token}`
+                              }
+                            }).then(res => {
                               onChange().then(()=>{
                                 showSuccess('succesful action')
                               })

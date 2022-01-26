@@ -19,7 +19,7 @@ function EditPitch() {
     const [numberOfShifts, setNumberOfShifts] = useState('');
     const [first_name, setFirst_name] = useState('');
     const [last_name, setLast_name] = useState('');
-
+    const token = sessionStorage.getItem("JWTToken")
     const handleEditAdmin = () => {
         const json = JSON.stringify({
             login,
@@ -29,6 +29,7 @@ function EditPitch() {
         axios.put(`Account/UpdateAdmin/${currentAccount.id}`, json,{
             headers: {
                 "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
             //     "Accept": "application/json",
             //     // "If-Match": currentAccount.etag,
             }
@@ -45,7 +46,8 @@ function EditPitch() {
         console.log(json);
         axios.put(`Account/UpdateManager/${currentAccount.id}`, json,{
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
     }
@@ -60,20 +62,33 @@ function EditPitch() {
         console.log(json);
         axios.put(`Account/UpdateClient/${currentAccount.id}`, json,{
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
     }
 
     const getAccount = () => {
         if(currentAccount.role === "ADMINISTRATOR"){
-            return axios.get(`/Account/admin/${currentAccount.id}`, )
+            return axios.get(`/Account/admin/${currentAccount.id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } )
         }
         if(currentAccount.role === "MANAGER"){
-            return axios.get(`/Account/manager/${currentAccount.id}`, )
+            return axios.get(`/Account/manager/${currentAccount.id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } )
         }
         if(currentAccount.role === "USER"){
-            return axios.get(`/Account/client/${currentAccount.id}`, )
+            return axios.get(`/Account/client/${currentAccount.id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } )
         }
     }
 

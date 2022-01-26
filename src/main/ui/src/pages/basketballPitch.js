@@ -47,9 +47,14 @@ function Row(props) {
   const handleError = useErrorHandler()
   const showSuccess = useSnackbarQueue('success')
   const [rentForPitch, setRentForPitch] = React.useState([]);
+  const token = sessionStorage.getItem("JWTToken")
   const handleSetOpen = async () => {
     setOpen((state) => !state);
-    axios.get(`/Rentals/RentsForPitch/${row.id}`).then((res) => {
+    axios.get(`/Rentals/RentsForPitch/${row.id}`,{
+      headers:{
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((res) => {
       setRentForPitch(res.data);
     }).catch(error =>{
       console.log(error.response.data)
@@ -70,6 +75,7 @@ function Row(props) {
     return axios.post("/Rentals/addRent/", json, {
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${token}`
       },
     });
   };
@@ -153,7 +159,12 @@ function Row(props) {
   );
 }
 function getPitches() {
-  return axios.get(`Pitches/basketballPitches/`);
+  const token = sessionStorage.getItem("JWTToken")
+  return axios.get(`Pitches/basketballPitches/`,{
+    headers:{
+      'Authorization': `Bearer ${token}`
+    }
+  });
 }
 function BasicTable() {
   const [pitches, setPitches] = useState([]);

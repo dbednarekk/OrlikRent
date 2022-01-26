@@ -25,16 +25,28 @@ export default function PopupDataPitch({open, onCancel, id, role}){
     const [numberOfShifts, setNumberOfShifts] = useState('');
     const [first_name, setFirst_name] = useState('');
     const [last_name, setLast_name] = useState('');
-
+    const token = sessionStorage.getItem("JWTToken")
     const handleOpen = () => {
         if(role === "ADMINISTRATOR"){
-            return axios.get(`/Account/admin/${id}`, )
+            return axios.get(`/Account/admin/${id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } )
         }
         if(role === "MANAGER"){
-            return axios.get(`/Account/manager/${id}`, )
+            return axios.get(`/Account/manager/${id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } )
         }
         if(role === "USER"){
-            return axios.get(`/Account/client/${id}`, )
+            return axios.get(`/Account/client/${id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } )
         }
     }
 
