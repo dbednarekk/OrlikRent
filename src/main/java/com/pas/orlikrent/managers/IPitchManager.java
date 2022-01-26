@@ -15,6 +15,10 @@ public interface IPitchManager{
 
     PitchDTO getByID(String id) throws Base_Exception;
 
+    FootballPitchDTO getFByID(String id) throws Base_Exception;
+
+    BasketballPitchDTO getBByID(String id) throws Base_Exception;
+    
     List<FootballPitchDTO> getAllFootballPitches() throws Base_Exception;
 
     List<BasketballPitchDTO> getAllBasketballPitches() throws Base_Exception;

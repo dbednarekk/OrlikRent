@@ -22,8 +22,11 @@ function EditAccount() {
 
     const handleEditAdmin = () => {
         const json = JSON.stringify({
+            id: currentAccount.id,
             login,
             email,
+            active: currentAccount.active,
+            role: currentAccount.role
         });
         console.log(json);
         axios.put(`Account/UpdateAdmin/${currentAccount.id}`, json,{
@@ -37,8 +40,11 @@ function EditAccount() {
 
     const handleEditManager = () => {
         const json = JSON.stringify({
+            id: currentAccount.id,
             login,
             email,
+            active: currentAccount.active,
+            role: currentAccount.role,
             salary,
             numberOfShifts
         });
@@ -52,8 +58,11 @@ function EditAccount() {
 
     const handleEditUser = () => {
         const json = JSON.stringify({
+            id: currentAccount.id,
             login,
             email,
+            active: currentAccount.active,
+            role: currentAccount.role,
             first_name,
             last_name
         });

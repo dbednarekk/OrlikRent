@@ -18,9 +18,21 @@ import BaseButton from "../../components/BaseButton";
 import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler";
+import PopupData from "../PopupDataRent.tsx"
+import {Link} from "react-router-dom";
+import {useSnackbarQueue} from "../../components/Snackbar"
+
+
 function Row(props) {
   const { row } = props;
+  const { onChange } = props;
   const [open, setOpen] = React.useState(false);
+
+  const [openPopup, setOpenPopup] = useState(false);
+
+  const handleError = useErrorHandler()
+  const showSuccess = useSnackbarQueue('success')
+
 
   const handleSetOpen = async () => {
     setOpen((state) => !state);
@@ -28,8 +40,8 @@ function Row(props) {
   const handleRemove = () => {
     console.log("handle Remove");
   };
-  const handleEdit = () => {
-    console.log("handle Edit");
+  const handleEdit = (rent) => {
+    sessionStorage.setItem("id", JSON.stringify(rent));
   };
   return (
     <React.Fragment>
@@ -74,12 +86,33 @@ function Row(props) {
                         <BaseButton
                           enable={false}
                           name="Remove"
-                          onClick={handleRemove}
+                          onClick={() => 
+                            axios.post(`/Rentals/removeRent/${row.id}`).then(res => {
+                              onChange().then(()=>{
+                                showSuccess('succesful action')
+                              })
+                            }).catch(error => {
+                              const message = error.response.data
+                              handleError(message, error.response.status)
+                            })
+                          }
                         />
+                        <Link to="/editRent">
                         <BaseButton
                           enable={false}
                           name="Edit"
-                          onClick={handleEdit}
+                          onClick={()=>handleEdit(row)}
+                        />
+                        </Link>
+                        <BaseButton
+                          enable={false}
+                          name="Details"
+                          onClick={() => setOpenPopup(true)}
+                        />
+                        <PopupData
+                          open={openPopup}
+                          onCancel={() => {setOpenPopup(false)}}
+                          id={row.id}
                         />
                       </TableBody>
                     </Table>

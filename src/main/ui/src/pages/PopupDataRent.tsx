@@ -23,7 +23,7 @@ export default function PopupDataRent({open, onCancel, id}){
     const [active, setActive] = useState(false);
 
     const handleOpen = () => {
-            return axios.get(`/Rentals//Rent/${id}` )
+            return axios.get(`/Rentals/Rent/${id}` )
     }
 
     useEffect( () => {

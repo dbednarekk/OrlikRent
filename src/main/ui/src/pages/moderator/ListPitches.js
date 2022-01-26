@@ -20,13 +20,14 @@ import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler";
 import {Link} from "react-router-dom";
 import {useSnackbarQueue} from "../../components/Snackbar"
-import PopupData from "../PopupData.tsx"
+import PopupData from "../PopupDataPitch.tsx"
 
 function Row(props) {
   const { row } = props;
   const { onChange } = props;
 
   const [open, setOpen] = React.useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
 
   const handleError = useErrorHandler()
   const showSuccess = useSnackbarQueue('success')
@@ -37,12 +38,10 @@ function Row(props) {
   const handleRemove = () => {
     console.log("handle Remove");
   };
-  const handleEdit = () => {
-    console.log("handle Edit");
-  };
-  const handleViewDetails = () => {
-    console.log("handle view details");
-  };
+  const handleEdit = (pitch) => {
+    sessionStorage.setItem("pitch", JSON.stringify(pitch));
+  }
+
   return (
     <React.Fragment>
       <TableRow>
@@ -100,13 +99,19 @@ function Row(props) {
                         <BaseButton
                           enable={false}
                           name="Edit"
-                          onClick={handleEdit}
+                          onClick={()=>handleEdit(row)}
                         />
                         </Link>
                         <BaseButton
                           enable={false}
                           name="Details"
-                          onClick={handleViewDetails}
+                          onClick={() => setOpenPopup(true)}
+                        />
+                        <PopupData
+                          open={openPopup}
+                          onCancel={() => {setOpenPopup(false)}}
+                          id={row.id}
+                          pitch={row}
                         />
                       </TableBody>
                     </Table>
@@ -120,14 +125,17 @@ function Row(props) {
     </React.Fragment>
   );
 }
-function getPitches() {
-  return axios.get(`Pitches/`);
+function getFootballPitches() {
+  return axios.get(`Pitches/footballPitches/`) 
+}
+function getBasketballPitches() {
+  return axios.get(`Pitches/basketballPitches/`) 
 }
 function BasicTable() {
   const [pitches, setPitches] = useState([]);
   const handleError = useErrorHandler()
   const getUpdatedPiches = () => {
-    return getPitches().then((res) => {
+    return getFootballPitches().then((res) => {
       setPitches(res.data);
     }).catch(error =>{
       console.log(error.response.data)
@@ -183,6 +191,7 @@ function BasicTable() {
           )}
         />
       </div>
+      <span>Football Pitches</span>
       <TableContainer component={Paper} className={styles.table}>
         <Table aria-label="simple table">
           <TableHead>
@@ -207,20 +216,104 @@ function BasicTable() {
     </Box>
   );
 }
-const handleAdd = () => {
-  console.log("Handle add");
-};
+
+function BasicTableBasketball() {
+  const [pitches, setPitches] = useState([]);
+  const handleError = useErrorHandler()
+  const getUpdatedPiches = () => {
+    return getBasketballPitches().then((res) => {
+      setPitches(res.data);
+    }).catch(error =>{
+      console.log(error.response.data)
+      const message = error.response.data
+      handleError(message, error.response.status)
+    });
+  };
+  useEffect(() => {
+    getUpdatedPiches();
+  }, []);
+  const pitchs = [];
+  const [searchInput, setSearchInput] = useState("");
+
+  function search(rows) {
+    if (Array.isArray(rows) && rows.length) {
+      const filteredpitch = rows.filter(
+        (row) =>
+          row.props.row.id.toLowerCase().indexOf(searchInput.toLowerCase()) > -1
+      );
+
+      filteredpitch.forEach((pitch) =>
+        pitchs.includes(pitch.props.row.id)
+          ? ""
+          : pitchs.push(pitch.props.row.id)
+      );
+      return filteredpitch;
+    } else {
+      return rows;
+    }
+  }
+  return (
+    <Box
+      style={{
+        position: "relative",
+        top: "20%",
+      }}
+    >
+      <div>
+        <Autocomplete
+          options={pitchs}
+          inputValue={searchInput}
+          noOptionsText="no options"
+          onChange={(event, value) => {
+            setSearchInput(value ? value : "");
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="search pitch"
+              variant="outlined"
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+          )}
+        />
+      </div>
+      <span>Basketball Pitches</span>
+      <TableContainer component={Paper} className={styles.table}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell align="center">id</TableCell>
+              <TableCell align="center">name</TableCell>
+              <TableCell align="center">price</TableCell>
+              <TableCell align="center">sector</TableCell>
+              <TableCell align="center">rented</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {search(
+              pitches.map((row, index) => (
+                <Row key={index} row={row} onChange={getUpdatedPiches} />
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
+}
 
 function ListPitches() {
   return (
     <div>
-       <Link to="/addFPitch/">
+      <Link to="/addFPitch/">
         <BaseButton enable={false} name="Add Football Pitch" />
       </Link>
+      <BasicTable />
       <Link to="/addBPitch/">
         <BaseButton enable={false} name="Add Basketball Pitch"  />
       </Link>
-      <BasicTable />
+      <BasicTableBasketball/>
     </div>
   );
 }

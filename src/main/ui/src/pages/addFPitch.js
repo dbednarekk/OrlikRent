@@ -25,9 +25,9 @@ function AddFPitch() {
     const [lights, setLights] = useState(false);
     const [nets, setNets] = useState(false);
     const options1 = [
-        { value: 'FULL_SIZE', label: 'Pełne' },
-        { value: 'HALF_SIZE', label: 'Połowa' },
-      ]
+        { value: 'FULL_SIZE', label: 'Full' },
+        { value: 'HALF_SIZE', label: 'Half' },
+        ]
 
     const options2 = [
         { value: 'SILICONE', label: 'Silicone' },
@@ -70,11 +70,11 @@ function AddFPitch() {
        
 
         <div className={ styles.body }>
-            <h1>Dodaj boisko piłkarskie</h1>
-            <h3>Nazwa boiska:</h3>
+            <h1>Add FootballPitch</h1>
+            <h3>FootballPitch name:</h3>
             <TextField
-                label={"Nazwa *"}
-                placeholder={"Nazwa"}
+                label={"FootballPitch name *"}
+                placeholder={"FootballPitch name"}
                 value={name}
                 style={{
                     marginTop: '16px'}}
@@ -82,10 +82,10 @@ function AddFPitch() {
                     setName(event.target.value)
                 }}>
             </TextField>
-            <h3>Cena:</h3>
+            <h3>Price:</h3>
             <TextField
-                label={"Cena *"}
-                placeholder={"Cena"}
+                label={"Price *"}
+                placeholder={"Price"}
                 value={price}
                 style={{
                     marginTop: '16px'}}
@@ -95,29 +95,29 @@ function AddFPitch() {
                 }}
                 min="0">
             </TextField>
-            <h3>Oświetlenie:</h3>
+            <h3>Lights:</h3>
             <FormControlLabel
                 control={
                     <Switch checked={lights} onChange={handleChangeLights} name="lights" />
                 }
-                label="Włącz:"
+                label="Lights:"
                 labelPlacement="start"
                 style={{
                     marginTop: '16px'}}
             />
-            <h3>Sektor:</h3>
+            <h3>Sector:</h3>
             <Select
             defaultValue={sector}
             onChange={setSector}
-            placeholder={"Sektor"}
+            placeholder={"Sector"}
             options={options1}
             style={{
                 marginTop: '16px'}}
             width='200px'>
             </Select>
-            <h3>Min. liczba osób:</h3>
+            <h3>Min. number of people:</h3>
             <TextField
-                placeholder={"Liczba osób"}
+                placeholder={"Number of people"}
                 value={minP}
                 type="number"
                 style={{
@@ -127,9 +127,9 @@ function AddFPitch() {
                 }}
                 min="1">
             </TextField>
-            <h3>Max. liczba osób:</h3>
+            <h3>Max. number of people:</h3>
             <TextField
-                placeholder={"Liczba osób"}
+                placeholder={"Number of people"}
                 value={maxP}
                 type="number"
                 style={{
@@ -139,21 +139,21 @@ function AddFPitch() {
                 }}
                 min="2">
             </TextField>
-            <h3>Siatki na bramce:</h3>
+            <h3>Nets:</h3>
             <FormControlLabel
                 control={
                     <Switch checked={nets} onChange={handleChangeNets} name="nets" />
                 }
-                label="Załóż:"
+                label="Nets:"
                 labelPlacement="start"
                 style={{
                     marginTop: '16px'}}
             />
-            <h3>Typ nawierzchni:</h3>
+            <h3>Type of grass:</h3>
             <Select
             defaultValue={grasstype}
             onChange={setGrasstype}
-            placeholder={"Typ nawierzchni"}
+            placeholder={"Type of grass"}
             options={options2}
             style={{
                 marginTop: '16px'}}
@@ -168,7 +168,7 @@ function AddFPitch() {
                     marginTop: '16px',
                 }}
                 onClick={handleAddPitch}
-            >{"+ Dodaj"}</Button>
+            >{"+ Add"}</Button>
             </div>
         </div>
     )
