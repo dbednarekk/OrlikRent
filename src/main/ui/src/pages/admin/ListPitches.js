@@ -125,11 +125,20 @@ function Row(props) {
   );
 }
 function getFootballPitches() {
-  return axios.get(`Pitches/footballPitches/`) 
+  const token = sessionStorage.getItem("JWTToken")
+  return axios.get(`Pitches/footballPitches/`,{
+    headers:{
+      'Authorization': `Bearer ${token}`
+    }});
 }
 function getBasketballPitches() {
-  return axios.get(`Pitches/basketballPitches/`) 
+  const token = sessionStorage.getItem("JWTToken")
+  return axios.get(`Pitches/basketballPitches/`,{
+    headers:{
+      'Authorization': `Bearer ${token}`
+    }}); 
 }
+
 function BasicTable() {
   const [pitches, setPitches] = useState([]);
   const handleError = useErrorHandler()

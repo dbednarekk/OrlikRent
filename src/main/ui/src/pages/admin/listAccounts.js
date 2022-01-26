@@ -22,14 +22,14 @@ import {Link} from "react-router-dom";
 import {useSnackbarQueue} from "../../components/Snackbar"
 import PopupData from "../PopupData.tsx"
 
- 
+
 function Row(props) {
 
   const { row } = props;
   const { onChange } = props;
   const [open, setOpen] = React.useState(false);
+  const token = sessionStorage.getItem("JWTToken")
   const [openPopup, setOpenPopup] = useState(false);
-
   const handleError = useErrorHandler()
   const showSuccess = useSnackbarQueue('success')
 
@@ -37,7 +37,7 @@ function Row(props) {
   const handleSetOpen = async () => {
     setOpen((state) => !state);
   };
- 
+
   const handleViewDetails = () => {
     console.log("handle view details1");
   };
@@ -85,8 +85,11 @@ function Row(props) {
                         <BaseButton
                           enable={false}
                           name={row.active ? "deactive" : "active"}
-                          onClick={() => 
-                            axios.post(`/Account/AccountActivation/${row.login}`).then(res => {
+                          onClick={() =>
+                            axios.post(`/Account/AccountActivation/${row.login}`,{
+                              headers:{
+                                'Authorization': `Bearer ${token}`
+                              }}).then(res => {
                               onChange().then(()=>{
                                 showSuccess('succesful action')
                               })
@@ -103,7 +106,7 @@ function Row(props) {
                           onClick={()=>handleEdit(row)}
                         />
                         </Link>
-                        
+
                         <BaseButton
                           enable={false}
                           name="Details"
@@ -115,7 +118,7 @@ function Row(props) {
                           id={row.id}
                           role={row.role}
                         />
-                        
+
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -128,7 +131,11 @@ function Row(props) {
   );
 }
 function getAccounts() {
-  return axios.get(`Account/`);
+  const token = sessionStorage.getItem("JWTToken").toString()
+  return axios.get(`Account/`,{
+    headers:{
+      'Authorization': `Bearer ${token}`
+    }});
 }
 function BasicTable() {
   const [accounts, setAccounts] = useState([]);
@@ -217,7 +224,7 @@ function BasicTable() {
 
 function ListAccounts() {
   return (
-    <div>     
+    <div>
       <Link to="/addAccount/">
         <BaseButton enable={false} name="Add Account"/>
       </Link>

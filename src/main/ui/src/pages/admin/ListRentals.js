@@ -127,7 +127,11 @@ function Row(props) {
   );
 }
 function getRentals() {
-  return axios.get(`Rentals/`);
+  const token = sessionStorage.getItem("JWTToken")
+  return axios.get(`Rentals/`,{
+    headers:{
+      'Authorization': `Bearer ${token}`
+    }});
 }
 function BasicTable() {
   const [rentals, setRentals] = useState([]);
