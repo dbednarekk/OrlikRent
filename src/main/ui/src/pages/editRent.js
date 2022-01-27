@@ -7,8 +7,8 @@ import React from "react";
 import axios from "../Services/URL";
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import useErrorHandler from "../errorHandler";
-import {useSnackbarQueue} from "../components/Snackbar"
+import useErrorHandler from "../errorHandler.ts";
+import {useSnackbarQueue} from "../components/Snackbar.ts"
 
 function EditRent() {
    

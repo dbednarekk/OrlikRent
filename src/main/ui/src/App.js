@@ -13,26 +13,33 @@ import EditAccount from "./pages/editAccount";
 import Login from "./pages/Login";
 import EditPitch from "./pages/editPitch";
 import EditRent from "./pages/editRent";
+import { Switch } from "@mui/material";
 
 function App() {
-
+  const auth =  JSON.parse(sessionStorage.getItem("Auth")) 
   return (
     <Router basename='OrlikRentPAS/'>
       <Routes>
+     
         <Route path="/" element={<Home/>}/>
         <Route path="footballPitch/" element={<FootballPitch/>}/>
         <Route path="basketballPitch/" element={<BasketballPitch/>} />
         <Route path="addFPitch/" element={<AddFPitch/>}/>
         <Route path="addBPitch/" element={<AddBPitch/>} />
         <Route path="addAccount/" element={<AddAccount/>} />
-        <Route path="admin//*" element={<AdminPage/>} />
-        <Route path="moderator//*" element={<ModeratorPage/>} />
+        <Route path="admin//*" element={
+                            auth  === "Admin" ? <AdminPage/> :
+                                     <Home/>
+                        } />
+        <Route path="moderator//*" element={
+                            auth  === "Manager" ? <ModeratorPage/> :
+                                     <Home/>
+                        } />
         <Route path="editAccounts/" element={<EditAccount/>} />
-        <Route path="login/" element={<Login/>}/>
+        <Route path="login//*" element={<Login/>}/>
         <Route path="editPitch/" element={<EditPitch/>} />
-        <Route path="editRent/" element={<EditRent/>} />
-
-      </Routes>
+        <Route path="editRent/" element={<EditRent/>} />       
+    </Routes>
     </Router>
 
   );

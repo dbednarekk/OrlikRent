@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 
 function Header(props) {
   const isLogged = sessionStorage.getItem("JWTToken") === null ? false : true;
-  const login = sessionStorage.getItem("Login")
-  const auth = sessionStorage.getItem("Auth")
+  const login = JSON.parse(sessionStorage.getItem("Login"))
+  const auth = JSON.parse(sessionStorage.getItem("Auth"))
   const handleLogOut =() =>{
     sessionStorage.clear()
     document.location.replace('/OrlikRentPAS/')

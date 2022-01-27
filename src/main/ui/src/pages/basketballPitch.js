@@ -19,8 +19,8 @@ import Collapse from "@mui/material/Collapse";
 import BaseButton from "../components/BaseButton";
 import Autocomplete from "../components/Autocomplete";
 import TextField from "@mui/material/TextField";
-import useErrorHandler from "../errorHandler";
-import useSnackbarQueue from "../components/Snackbar";
+import useErrorHandler from "../errorHandler.ts";
+import useSnackbarQueue from "../components/Snackbar.ts";
 import {Link} from "react-router-dom";
 import PopupData from "../pages/PopupRent.tsx"
 
@@ -102,7 +102,9 @@ function Row(props) {
         />
         <PopupData
           open={openPopup}
-          onCancel={() => {setOpenPopup(false)}}
+          onCancel={() => onChange().then(res =>{
+            setOpenPopup(false)
+          })}    
           id={row.id}
           pitch={row}
         />

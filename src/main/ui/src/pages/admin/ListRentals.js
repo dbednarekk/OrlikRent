@@ -17,10 +17,10 @@ import Collapse from "@mui/material/Collapse";
 import BaseButton from "../../components/BaseButton";
 import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
-import useErrorHandler from "../../errorHandler";
+import useErrorHandler from "../../errorHandler.ts";
 import PopupData from "../PopupDataRent.tsx"
 import {Link} from "react-router-dom";
-import {useSnackbarQueue} from "../../components/Snackbar"
+import {useSnackbarQueue} from "../../components/Snackbar.ts"
 
 
 function Row(props) {

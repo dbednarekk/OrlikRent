@@ -9,8 +9,8 @@ import { If, Then } from 'react-if';
 import Select from 'react-select';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import useErrorHandler from "../errorHandler";
-import {useSnackbarQueue} from "../components/Snackbar"
+import useErrorHandler from "../errorHandler.ts";
+import {useSnackbarQueue} from "../components/Snackbar.ts"
 
 function EditPitch() {
 

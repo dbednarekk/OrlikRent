@@ -35,7 +35,7 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Manager options</web-resource-name>
+            <web-resource-name>Manager AND Admin options</web-resource-name>
             <url-pattern>/api/Rentals/*</url-pattern>
             <url-pattern>/api/Pitches/*</url-pattern>
             <http-method>GET</http-method>
@@ -45,14 +45,13 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>Manager</role-name>
+            <role-name>Admin</role-name>
         </auth-constraint>
     </security-constraint>
 
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Admin options</web-resource-name>
-            <url-pattern>/api/Rentals/*</url-pattern>
-            <url-pattern>/api/Pitches/*</url-pattern>
             <url-pattern>/api/Account/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>

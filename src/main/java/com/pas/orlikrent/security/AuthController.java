@@ -36,7 +36,7 @@ public class AuthController {
                     .entity(jwtToken)
                     .build();
         } else {
-            return Response.status(Response.Status.UNAUTHORIZED).entity( Response.Status.UNAUTHORIZED).build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity( "Incorrect login or password").build();
         }
     }
 }

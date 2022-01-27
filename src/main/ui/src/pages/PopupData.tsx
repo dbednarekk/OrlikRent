@@ -6,8 +6,8 @@ import { useState, useEffect } from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
 import styletb from '../styles/tableStyle.module.css'
-import useErrorHandler from "../errorHandler";
-import {useSnackbarQueue} from "../components/Snackbar"
+import useErrorHandler from "../errorHandler.ts";
+import {useSnackbarQueue} from "../components/Snackbar.ts"
 
 export interface PopupData {
     open: boolean,

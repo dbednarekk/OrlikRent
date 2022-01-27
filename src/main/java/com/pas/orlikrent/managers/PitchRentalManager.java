@@ -77,25 +77,25 @@ public class PitchRentalManager implements IPitchRentalManager {
 //            }
 //        }
 
-        for (PitchRental r : pitch_rental_repo.getAll()) {
+        for (PitchRental r : pitch_rental_repo.getRentalsForPitch(rent.getPitchID())) {
             if (rent.getStart_date_rental().isBefore(r.getEnd_date_rental()) && rent.getStart_date_rental().isAfter(r.getStart_date_rental()) ){
                 throw new Rental__Exception("Can not reserve this pitch because time of start of your reservation has been reserved");
             }
         }
 
-        for (PitchRental r : pitch_rental_repo.getAll()) {
+        for (PitchRental r : pitch_rental_repo.getRentalsForPitch(rent.getPitchID())) {
             if (rent.getEnd_date_rental().isBefore(r.getEnd_date_rental()) && rent.getEnd_date_rental().isAfter(r.getStart_date_rental()) ){
                 throw new Rental__Exception("Can not reserve this pitch because time of end of your reservation has reserved");
             }
         }
 
-        for (PitchRental r : pitch_rental_repo.getAll()) {
+        for (PitchRental r : pitch_rental_repo.getRentalsForPitch(rent.getPitchID())) {
             if (r.getStart_date_rental().isBefore(rent.getEnd_date_rental()) && r.getStart_date_rental().isAfter(rent.getStart_date_rental()) ){
                 throw new Rental__Exception("Can not reserve this pitch because there are some reservations in this time");
             }
         }
 
-        for (PitchRental r : pitch_rental_repo.getAll()) {
+        for (PitchRental r : pitch_rental_repo.getRentalsForPitch(rent.getPitchID())) {
             if (r.getEnd_date_rental().isBefore(rent.getEnd_date_rental()) && r.getEnd_date_rental().isAfter(rent.getStart_date_rental()) ){
                 throw new Rental__Exception("Can not reserve this pitch because there are some reservations in this time");
             }

@@ -6,8 +6,8 @@ import { Button } from 'react-bootstrap';
 import React from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
-import useErrorHandler from "../errorHandler";
-import {useSnackbarQueue} from "../components/Snackbar"
+import useErrorHandler from "../errorHandler.ts";
+import {useSnackbarQueue} from "../components/Snackbar.ts"
 
 function EditAccount() {
    

@@ -6,13 +6,13 @@ import styles from '../styles/AddPitch.module.css'
 import { Button } from 'react-bootstrap';
 import React from "react";
 import axios from "../Services/URL";
-import useErrorHandler from '../errorHandler';
+import useErrorHandler from '../errorHandler.ts';
+
 function Login() {
     const navigate = useNavigate();
     const handleError = useErrorHandler()
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-
     function parseJwt (token) {
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -22,24 +22,24 @@ function Login() {
     
         return JSON.parse(jsonPayload);
     };
-    const handleAddUser = () => {
+    const handleAddUser = async() => {
         const json = JSON.stringify({
             login,
             password,
            
         });
         console.log(json);
-        axios.post('auth/login', json,{
+         await axios.post('auth/login', json,{
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then((res) => {
             sessionStorage.setItem("JWTToken", JSON.stringify(res.data))
             const cred = parseJwt(res.data)
-            console.log(cred)
             sessionStorage.setItem("Login",JSON.stringify(cred.sub))
             sessionStorage.setItem("Auth",JSON.stringify(cred.auth))
-            navigate('/');
+           navigate("/")
+           
           }).catch(error =>{
             const message = error.response.data
             handleError(message, error.response.status)

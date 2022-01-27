@@ -9,13 +9,14 @@ import styletb from '../styles/tableStyle.module.css'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import BaseButton from "../components/BaseButton";
-import useErrorHandler from "../errorHandler";
-import {useSnackbarQueue} from "../components/Snackbar"
+import useErrorHandler from "../errorHandler.ts";
+import {useSnackbarQueue} from "../components/Snackbar.ts"
 export interface PopupRentPitch {
     open: boolean,
     onCancel: () => void,
     id: string,
-    pitch: string
+    pitch: string,
+  
 }
 
 export default function PopupRentPitch({open, onCancel, id, pitch}){
@@ -25,6 +26,7 @@ export default function PopupRentPitch({open, onCancel, id, pitch}){
     const token = sessionStorage.getItem('JWTToken') ;
     const handleError = useErrorHandler()
     const showSuccess = useSnackbarQueue('success')
+   
    
     const handleSetRent = () => {
         // setRent((state) => !state);
@@ -44,6 +46,7 @@ export default function PopupRentPitch({open, onCancel, id, pitch}){
           }
         }).then((res) =>  {
               showSuccess("successful action")
+              onCancel()
           }).catch(error =>{
             console.log(error.response.data)
             const message = error.response.data
