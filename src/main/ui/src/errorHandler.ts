@@ -7,7 +7,7 @@ function useErrorHandler() {
     return (error: string | any, status: number = 0) => {
 
         if (error === "" && status === 404) {
-            showWarning("error.unauthorized")
+            showWarning("Action unauthorized, please log in")
            
             return
         }
@@ -29,7 +29,10 @@ function useErrorHandler() {
             showError("Action unauthorized, please log in")
             return
         }
-
+        if( status === 403){
+            showError("Resources forbidden for your access level")
+            return
+        }
         if (typeof error === 'string') {
             showError(error)
             return
