@@ -138,12 +138,7 @@ function BasicTable() {
     return axios.get(`Rentals/`,{
       headers:{
         'Authorization': `Bearer ${token}`
-      }}).then(()=>{
-        
-      }).catch(error => {
-        const message = error.response.data
-        handleError(message, error.response.status)
-      })
+      }})
   }
 
   const getUpdatedRentals = () => {

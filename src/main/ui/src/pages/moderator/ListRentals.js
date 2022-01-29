@@ -141,11 +141,6 @@ function BasicTable() {
       headers:{
         'Authorization': `Bearer ${token}`
       }
-    }).then(()=>{
-       
-    }).catch(error => {
-      const message = error.response.data
-      handleError(message, error.response.status)
     })
   }
 
