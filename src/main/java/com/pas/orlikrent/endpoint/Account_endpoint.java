@@ -1,6 +1,7 @@
 package com.pas.orlikrent.endpoint;
 
 import com.pas.orlikrent.dto.accounts.*;
+import com.pas.orlikrent.dto.pitch.PitchRentalDTO;
 import com.pas.orlikrent.exceptions.Account__Exception;
 import com.pas.orlikrent.exceptions.Base_Exception;
 import com.pas.orlikrent.managers.IAccount_Manager;
@@ -207,5 +208,6 @@ public class Account_endpoint {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+
 }
 

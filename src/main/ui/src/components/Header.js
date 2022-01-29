@@ -22,8 +22,8 @@ function Header(props) {
       <Box className={styles.headerButton}>
         {isLogged ? (
           <>
-           <h4>{login}</h4>
-           <h4>{auth}</h4>
+           <h4 className={styles.headerh4}>{login}</h4>
+           <h4 className={styles.headerh4} >{auth}</h4>
            <BaseButton name="Wyloguj się" onClick={handleLogOut}/>
           </>
         ) : (

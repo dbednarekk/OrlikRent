@@ -87,6 +87,18 @@ public class Rental_Repository implements IRentalRepository {
             return res;
         }
     }
+    public List<PitchRental> getRentalsForClient(String id){
+        synchronized (this.rentals) {
+            List<PitchRental> res = new ArrayList<>();
+            for (PitchRental r : rentals
+            ) {
+                if (r.getAccount().getId().equals(id)) {
+                    res.add(r);
+                }
+            }
+            return res;
+        }
+    }
     public void endReservation(String id){
         synchronized (this.rentals) {
             for (PitchRental r : rentals) {

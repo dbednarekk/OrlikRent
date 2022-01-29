@@ -11,4 +11,5 @@ public interface IPitchRentalManager extends IManager<PitchRentalDTO,String> {
         void createRent(PitchRentDTO rent) throws Base_Exception;
         void endReservation(String id) throws Base_Exception;
         List<PitchRentalDTO> rentsForPitch(String id);
+        List<PitchRentalDTO> rentsForClient(String id);
 }

@@ -128,4 +128,8 @@ public class PitchRentalManager implements IPitchRentalManager {
     public List<PitchRentalDTO> rentsForPitch(String id){
             return RentMapper.listRentalToDTO(this.pitch_rental_repo.getRentalsForPitch(id));
     }
+    @Override
+    public List<PitchRentalDTO> rentsForClient(String id){
+        return RentMapper.listRentalToDTO(this.pitch_rental_repo.getRentalsForClient(id));
+    }
 }

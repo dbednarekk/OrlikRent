@@ -84,4 +84,11 @@ public class PitchRentEndpoint {
     public List<PitchRentalDTO> rentsForPitch(@PathParam("id") String id){
         return this.iPitchRentalManager.rentsForPitch(id);
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("RentsForClient/{id}")
+    public List<PitchRentalDTO> rentsForClient(@PathParam("id") String id){
+        return this.iPitchRentalManager.rentsForPitch(id);
+    }
 }
