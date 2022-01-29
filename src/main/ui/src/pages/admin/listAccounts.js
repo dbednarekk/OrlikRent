@@ -34,7 +34,7 @@ function Row(props) {
   const showSuccess = useSnackbarQueue('success')
 
 
-  const handleSetOpen = async () => {
+  const handleSetOpen =  () => {
     setOpen((state) => !state);
   };
 
@@ -86,13 +86,12 @@ function Row(props) {
                           enable={false}
                           name={row.active ? "deactive" : "active"}
                           onClick={() =>
-                            axios.post(`/Account/AccountActivation/${row.login}`,{
+                            axios.post(`/Account/AccountActivation/${row.login}`,{},{
                               headers:{
                                 'Authorization': `Bearer ${token}`
                               }}).then(res => {
-                              onChange().then(()=>{
-                                showSuccess('succesful action')
-                              })
+                              onChange()
+                              showSuccess("Successful action")
                             }).catch(error => {
                               const message = error.response.data
                               handleError(message, error.response.status)
@@ -141,19 +140,14 @@ function BasicTable() {
     return axios.get(`Account/`,{
       headers:{
         'Authorization': `Bearer ${token}`
-      }}).then(()=>{
-          showSuccess('succesful action')
-      }).catch(error => {
-        const message = error.response.data
-        handleError(message, error.response.status)
-      })
+      }})
   }
 
   const getUpdatedAccounts = () => {
     return getAccounts().then((res) => {
       setAccounts(res.data);
+     
     }).catch(error =>{
-      console.log(error.response.data)
       const message = error.response.data
       handleError(message, error.response.status)
     });

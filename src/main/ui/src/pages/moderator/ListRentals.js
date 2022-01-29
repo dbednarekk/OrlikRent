@@ -88,14 +88,13 @@ function Row(props) {
                           enable={false}
                           name="Remove"
                           onClick={() => 
-                            axios.post(`/Rentals/removeRent/${row.id}`,{
-                              Headers:{
+                            axios.delete(`/Rentals/removeRent/${row.id}`,{
+                              headers:{
                                 'Authorization': `Bearer ${token}`
                               }
                             }).then(res => {
-                              onChange().then(()=>{
-                                showSuccess('succesful action')
-                              })
+                              onChange()
+                              showSuccess("Successful action")
                             }).catch(error => {
                               const message = error.response.data
                               handleError(message, error.response.status)
@@ -143,7 +142,7 @@ function BasicTable() {
         'Authorization': `Bearer ${token}`
       }
     }).then(()=>{
-        showSuccess('succesful action')
+       
     }).catch(error => {
       const message = error.response.data
       handleError(message, error.response.status)

@@ -17,6 +17,19 @@
 
     <!--    Rest API rules    -->
 
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Common options</web-resource-name>
+            <url-pattern>/api/Pitches/footballPitches/</url-pattern>
+            <url-pattern>/api/Pitches/basketballPitches/</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Client</role-name>
+            <role-name>Manager</role-name>
+            <role-name>Admin</role-name>
+        </auth-constraint>
+    </security-constraint>
 
     <security-constraint>
         <web-resource-collection>
@@ -32,6 +45,8 @@
             <role-name>Client</role-name>
         </auth-constraint>
     </security-constraint>
+
+
 
     <security-constraint>
         <web-resource-collection>
@@ -53,6 +68,8 @@
         <web-resource-collection>
             <web-resource-name>Admin options</web-resource-name>
             <url-pattern>/api/Account/*</url-pattern>
+            <url-pattern>/api/Rentals/*</url-pattern>
+            <url-pattern>/api/Pitches/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>PUT</http-method>
@@ -60,6 +77,20 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>Admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Moderator options</web-resource-name>
+            <url-pattern>/api/Rentals/*</url-pattern>
+            <url-pattern>/api/Pitches/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+            <http-method>PATCH</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Manager</role-name>
         </auth-constraint>
     </security-constraint>
 

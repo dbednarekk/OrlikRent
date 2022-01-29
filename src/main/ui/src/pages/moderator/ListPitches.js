@@ -85,14 +85,14 @@ function Row(props) {
                           enable={false}
                           name="Remove"
                           onClick={() =>
-                            axios.post(`/Pitches/deletePitch/${row.id}`,{
-                              Headers:{
+                            axios.delete(`/Pitches/deletePitch/${row.id}`,{
+                              headers:{
                                 'Authorization': `Bearer ${token}`
                               }
                             }).then(res => {
-                              onChange().then(()=>{
-                                showSuccess('succesful action')
-                              })
+                              onChange()
+                              showSuccess('succesful action')
+                            
                             }).catch(error => {
                               const message = error.response.data
                               handleError(message, error.response.status)
@@ -141,11 +141,6 @@ function BasicTable() {
       headers:{
         'Authorization': `Bearer ${token}`
       }
-    }).then(()=>{
-        showSuccess('succesful action')
-    }).catch(error => {
-      const message = error.response.data
-      handleError(message, error.response.status)
     })
   }
 
@@ -153,7 +148,6 @@ function BasicTable() {
     return getFootballPitches().then((res) => {
       setPitches(res.data);
     }).catch(error =>{
-      console.log(error.response.data)
       const message = error.response.data
       handleError(message, error.response.status)
     });
@@ -242,19 +236,14 @@ function BasicTableBasketball() {
       headers:{
         'Authorization': `Bearer ${token}`
       }
-    }).then(()=>{
-        showSuccess('succesful action')
-    }).catch(error => {
-      const message = error.response.data
-      handleError(message, error.response.status)
     })
   }
 
   const getUpdatedPiches = () => {
     return getBasketballPitches().then((res) => {
       setPitches(res.data);
+     
     }).catch(error =>{
-      console.log(error.response.data)
       const message = error.response.data
       handleError(message, error.response.status)
     });

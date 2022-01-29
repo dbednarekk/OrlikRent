@@ -18,9 +18,9 @@ import BaseButton from "../../components/BaseButton";
 import Autocomplete from "../../components/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useErrorHandler from "../../errorHandler.ts";
-import {Link} from "react-router-dom";
-import {useSnackbarQueue} from "../../components/Snackbar.ts"
-import PopupData from "../PopupDataPitch.tsx"
+import { Link } from "react-router-dom";
+import { useSnackbarQueue } from "../../components/Snackbar.ts";
+import PopupData from "../PopupDataPitch.tsx";
 
 function Row(props) {
   const { row } = props;
@@ -29,8 +29,8 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const [openPopup, setOpenPopup] = useState(false);
 
-  const handleError = useErrorHandler()
-  const showSuccess = useSnackbarQueue('success')
+  const handleError = useErrorHandler();
+  const showSuccess = useSnackbarQueue("success");
 
   const handleSetOpen = async () => {
     setOpen((state) => !state);
@@ -40,11 +40,11 @@ function Row(props) {
   };
   const handleEdit = (pitch) => {
     sessionStorage.setItem("pitch", JSON.stringify(pitch));
-  }
+  };
   const handleViewDetails = () => {
     console.log("handle view details");
   };
-  const token = sessionStorage.getItem("JWTToken")
+  const token = sessionStorage.getItem("JWTToken");
   return (
     <React.Fragment>
       <TableRow>
@@ -72,54 +72,59 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Table size="small" aria-label="clients">
-              <TableHead></TableHead>
+                <TableHead></TableHead>
                 <TableBody>
                   <TableRow>
-                  <TableCell
-                        style={{
-                          display: "flex",
+                    <TableCell
+                      style={{
+                        display: "flex",
 
-                          alignItems: "center",
-                        }}
-                      >
-                        <BaseButton
-                          enable={false}
-                          name="Remove"
-                          onClick={() => 
-                            axios.post(`/Pitches/deletePitch/${row.id}`,{
-                              headers:{
-                                'Authorization': `Bearer ${token}`
-                              }
-                            }).then(res => {
-                              onChange().then(()=>{
-                                showSuccess('succesful action')
-                              })
-                            }).catch(error => {
-                              const message = error.response.data
-                              handleError(message, error.response.status)
+                        alignItems: "center",
+                      }}
+                    >
+                      <BaseButton
+                        enable={false}
+                        name="Remove"
+                        onClick={() =>
+                          axios
+                            .delete(`/Pitches/deletePitch/${row.id}`, {
+                              headers: {
+                                Authorization: `Bearer ${token}`,
+                              },
                             })
-                          }
-                        />
-                        <Link to="/editPitch">
+                            .then((res) => {
+                              onChange().then(() => {
+                                showSuccess("succesful action");
+                              });
+                            })
+                            .catch((error) => {
+                              const message = error.response.data;
+                              handleError(message, error.response.status);
+                            })
+                        }
+                      />
+                      <Link to="/editPitch">
                         <BaseButton
                           enable={false}
                           name="Edit"
-                          onClick={()=>handleEdit(row)}
+                          onClick={() => handleEdit(row)}
                         />
-                        </Link>
-                        <BaseButton
-                          enable={false}
-                          name="Details"
-                          onClick={() => setOpenPopup(true)}
-                        />
-                        <PopupData
-                          open={openPopup}
-                          onCancel={() => {setOpenPopup(false)}}
-                          id={row.id}
-                          pitch={row}
-                        />
+                      </Link>
+                      <BaseButton
+                        enable={false}
+                        name="Details"
+                        onClick={() => setOpenPopup(true)}
+                      />
+                      <PopupData
+                        open={openPopup}
+                        onCancel={() => {
+                          setOpenPopup(false);
+                        }}
+                        id={row.id}
+                        pitch={row}
+                      />
                     </TableCell>
-                    </TableRow>
+                  </TableRow>
                 </TableBody>
               </Table>
             </Box>
@@ -130,33 +135,29 @@ function Row(props) {
   );
 }
 
-
 function BasicTable() {
   const [pitches, setPitches] = useState([]);
-  const handleError = useErrorHandler()
-  const showSuccess = useSnackbarQueue('success')
+  const handleError = useErrorHandler();
+  const showSuccess = useSnackbarQueue("success");
 
   const getFootballPitches = () => {
-    const token = sessionStorage.getItem("JWTToken")
-    return axios.get(`Pitches/footballPitches/`,{
-      headers:{
-        'Authorization': `Bearer ${token}`
-      }}).then(()=>{
-          showSuccess('succesful action')
-      }).catch(error => {
-        const message = error.response.data
-        handleError(message, error.response.status)
-      })
-  }
+    const token = sessionStorage.getItem("JWTToken");
+    return axios.get(`Pitches/footballPitches/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  };
 
   const getUpdatedPiches = () => {
-    return getFootballPitches().then((res) => {
-      setPitches(res.data);
-    }).catch(error =>{
-      console.log(error.response.data)
-      const message = error.response.data
-      handleError(message, error.response.status)
-    });
+    return getFootballPitches()
+      .then((res) => {
+        setPitches(res.data);
+      })
+      .catch((error) => {
+        const message = error.response.data;
+        handleError(message, error.response.status);
+      });
   };
   useEffect(() => {
     getUpdatedPiches();
@@ -234,29 +235,28 @@ function BasicTable() {
 
 function BasicTableBasketball() {
   const [pitches, setPitches] = useState([]);
-  const handleError = useErrorHandler()
-  const showSuccess = useSnackbarQueue('success')
+  const handleError = useErrorHandler();
+  const showSuccess = useSnackbarQueue("success");
   const getBasketballPitches = () => {
-    const token = sessionStorage.getItem("JWTToken")
-    return axios.get(`Pitches/basketballPitches/`,{
-      headers:{
-        'Authorization': `Bearer ${token}`
-      }}).then(()=>{
-          showSuccess('succesful action')
-      }).catch(error => {
-        const message = error.response.data
-        handleError(message, error.response.status)
+    const token = sessionStorage.getItem("JWTToken");
+    return axios
+      .get(`Pitches/basketballPitches/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
-  }
+     
+  };
 
   const getUpdatedPiches = () => {
-    return getBasketballPitches().then((res) => {
-      setPitches(res.data);
-    }).catch(error =>{
-      console.log(error.response.data)
-      const message = error.response.data
-      handleError(message, error.response.status)
-    });
+    return getBasketballPitches()
+      .then((res) => {
+        setPitches(res.data);
+      })
+      .catch((error) => {
+        const message = error.response.data;
+        handleError(message, error.response.status);
+      });
   };
   useEffect(() => {
     getUpdatedPiches();
@@ -340,9 +340,9 @@ function ListPitches() {
       </Link>
       <BasicTable />
       <Link to="/addBPitch/">
-        <BaseButton enable={false} name="Add Basketball Pitch"  />
+        <BaseButton enable={false} name="Add Basketball Pitch" />
       </Link>
-      <BasicTableBasketball/>
+      <BasicTableBasketball />
     </div>
   );
 }

@@ -33,7 +33,7 @@ function Row(props) {
   const handleError = useErrorHandler()
   const showSuccess = useSnackbarQueue('success')
 
-
+  const token = sessionStorage.getItem("JWTToken")
   const handleSetOpen = async () => {
     setOpen((state) => !state);
   };
@@ -87,10 +87,12 @@ function Row(props) {
                           enable={false}
                           name="Remove"
                           onClick={() => 
-                            axios.post(`/Rentals/removeRent/${row.id}`).then(res => {
-                              onChange().then(()=>{
-                                showSuccess('succesful action')
-                              })
+                            axios.delete(`/Rentals/removeRent/${row.id}`,{
+                              headers:{
+                                'Authorization': `Bearer ${token}`
+                              }}).then(res => {
+                              onChange()
+                              showSuccess("Successful action")
                             }).catch(error => {
                               const message = error.response.data
                               handleError(message, error.response.status)
@@ -137,7 +139,7 @@ function BasicTable() {
       headers:{
         'Authorization': `Bearer ${token}`
       }}).then(()=>{
-          showSuccess('succesful action')
+        
       }).catch(error => {
         const message = error.response.data
         handleError(message, error.response.status)
