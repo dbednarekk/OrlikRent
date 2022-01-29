@@ -33,6 +33,10 @@ function useErrorHandler() {
             showError("Resources forbidden for your access level")
             return
         }
+        if( status === 412){
+            showError("Etag integrity error")
+            return
+        }
         if (typeof error === 'string') {
             showError(error)
             return

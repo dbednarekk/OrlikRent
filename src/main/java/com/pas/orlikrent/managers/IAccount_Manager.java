@@ -5,6 +5,7 @@ import com.pas.orlikrent.exceptions.Account__Exception;
 import com.pas.orlikrent.exceptions.Base_Exception;
 import com.pas.orlikrent.model.Users.Account;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,11 +27,12 @@ public interface IAccount_Manager  {
     void updateManager(String id, ManagerDTO o) throws Base_Exception;
     void updateAdmin(String id, AccountDTO o) throws Base_Exception;
 
-    public void active_deactivate_account(String login) throws Base_Exception;
+     void active_deactivate_account(String login) throws Base_Exception;
 
-    public List<ClientDTO> getAllClients();
+     List<ClientDTO> getAllClients();
 
-    public List<ManagerDTO> getAllManagers();
+     List<ManagerDTO> getAllManagers();
 
-    public List<AccountDTO> getAllAdmins();
+     List<AccountDTO> getAllAdmins();
+     void resetPassword(ResetPasswdDTO dto) throws Base_Exception, ParseException;
 }

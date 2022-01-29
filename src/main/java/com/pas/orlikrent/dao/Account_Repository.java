@@ -1,6 +1,7 @@
 package com.pas.orlikrent.dao;
 
 import com.pas.orlikrent.exceptions.Account__Exception;
+import com.pas.orlikrent.exceptions.Base_Exception;
 import com.pas.orlikrent.model.Users.Account;
 import com.pas.orlikrent.model.Users.Admin;
 import com.pas.orlikrent.model.Users.Client;
@@ -116,6 +117,21 @@ public class Account_Repository implements IAccount_Repo {
             for (Account ac : accounts) {
                 if (ac.getLogin().equals(login)) {
                     ac.setActive(false);
+                }
+            }
+        }
+    }
+    public void resetPassword(String login, String oldPasswd, String newPasswd) throws Base_Exception {
+        synchronized (this.accounts) {
+            for (Account ac : accounts) {
+                if (ac.getLogin().equals(login)) {
+                    if(!ac.getPassword().equals(oldPasswd)){
+                        throw new Base_Exception("Password does not match");
+                    }
+                    if(ac.getPassword().equals(newPasswd)){
+                        throw new Base_Exception("Old password is the same as new one");
+                    }
+                    ac.setPassword(newPasswd);
                 }
             }
         }

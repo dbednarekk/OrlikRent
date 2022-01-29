@@ -1,6 +1,5 @@
 package com.pas.orlikrent.dto.accounts;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pas.orlikrent.security.SignableEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,18 +10,17 @@ import javax.json.bind.annotation.JsonbTransient;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClientDTO implements SignableEntity {
+public class ResetPasswdDTO implements SignableEntity {
     private String id;
     private String login;
-    private String email;
-    private Boolean active;
-    private String role;
-    private String first_name;
-    private String last_name;
+    private String oldPasswd;
+    private String newPasswd;
+    private String token;
 
     @JsonbTransient
     @Override
     public String getSignablePayload() {
         return id+login;
     }
+
 }

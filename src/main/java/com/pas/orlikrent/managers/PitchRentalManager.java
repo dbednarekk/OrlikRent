@@ -108,8 +108,9 @@ public class PitchRentalManager implements IPitchRentalManager {
         {
             throw new Rental__Exception("Reservation dates are not valid");
         }
-        pitchRepository.setRented(rent.getPitchID(),true);
+
         this.pitch_rental_repo.add(RentMapper.newRentalFromDTO(rent,account_repo.getByID(rent.getAccountID()),pitchRepository.getByID(rent.getPitchID())));
+        pitchRepository.setRented(rent.getPitchID(),true);
 
 
     }
@@ -129,7 +130,7 @@ public class PitchRentalManager implements IPitchRentalManager {
             return RentMapper.listRentalToDTO(this.pitch_rental_repo.getRentalsForPitch(id));
     }
     @Override
-    public List<PitchRentalDTO> rentsForClient(String id){
-        return RentMapper.listRentalToDTO(this.pitch_rental_repo.getRentalsForClient(id));
+    public List<PitchRentalDTO> rentsForClient(String login){
+        return RentMapper.listRentalToDTO(this.pitch_rental_repo.getRentalsForClient(login));
     }
 }

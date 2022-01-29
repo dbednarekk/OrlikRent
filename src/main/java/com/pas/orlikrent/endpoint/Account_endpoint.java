@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.text.ParseException;
 import java.util.List;
 
 //@RequestScoped
@@ -208,6 +209,16 @@ public class Account_endpoint {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
-
+    @PUT
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Path("/resetPassword")
+    @ETagFilterBinding
+    public Response resetPassword(ResetPasswdDTO resetPasswdDTO, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue) throws ParseException, Base_Exception {
+        if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(resetPasswdDTO, etagValue)) {
+            return Response.status(412).build();
+        }
+        this.accountManager.resetPassword(resetPasswdDTO);
+        return Response.status(200).build();
+    }
 }
 

@@ -25,6 +25,6 @@ public class ManagerDTO implements SignableEntity {
     @JsonbTransient
     @Override
     public String getSignablePayload() {
-        return id;
+        return id+login;
     }
 }

@@ -87,12 +87,12 @@ public class Rental_Repository implements IRentalRepository {
             return res;
         }
     }
-    public List<PitchRental> getRentalsForClient(String id){
+    public List<PitchRental> getRentalsForClient(String login){
         synchronized (this.rentals) {
             List<PitchRental> res = new ArrayList<>();
             for (PitchRental r : rentals
             ) {
-                if (r.getAccount().getId().equals(id)) {
+                if (r.getAccount().getLogin().equals(login)) {
                     res.add(r);
                 }
             }

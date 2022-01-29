@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import EditPitch from "./pages/editPitch";
 import EditRent from "./pages/editRent";
 import { Switch } from "@mui/material";
+import MyProfile from "./pages/client/MyProfile"
 
 function App() {
   const auth =  JSON.parse(sessionStorage.getItem("Auth")) 
@@ -38,7 +39,10 @@ function App() {
         <Route path="editAccounts/" element={<EditAccount/>} />
         <Route path="login//*" element={<Login/>}/>
         <Route path="editPitch/" element={<EditPitch/>} />
-        <Route path="editRent/" element={<EditRent/>} />       
+        <Route path="editRent/" element={<EditRent/>} />     
+        <Route path="myProfile//*" element={
+          <MyProfile/>
+        }   />
     </Routes>
     </Router>
 

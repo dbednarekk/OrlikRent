@@ -4,15 +4,13 @@ import BaseButton from "./BaseButton";
 import styles from "../styles/Header.module.css";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
+import PositionedMenu from "./PositionedMenu";
 
 function Header(props) {
   const isLogged = sessionStorage.getItem("JWTToken") === null ? false : true;
   const login = JSON.parse(sessionStorage.getItem("Login"))
   const auth = JSON.parse(sessionStorage.getItem("Auth"))
-  const handleLogOut =() =>{
-    sessionStorage.clear()
-    document.location.replace('/OrlikRentPAS/')
-  }
+
   return (
     <Box className={styles.header}>
       <Link to="/">
@@ -24,7 +22,7 @@ function Header(props) {
           <>
            <h4 className={styles.headerh4}>{login}</h4>
            <h4 className={styles.headerh4} >{auth}</h4>
-           <BaseButton name="Wyloguj się" onClick={handleLogOut}/>
+           <PositionedMenu/>
           </>
         ) : (
           <>
