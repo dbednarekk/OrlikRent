@@ -8,6 +8,7 @@ import axios from "../Services/URL";
 import { If, Then } from 'react-if';
 import useErrorHandler from "../errorHandler.ts";
 import {useSnackbarQueue} from "../components/Snackbar.ts"
+import { LOGIN_REGEX, PASSWORD_REGEX , EMAIL_REGEX , NAME_REGEX , NUMBER_REGEX} from "../regexConstants.ts"
 
 function EditAccount() {
    
@@ -24,6 +25,103 @@ function EditAccount() {
     const token = sessionStorage.getItem("JWTToken")
     const handleError = useErrorHandler()
     const showSuccess = useSnackbarQueue('success')
+    const [error, setError] = useState('');
+    const [etag,setEtag] = useState('')
+
+
+    const getAccount = () => {
+        if(currentAccount.role === "ADMINISTRATOR"){
+            return axios.get(`/Account/admin/${currentAccount.id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } ).then((res)=>{
+                setEtag(res.headers.etag)
+              }).catch(error => {
+                const message = error.response.data
+                handleError(message, error.response.status)
+              })
+        }
+        if(currentAccount.role === "MANAGER"){
+            return axios.get(`/Account/manager/${currentAccount.id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } ).then((res)=>{
+                setEtag(res.headers.etag)
+              }).catch(error => {
+                const message = error.response.data
+                handleError(message, error.response.status)
+              })
+        }
+        if(currentAccount.role === "USER"){
+            return axios.get(`/Account/client/${currentAccount.id}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
+            } ).then((res)=>{
+                setEtag(res.headers.etag)
+              }).catch(error => {
+                const message = error.response.data
+                handleError(message, error.response.status)
+              })
+        }
+    }
+
+
+    const handlevalidation = () => {
+        const errors = {}
+          if(login == ''){
+              errors.login = 'Login is required';            
+          }else if(!LOGIN_REGEX.test(login)){
+              errors.login = 'This is not valid login'
+          }
+          if(email == ''){
+              errors.email = 'Email is required';            
+          }else if(!EMAIL_REGEX.test(email)){
+              errors.email = 'This is not valid email'
+          }
+          if(currentAccount.role === 'MANAGER'){
+              if(salary == ''){
+                  errors.salary = 'Salary is required';            
+              }else if(!NUMBER_REGEX.test(salary)){
+                  errors.salary = 'This is not valid salary'
+              }
+              if(numberOfShifts == ''){
+                  errors.numberOfShifts = 'Number of shifts is required';            
+              }else if(!NUMBER_REGEX.test(numberOfShifts)){
+                  errors.numberOfShifts = 'This is not valid number of shifts'
+              }
+          }
+          if(currentAccount.role === 'USER'){
+              if(first_name == ''){
+                  errors.first_name = 'First name is required';            
+              }else if(!NAME_REGEX.test(first_name)){
+                  errors.first_name = 'This is not valid first name'
+              }
+              if(last_name == ''){
+                  errors.last_name = 'Last name is required';            
+              }else if(!NAME_REGEX.test(last_name)){
+                  errors.last_name = 'This is not valid last name'
+              }
+          }
+          setError(errors)
+          if(Object.keys(errors).length === 0){
+              if(role === 'MANAGER'){
+                handleEditManager();
+              }
+              if(role === 'USER'){
+                  handleEditUser();
+              }
+              if(role === 'ADMINISTRATOR'){
+                  handleEditAdmin();
+              }
+          }
+      }
+
+
+
+
     const handleEditAdmin = () => {
         const json = JSON.stringify({
             id: currentAccount.id,
@@ -36,9 +134,8 @@ function EditAccount() {
         axios.put(`Account/UpdateAdmin/${currentAccount.id}`, json,{
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`
-            //     "Accept": "application/json",
-            //     // "If-Match": currentAccount.etag,
+                'Authorization': `Bearer ${token}`,
+                'If-Match': etag
             }
         }).then(()=>{
               showSuccess('succesful action')
@@ -62,7 +159,8 @@ function EditAccount() {
         axios.put(`Account/UpdateManager/${currentAccount.id}`, json,{
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'If-Match': etag
             }
         }).then(()=>{
               showSuccess('succesful action')
@@ -86,7 +184,8 @@ function EditAccount() {
         axios.put(`Account/UpdateClient/${currentAccount.id}`, json,{
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'If-Match': etag
             }
         }).then(()=>{
               showSuccess('succesful action')
@@ -96,44 +195,7 @@ function EditAccount() {
           })
     }
 
-    const getAccount = () => {
-        if(currentAccount.role === "ADMINISTRATOR"){
-            return axios.get(`/Account/admin/${currentAccount.id}`,{
-                headers:{
-                    'Authorization': `Bearer ${token}`
-                }
-            } ).then(()=>{
-                  showSuccess('succesful action')
-              }).catch(error => {
-                const message = error.response.data
-                handleError(message, error.response.status)
-              })
-        }
-        if(currentAccount.role === "MANAGER"){
-            return axios.get(`/Account/manager/${currentAccount.id}`,{
-                headers:{
-                    'Authorization': `Bearer ${token}`
-                }
-            } ).then(()=>{
-                  showSuccess('succesful action')
-              }).catch(error => {
-                const message = error.response.data
-                handleError(message, error.response.status)
-              })
-        }
-        if(currentAccount.role === "USER"){
-            return axios.get(`/Account/client/${currentAccount.id}`,{
-                headers:{
-                    'Authorization': `Bearer ${token}`
-                }
-            } ).then(()=>{
-                  showSuccess('succesful action')
-              }).catch(error => {
-                const message = error.response.data
-                handleError(message, error.response.status)
-              })
-        }
-    }
+ 
 
     useEffect( () => {
         getAccount().then(res => {
@@ -168,6 +230,7 @@ function EditAccount() {
                     setLogin(event.target.value)
                 }}>
             </TextField>
+            <p>{error.login}</p>
             <h3>Email:</h3>
             <TextField
                 label={"Email *"}
@@ -179,7 +242,8 @@ function EditAccount() {
                     setEmail(event.target.value)
                 }}>
             </TextField>
-            <If condition={role === "ADMINISTRATOR"}><Then>
+            <p>{error.email}</p>
+            <If condition={currentAccount.role === "ADMINISTRATOR"}><Then>
                 <Button
                     variant="success"
                     style={{
@@ -188,10 +252,10 @@ function EditAccount() {
                         padding: '10px 0',
                         marginTop: '16px',
                     }}
-                    onClick={handleEditAdmin}
+                    onClick={handlevalidation}
                 >{"Edit Admin"}</Button>
             </Then></If>
-            <If condition={role === "MANAGER"}><Then>
+            <If condition={currentAccount.role === "MANAGER"}><Then>
                 <h3>Salary:</h3>
                 <TextField
                     placeholder={salary}
@@ -204,6 +268,7 @@ function EditAccount() {
                     }}
                     min="2">
                 </TextField>
+                <p>{error.salary}</p>
                 <h3>Number of shifts:</h3>
                 <TextField
                     placeholder={numberOfShifts}
@@ -216,6 +281,7 @@ function EditAccount() {
                     }}
                     min="2">
                 </TextField>
+                <p>{error.numberOfShifts}</p>
                 <Button
                 variant="success"
                 style={{
@@ -224,10 +290,10 @@ function EditAccount() {
                     padding: '10px 0',
                     marginTop: '16px',
                 }}
-                onClick={handleEditManager}
+                onClick={handlevalidation}
                 >{"Edit Manager"}</Button>
             </Then></If>
-            <If condition={role === "USER"}><Then>
+            <If condition={currentAccount.role === "USER"}><Then>
                 <h3>Name:</h3>
                 <TextField
                     label={"Imię *"}
@@ -239,6 +305,7 @@ function EditAccount() {
                         setFirst_name(event.target.value)
                     }}>
                 </TextField>
+                <p>{error.first_name}</p>
                 <h3>Surname:</h3>
                 <TextField
                     label={"Nazwisko *"}
@@ -250,6 +317,7 @@ function EditAccount() {
                         setLast_name(event.target.value)
                     }}>
                 </TextField>
+                <p>{error.last_name}</p>
                 <Button
                     variant="success"
                     style={{
@@ -258,7 +326,7 @@ function EditAccount() {
                         padding: '10px 0',
                         marginTop: '16px',
                     }}
-                    onClick={handleEditUser}
+                    onClick={handlevalidation}
                 >{"Edit Client"}</Button>
             </Then></If>
             </div>

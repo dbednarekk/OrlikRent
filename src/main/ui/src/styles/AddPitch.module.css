@@ -35,3 +35,7 @@
     --styled-select-option__color--selected: #eee;
     --styled-select-option__background-color--selected: #444;
   }
+
+  p{
+      color: red;
+  }
