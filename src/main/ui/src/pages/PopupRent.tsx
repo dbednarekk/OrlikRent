@@ -8,9 +8,7 @@ import { If, Then } from 'react-if';
 import styletb from '../styles/tableStyle.module.css'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import BaseButton from "../components/BaseButton";
-import useErrorHandler from "../errorHandler.ts";
-import {useSnackbarQueue} from "../components/Snackbar.ts"
+
 export interface PopupRentPitch {
     open: boolean,
     onCancel: () => void,
@@ -24,20 +22,13 @@ export default function PopupRentPitch({open, onCancel, id, pitch}){
     const [start_date_rental, setStart_date_rental] = useState(new Date());
     const [end_date_rental, setEnd_date_rental] = useState(new Date());
     const token = sessionStorage.getItem('JWTToken') ;
-    const handleError = useErrorHandler()
-    const showSuccess = useSnackbarQueue('success')
     const login = JSON.parse(sessionStorage.getItem('Login')) ;
     const [idd,setID] = useState('')
     useEffect(() =>{
         axios.get(`Account/login/${login}`,{
             headers:{
               'Authorization': `Bearer ${token}`
-            }}).then((res) => {
-            setID(res.data.id)
-          }).catch(error =>{
-            const message = error.response.data
-            handleError(message, error.response.status)
-          })
+            }})
     },[])
     const handleSetRent = () => {
       

@@ -6,8 +6,7 @@ import { useState, useEffect } from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
 import styletb from '../styles/tableStyle.module.css'
-import useErrorHandler from "../errorHandler.ts";
-import {useSnackbarQueue} from "../components/Snackbar.ts"
+
 
 export interface PopupData {
     open: boolean,
@@ -27,44 +26,27 @@ export default function PopupData({open, onCancel, id, role}){
     const [first_name, setFirst_name] = useState('');
     const [last_name, setLast_name] = useState('');
     const token = sessionStorage.getItem("JWTToken")
-    const handleError = useErrorHandler()
-    const showSuccess = useSnackbarQueue('success')
     const handleOpen = () => {
         if(role === "ADMINISTRATOR"){
             return axios.get(`/Account/admin/${id}`,{
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
-            } ).then(()=>{
-                  showSuccess('succesful action')
-              }).catch(error => {
-                const message = error.response.data
-                handleError(message, error.response.status)
-              })
+            } )
         }
         if(role === "MANAGER"){
             return axios.get(`/Account/manager/${id}`,{
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
-            } ).then(()=>{
-                  showSuccess('succesful action')
-              }).catch(error => {
-                const message = error.response.data
-                handleError(message, error.response.status)
-              })
+            } )
         }
         if(role === "USER"){
             return axios.get(`/Account/client/${id}`,{
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
-            } ).then(()=>{
-                  showSuccess('succesful action')
-              }).catch(error => {
-                const message = error.response.data
-                handleError(message, error.response.status)
-              })
+            } )
         }
     }
 

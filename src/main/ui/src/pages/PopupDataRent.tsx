@@ -5,8 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import { useState, useEffect } from "react";
 import axios from "../Services/URL";
 import styletb from '../styles/tableStyle.module.css'
-import useErrorHandler from "../errorHandler.ts";
-import {useSnackbarQueue} from "../components/Snackbar.ts"
+
 
 export interface PopupDataRent {
     open: boolean,
@@ -23,19 +22,13 @@ export default function PopupDataRent({open, onCancel, id}){
     const [endDate, setEndDate] = useState('');
     const [active, setActive] = useState(false);
     const token = sessionStorage.getItem("JWTToken")
-    const handleError = useErrorHandler()
-    const showSuccess = useSnackbarQueue('success')
+ 
     const handleOpen = () => {
             return axios.get(`/Rentals/Rent/${id}`,{
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
-            } ).then(()=>{
-                  showSuccess('succesful action')
-              }).catch(error => {
-                const message = error.response.data
-                handleError(message, error.response.status)
-              })
+            } )
     }
 
     useEffect( () => {
