@@ -9,21 +9,22 @@ import { If, Then } from 'react-if';
 
 import useErrorHandler from "../errorHandler.ts";
 import {useSnackbarQueue} from "../components/Snackbar.ts"
+import { LOGIN_REGEX, PASSWORD_REGEX , EMAIL_REGEX , NAME_REGEX , NUMBER_REGEX} from "../regexConstants.ts"
 
 function AddAccount() {
    
     const navigate = useNavigate();
 
-
+  // const [active, setActive] = useState(false);
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    // const [active, setActive] = useState(false);
     const [role, setRole] = useState('');
     const [salary, setSalary] = useState('');
     const [numberOfShifts, setNumberOfShifts] = useState('');
     const [first_name, setFirst_name] = useState('');
     const [last_name, setLast_name] = useState('');
+    const [error, setError] = useState('');
     const token = sessionStorage.getItem("JWTToken")
     const handleError = useErrorHandler()
     const showSuccess = useSnackbarQueue('success')
@@ -32,6 +33,64 @@ function AddAccount() {
     //         event.target.checked,
     //         );
     //     };
+
+
+
+    const handlevalidation = () => {
+      const errors = {}
+        if(login == ''){
+            errors.login = 'Login is required';            
+        }else if(!LOGIN_REGEX.test(login)){
+            errors.login = 'This is not valid login'
+        }
+        if(password == ''){
+            errors.password = 'Password is required';            
+        }else if(!PASSWORD_REGEX.test(password)){
+            errors.password = 'This is not valid password'
+        }
+        if(email == ''){
+            errors.email = 'Email is required';            
+        }else if(!EMAIL_REGEX.test(email)){
+            errors.email = 'This is not valid email'
+        }
+        if(role === 'MANAGER'){
+            if(salary == ''){
+                errors.salary = 'Salary is required';            
+            }else if(!NUMBER_REGEX.test(salary)){
+                errors.salary = 'This is not valid salary'
+            }
+            if(numberOfShifts == ''){
+                errors.numberOfShifts = 'Number of shifts is required';            
+            }else if(!NUMBER_REGEX.test(numberOfShifts)){
+                errors.numberOfShifts = 'This is not valid number of shifts'
+            }
+        }
+        if(role === 'USER'){
+            if(first_name == ''){
+                errors.first_name = 'First name is required';            
+            }else if(!NAME_REGEX.test(first_name)){
+                errors.first_name = 'This is not valid first name'
+            }
+            if(last_name == ''){
+                errors.last_name = 'Last name is required';            
+            }else if(!NAME_REGEX.test(last_name)){
+                errors.last_name = 'This is not valid last name'
+            }
+        }
+        setError(errors)
+        if(Object.keys(errors).length === 0){
+            if(role === 'MANAGER'){
+                handleAddManager();
+            }
+            if(role === 'USER'){
+                handleAddUser();
+            }
+            if(role === 'ADMINISTRATOR'){
+                handleAddAdmin();
+            }
+        }
+    }
+
 
     const handleAddAdmin = () => {
         const json = JSON.stringify({
@@ -113,12 +172,14 @@ function AddAccount() {
                 label={"Login *"}
                 placeholder={"Login"}
                 value={login}
+                pattern="[a-zA-Z]"
                 style={{
                     marginTop: '16px'}}
                 onChange={event => {
                     setLogin(event.target.value)
                 }}>
             </TextField>
+            <p>{error.login}</p>
             <h3>Password:</h3>
             <TextField
                 label={"Password *"}
@@ -132,6 +193,7 @@ function AddAccount() {
                 }}
                 min="0">
             </TextField>
+            <p>{error.password}</p>
             <h3>Email:</h3>
             <TextField
                 label={"Email *"}
@@ -143,6 +205,7 @@ function AddAccount() {
                     setEmail(event.target.value)
                 }}>
             </TextField>
+            <p>{error.email}</p>
             {/* <h3>Aktywne:</h3>
             <FormControlLabel
                 control={
@@ -173,7 +236,7 @@ function AddAccount() {
                         padding: '10px 0',
                         marginTop: '16px',
                     }}
-                    onClick={handleAddAdmin}
+                    onClick={handlevalidation}
                 >{"+ Dodaj Admina"}</Button>
             </Then></If>
             <If condition={role === "MANAGER"}><Then>
@@ -189,6 +252,7 @@ function AddAccount() {
                     }}
                     min="2">
                 </TextField>
+                <p>{error.salary}</p>
                 <h3>Number of shifts:</h3>
                 <TextField
                     placeholder={"Number of shifts"}
@@ -201,6 +265,7 @@ function AddAccount() {
                     }}
                     min="2">
                 </TextField>
+                <p>{error.numberOfShifts}</p>
                 <Button
                 variant="success"
                 style={{
@@ -209,7 +274,7 @@ function AddAccount() {
                     padding: '10px 0',
                     marginTop: '16px',
                 }}
-                onClick={handleAddManager}
+                onClick={handlevalidation}
                 >{"+ Dodaj Managera"}</Button>
             </Then></If>
             <If condition={role === "USER"}><Then>
@@ -224,6 +289,7 @@ function AddAccount() {
                         setFirst_name(event.target.value)
                     }}>
                 </TextField>
+                <p>{error.first_name}</p>
                 <h3>Surname:</h3>
                 <TextField
                     label={"Surname *"}
@@ -235,6 +301,7 @@ function AddAccount() {
                         setLast_name(event.target.value)
                     }}>
                 </TextField>
+                <p>{error.last_name}</p>
                 <Button
                     variant="success"
                     style={{
@@ -243,7 +310,7 @@ function AddAccount() {
                         padding: '10px 0',
                         marginTop: '16px',
                     }}
-                    onClick={handleAddUser}
+                    onClick={handlevalidation}
                 >{"+ Add Client"}</Button>
             </Then></If>
             </div>
