@@ -7,7 +7,7 @@ import React from "react";
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Select from 'react-select';
-
+import {  NAME_REGEX , NUMBER_REGEX} from "../regexConstants.ts"
 import useErrorHandler from "../errorHandler.ts";
 import {useSnackbarQueue} from "../components/Snackbar.ts"
 import axios from "../Services/URL";
@@ -23,6 +23,7 @@ function AddBPitch() {
     const [sector, setSector] = useState('');
     const [minP, setMinP] = useState('');
     const [maxP, setMaxP] = useState('');
+    const [error, setError] = useState('');
     const handleError = useErrorHandler()
     const showSuccess = useSnackbarQueue('success')
     const [numberOfBaskets, setNumberOfBaskets] = useState('');
@@ -37,6 +38,49 @@ function AddBPitch() {
             event.target.checked,
             );
         };
+
+
+        const handlevalidation = () => {
+            const errors = {}
+                if(name == ''){
+                    errors.name = 'Name is required';            
+                }else if(!NAME_REGEX.test(name)){
+                    errors.name = 'This is not valid name'
+                }
+                if(price == ''){
+                    errors.price = 'Price is required';            
+                }else if(!NUMBER_REGEX.test(price)){
+                    errors.price = 'This is not valid price'
+                }
+                if(sector == ''){
+                    errors.sector = 'Sector is required';            
+                }
+                if(minP == ''){
+                    errors.minP = 'Min number of people is required';            
+                }else if(!NUMBER_REGEX.test(minP)){
+                    errors.minP = 'This is not valid min number of people'
+                }
+                if(maxP == ''){
+                    errors.maxP = 'Max number of people is required';            
+                }else if(!NUMBER_REGEX.test(maxP)){
+                    errors.maxP = 'This is not valid max number of people'
+                }else if(maxP < minP){
+                    errors.maxP = 'Max number of people must be bigger then min number of people'
+                }
+
+                if(numberOfBaskets == ''){
+                    errors.numberOfBaskets = 'Number of baskets  is required';            
+                }else if(!NUMBER_REGEX.test(numberOfBaskets)){
+                    errors.numberOfBaskets = 'This is not valid number of baskets'
+                }
+              
+              setError(errors)
+              if(Object.keys(errors).length === 0){
+                handleAddPitch()
+              }
+          }
+
+
 
     const handleAddPitch = () => {
         const json = JSON.stringify({
@@ -80,6 +124,7 @@ function AddBPitch() {
                     setName(event.target.value)
                 }}>
             </TextField>
+            <p>{error.name}</p>
             <h3>Price:</h3>
             <TextField
                 label={"Price *"}
@@ -93,6 +138,7 @@ function AddBPitch() {
                 }}
                 min="0">
             </TextField>
+            <p>{error.price}</p>
             <h3>Lights:</h3>
             <FormControlLabel
                 control={
@@ -113,6 +159,7 @@ function AddBPitch() {
                 marginTop: '16px'}}
             width='200px'>
             </Select>
+            <p>{error.sector}</p>
             <h3>Min. number of people:</h3>
             <TextField
                 placeholder={"number of people"}
@@ -125,6 +172,7 @@ function AddBPitch() {
                 }}
                 min="1">
             </TextField>
+            <p>{error.minP}</p>
             <h3>Max. number of people:</h3>
             <TextField
                 placeholder={"number of people"}
@@ -137,6 +185,7 @@ function AddBPitch() {
                 }}
                 min="2">
             </TextField>
+            <p>{error.maxP}</p>
             <h3>Number of baskets:</h3>
             <TextField
                 placeholder={"Number of baskets"}
@@ -149,6 +198,7 @@ function AddBPitch() {
                 }}
                 min="2">
             </TextField>
+            <p>{error.numberOfBaskets}</p>
             <br></br>
             <Button
                 variant="success"
@@ -158,7 +208,7 @@ function AddBPitch() {
                     padding: '10px 0',
                     marginTop: '16px',
                 }}
-                onClick={handleAddPitch}
+                onClick={handlevalidation}
             >{"+ Add"}</Button>
             </div>
         </div>

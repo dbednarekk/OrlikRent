@@ -10,6 +10,7 @@ import Select from 'react-select';
 import useErrorHandler from "../errorHandler.ts";
 import {useSnackbarQueue} from "../components/Snackbar.ts"
 import axios from "../Services/URL";
+import {  NAME_REGEX , NUMBER_REGEX} from "../regexConstants.ts"
 
 
 function AddFPitch() {
@@ -22,6 +23,7 @@ function AddFPitch() {
     const [maxP, setMaxP] = useState('');
     const [sector, setSector] = useState('');
     const [grasstype, setGrasstype] = useState('');
+    const [error, setError] = useState('');
 
     const handleError = useErrorHandler()
     const showSuccess = useSnackbarQueue('success')
@@ -48,6 +50,47 @@ function AddFPitch() {
           );
       };
       const token = sessionStorage.getItem("JWTToken")
+
+      const handlevalidation = () => {
+        const errors = {}
+            if(name == ''){
+                errors.name = 'Name is required';            
+            }else if(!NAME_REGEX.test(name)){
+                errors.name = 'This is not valid name'
+            }
+            if(price == ''){
+                errors.price = 'Price is required';            
+            }else if(!NUMBER_REGEX.test(price)){
+                errors.price = 'This is not valid price'
+            }
+            if(sector == ''){
+                errors.sector = 'Sector is required';            
+            }
+            if(minP == ''){
+                errors.minP = 'Min number of people is required';            
+            }else if(!NUMBER_REGEX.test(minP)){
+                errors.minP = 'This is not valid min number of people'
+            }
+            if(maxP == ''){
+                errors.maxP = 'Max number of people is required';            
+            }else if(!NUMBER_REGEX.test(maxP)){
+                errors.maxP = 'This is not valid max number of people'
+            }else if(maxP < minP){
+                errors.maxP = 'Max number of people must be bigger then min number of people'
+            }
+            if(grasstype == ''){
+                errors.grasstype = 'Grass type is required';            
+            }
+          
+          setError(errors)
+          if(Object.keys(errors).length === 0){
+            handleAddPitch()
+          }
+      }
+
+
+
+
     const handleAddPitch = () => {
         const json = JSON.stringify({
             name,
@@ -91,6 +134,7 @@ function AddFPitch() {
                     setName(event.target.value)
                 }}>
             </TextField>
+            <p>{error.name}</p>
             <h3>Price:</h3>
             <TextField
                 label={"Price *"}
@@ -104,6 +148,7 @@ function AddFPitch() {
                 }}
                 min="0">
             </TextField>
+            <p>{error.price}</p>
             <h3>Lights:</h3>
             <FormControlLabel
                 control={
@@ -124,6 +169,7 @@ function AddFPitch() {
                 marginTop: '16px'}}
             width='200px'>
             </Select>
+            <p>{error.sector}</p>
             <h3>Min. number of people:</h3>
             <TextField
                 placeholder={"Number of people"}
@@ -136,6 +182,7 @@ function AddFPitch() {
                 }}
                 min="1">
             </TextField>
+            <p>{error.minP}</p>
             <h3>Max. number of people:</h3>
             <TextField
                 placeholder={"Number of people"}
@@ -148,6 +195,7 @@ function AddFPitch() {
                 }}
                 min="2">
             </TextField>
+            <p>{error.maxP}</p>
             <h3>Nets:</h3>
             <FormControlLabel
                 control={
@@ -168,6 +216,7 @@ function AddFPitch() {
                 marginTop: '16px'}}
             width='200px'>
             </Select>
+            <p>{error.grasstype}</p>
             <Button
                 variant="success"
                 style={{
@@ -176,7 +225,7 @@ function AddFPitch() {
                     padding: '10px 0',
                     marginTop: '16px',
                 }}
-                onClick={handleAddPitch}
+                onClick={handlevalidation}
             >{"+ Add"}</Button>
             </div>
         </div>

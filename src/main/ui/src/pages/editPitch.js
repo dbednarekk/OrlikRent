@@ -11,6 +11,8 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import useErrorHandler from "../errorHandler.ts";
 import {useSnackbarQueue} from "../components/Snackbar.ts"
+import {  NAME_REGEX , NUMBER_REGEX} from "../regexConstants.ts"
+
 
 function EditPitch() {
 
@@ -23,6 +25,9 @@ function EditPitch() {
     const [sector, setSector] = useState('');
     const [minP, setMinP] = useState('');
     const [maxP, setMaxP] = useState('');
+    const [error, setError] = useState('');
+    const [etag,setEtag] = useState('')
+
     const handleError = useErrorHandler()
     const showSuccess = useSnackbarQueue('success')
 
@@ -55,6 +60,58 @@ function EditPitch() {
         };
 
 
+        const handlevalidation = () => {
+            const errors = {}
+                if(name == ''){
+                    errors.name = 'Name is required';            
+                }else if(!NAME_REGEX.test(name)){
+                    errors.name = 'This is not valid name'
+                }
+                if(price == ''){
+                    errors.price = 'Price is required';            
+                }else if(!NUMBER_REGEX.test(price)){
+                    errors.price = 'This is not valid price'
+                }
+                if(sector == ''){
+                    errors.sector = 'Sector is required';            
+                }
+                if(minP == ''){
+                    errors.minP = 'Min number of people is required';            
+                }else if(!NUMBER_REGEX.test(minP)){
+                    errors.minP = 'This is not valid min number of people'
+                }
+                if(maxP == ''){
+                    errors.maxP = 'Max number of people is required';            
+                }else if(!NUMBER_REGEX.test(maxP)){
+                    errors.maxP = 'This is not valid max number of people'
+                }else if(maxP < minP){
+                    errors.maxP = 'Max number of people must be bigger then min number of people'
+                }
+                if(currentAccount.goal_nets != null){
+                    if(grasstype == ''){
+                        errors.grasstype = 'Grass type is required';            
+                    }
+                    setError(errors)
+                    if(Object.keys(errors).length === 0){
+                    handleEditFootball();
+                    }
+                }
+
+                if(currentAccount.numberOfBaskets != null){
+                    if(numberOfBaskets == ''){
+                        errors.numberOfBaskets = 'Number of baskets  is required';            
+                    }else if(!NUMBER_REGEX.test(numberOfBaskets)){
+                        errors.numberOfBaskets = 'This is not valid number of baskets'
+                    }
+                    setError(errors)
+                    if(Object.keys(errors).length === 0){
+                    handleEditBasketball()
+                    }
+                }
+        }
+        
+
+
     const handleEditFootball = () => {
         const json = JSON.stringify({
             id: currentAccount.id,
@@ -73,9 +130,9 @@ function EditPitch() {
         axios.put(`Pitches/FootballPitch/${currentAccount.id}`, json,{
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
             //     "Accept": "application/json",
-            //     // "If-Match": currentAccount.etag,
+                "If-Match": etag,
             }
         }).then(()=>{
               showSuccess('succesful action')
@@ -101,7 +158,9 @@ function EditPitch() {
         axios.put(`Pitches/BasketballPitch/${currentAccount.id}`, json,{
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                "If-Match": etag,
+
             }
         }).then(()=>{
               showSuccess('succesful action')
@@ -117,7 +176,8 @@ function EditPitch() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }}).then(()=>{
+                }}).then((res)=>{
+                      setEtag(res.headers.etag)
                       showSuccess('succesful action')
                   }).catch(error => {
                     const message = error.response.data
@@ -129,7 +189,8 @@ function EditPitch() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }}).then(()=>{
+                }}).then((res)=>{
+                      setEtag(res.headers.etag)
                       showSuccess('succesful action')
                   }).catch(error => {
                     const message = error.response.data
@@ -141,7 +202,8 @@ function EditPitch() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }}).then(()=>{
+                }}).then((res)=>{
+                      setEtag(res.headers.etag)
                       showSuccess('succesful action')
                   }).catch(error => {
                     const message = error.response.data
@@ -152,6 +214,7 @@ function EditPitch() {
 
     useEffect( () => {
         getPitch().then(res => {
+            console.log(res)
             setName(res.data.name)
             setPrice(res.data.price)
             setLights(res.data.lights)
@@ -185,6 +248,7 @@ function EditPitch() {
                     setName(event.target.value)
                 }}>
             </TextField>
+            <p>{error.name}</p>
             <h3>Price:</h3>
             <TextField
                 label={"Price *"}
@@ -198,6 +262,7 @@ function EditPitch() {
                 }}
                 min="0">
             </TextField>
+            <p>{error.price}</p>
             <h3>Lights:</h3>
             <FormControlLabel
                 control={
@@ -218,6 +283,7 @@ function EditPitch() {
                 marginTop: '16px'}}
             width='200px'>
             </Select>
+            <p>{error.sector}</p>
             <h3>Min. number of people:</h3>
             <TextField
                 placeholder={minP}
@@ -230,6 +296,7 @@ function EditPitch() {
                 }}
                 min="1">
             </TextField>
+            <p>{error.minP}</p>
             <h3>Max. number of people:</h3>
             <TextField
                 placeholder={maxP}
@@ -242,7 +309,8 @@ function EditPitch() {
                 }}
                 min="2">
             </TextField>
-            <If condition={nets != null}><Then>
+            <p>{error.maxP}</p>
+            <If condition={currentAccount.goal_nets != null}><Then>
             <h3>Nets:</h3>
             <FormControlLabel
                 control={
@@ -263,6 +331,7 @@ function EditPitch() {
                 marginTop: '16px'}}
             width='200px'>
             </Select>
+            <p>{error.grasstype}</p>
             <Button
                     variant="success"
                     style={{
@@ -271,10 +340,10 @@ function EditPitch() {
                         padding: '10px 0',
                         marginTop: '16px',
                     }}
-                    onClick={handleEditFootball}
+                    onClick={handlevalidation}
                 >{"Edit pitch"}</Button>
             </Then></If>
-            <If condition={numberOfBaskets != null}><Then>
+            <If condition={currentAccount.numberOfBaskets != null}><Then>
             <h3>Number of baskets:</h3>
             <TextField
                 placeholder={numberOfBaskets}
@@ -287,6 +356,7 @@ function EditPitch() {
                 }}
                 min="2">
             </TextField>
+            <p>{error.numberOfBaskets}</p>
             <Button
                     variant="success"
                     style={{
@@ -295,7 +365,7 @@ function EditPitch() {
                         padding: '10px 0',
                         marginTop: '16px',
                     }}
-                    onClick={handleEditBasketball}
+                    onClick={handlevalidation}
                 >{"Edit pitch"}</Button>
             </Then></If>
             </div>
