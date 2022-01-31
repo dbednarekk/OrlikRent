@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pas</groupId>
-    <artifactId>OrlikRent</artifactId>
+    <artifactId>OrlikRentPAS</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>OrlikRent</name>
     <packaging>war</packaging>
@@ -15,6 +15,12 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <junit.version>5.7.1</junit.version>
+        <ui.dir>src/main/ui</ui.dir>
+        <ui.build.dir>src/main/ui/build</ui.build.dir>
+
+        <maven.clean.plugin>3.0.0</maven.clean.plugin>
+        <maven.war.plugin>3.0.0</maven.war.plugin>
+        <exec.maven.plugin>3.0.0</exec.maven.plugin>
     </properties>
 
     <dependencies>
@@ -91,7 +97,7 @@
         <profile>
             <id>dev</id>
             <properties>
-                <app.baseurl>http://localhost:8080</app.baseurl>
+                <app.baseurl>https://localhost:8181</app.baseurl>
                 <app.frontend.url>http://localhost:3000</app.frontend.url>
             </properties>
             <activation>
@@ -100,6 +106,98 @@
                     <value>dev</value>
                 </property>
             </activation>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <properties>
+                <app.baseurl>https://localhost:8181</app.baseurl>
+                <app.frontend.url>http://localhost:8080</app.frontend.url>
+            </properties>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>prod</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!--            to clean build data in ui (react client)    -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <version>${maven.clean.plugin}</version>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>${ui.build.dir}</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
+
+                    <!--            to copy build data from ui (react client) to the war    -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>${maven.war.plugin}</version>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>${ui.build.dir}</directory>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+
+                    <!--            to prepare static data in ui (react client)     -->
+                    <plugin>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <version>${exec.maven.plugin}</version>
+                        <executions>
+
+                            <execution>
+                                <id>installing</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>npm</executable>
+                                    <arguments>
+                                        <argument>install</argument>
+                                    </arguments>
+                                    <environmentVariables>
+                                        <REACT_APP_ROUTER_BASE>/${project.artifactId}</REACT_APP_ROUTER_BASE>
+                                        <NPM_CONFIG_PREFIX>${project.build.directory}</NPM_CONFIG_PREFIX>
+                                    </environmentVariables>
+                                    <workingDirectory>${ui.dir}</workingDirectory>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>build</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>npm</executable>
+                                    <arguments>
+                                        <argument>run</argument>
+                                        <argument>build</argument>
+                                    </arguments>
+                                    <workingDirectory>${ui.dir}</workingDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

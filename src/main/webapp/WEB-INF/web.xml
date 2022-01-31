@@ -32,6 +32,9 @@
             <role-name>Manager</role-name>
             <role-name>Admin</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
 
     <security-constraint>
@@ -47,10 +50,14 @@
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>PATCH</http-method>
+
         </web-resource-collection>
         <auth-constraint>
             <role-name>Client</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
 
 
@@ -69,11 +76,14 @@
             <role-name>Manager</role-name>
             <role-name>Admin</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Client AND Admin options</web-resource-name>
+            <web-resource-name>Client AND Admin AND Manager options</web-resource-name>
             <url-pattern>/api/Account/login/*</url-pattern>
             <url-pattern>/api/Account/resetPassword</url-pattern>
             <http-method>GET</http-method>
@@ -81,7 +91,11 @@
         <auth-constraint>
             <role-name>Client</role-name>
             <role-name>Admin</role-name>
+            <role-name>Manager</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
 
     <security-constraint>
@@ -98,6 +112,9 @@
         <auth-constraint>
             <role-name>Admin</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
@@ -112,10 +129,13 @@
         <auth-constraint>
             <role-name>Manager</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
 
 
-       <!-- <security-constraint>
+        <security-constraint>
             <web-resource-collection>
                 <web-resource-name>api</web-resource-name>
                 <url-pattern>/*</url-pattern>
@@ -123,6 +143,6 @@
             <user-data-constraint>
                 <transport-guarantee>CONFIDENTIAL</transport-guarantee>
             </user-data-constraint>
-        </security-constraint>-->
+        </security-constraint>
 
 </web-app>

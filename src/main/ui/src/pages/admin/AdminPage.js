@@ -7,8 +7,12 @@ import AccountsListIcon from "@mui/icons-material/PeopleAlt";
 import ListAccounts from "./ListAccounts";
 import ListPitches from "./ListPitches";
 import ListRentals from "./ListRentals";
-
+import {Navigate} from "react-router-dom";
 function AdminPage() {
+  const auth = JSON.parse(sessionStorage.getItem("Auth"))
+  if(!(auth==="Admin")){
+    return <Navigate to='/'></Navigate>
+  }
   return (
     <Box>
       <Header title="Admin panel" />

@@ -6,7 +6,12 @@ import PanelLayout from "../../components/PanelLayout";
 import AccountsListIcon from "@mui/icons-material/PeopleAlt";
 import ListPitches from "./ListPitches";
 import ListRentals from "./ListRentals";
+import {Navigate} from "react-router-dom";
 function ModeratorPage() {
+  const auth = JSON.parse(sessionStorage.getItem("Auth"))
+  if(!(auth==="Manager")){
+    return <Navigate to='/'></Navigate>
+  }
   return (
     <Box>
       <Header title="Moderator panel" />

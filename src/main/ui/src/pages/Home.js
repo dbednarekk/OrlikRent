@@ -1,12 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Footer from '../components/Footer'
 import PitchCard from '../components/ActionAreaCard'
 import footballPitch from '../images/footballPitch.jpg'
 import basketballPitch from '../images/basketballPitch.jpg'
 import Box from '@mui/material/Box'
-import {Link} from "react-router-dom";
+import {Link,useNavigate} from "react-router-dom";
 import Header from '../components/Header';
+
+
 function Home() {
+  const navigate = useNavigate();
+  const auth = JSON.parse(sessionStorage.getItem("Auth"))
+  useEffect(() => {
+    if(auth === "Admin"){
+      navigate("/Admin")
+    }
+    if(auth === "Manager"){
+      navigate("/Manager")
+    }
+  }, []);
     return (
         <div>
              <Header title="Welcome to Pitch rental!"></Header>

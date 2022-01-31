@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://localhost:8080/OrlikRentPAS/api/",
+  baseURL: "https://localhost:8181/OrlikRentPAS/api/",
 });
