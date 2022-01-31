@@ -104,7 +104,7 @@ export default function PopupData({open, onCancel, id, role}){
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell />
+                               
                                 <TableCell align="center">id</TableCell>
                                 <TableCell align="center">account ID</TableCell>
                                 <TableCell align="center">pitch ID</TableCell>
