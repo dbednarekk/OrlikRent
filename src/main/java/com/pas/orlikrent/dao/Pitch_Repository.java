@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
-@Stateless
+@ApplicationScoped
 public class Pitch_Repository implements IPitchRepository{
 
     private final List<Pitch> pitches = Collections.synchronizedList(new ArrayList<>());

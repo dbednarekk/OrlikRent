@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@Stateless
+@ApplicationScoped
 public class Rental_Repository implements IRentalRepository {
     private final List<PitchRental> rentals = Collections.synchronizedList(new ArrayList<>());
 
