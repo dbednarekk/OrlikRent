@@ -28,6 +28,18 @@ export interface PopupDataPitch {
 
 export default function PopupDataPitch({open, onCancel, id, pitch}){
 
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [lights, setLights] = useState(false);
+    const [sector, setSector] = useState('');
+    const [minP, setMinP] = useState('');
+    const [maxP, setMaxP] = useState('');
+    const token = sessionStorage.getItem("JWTToken")
+    const [numberOfBaskets1, setNumberOfBaskets1] = useState(null);
+
+    const [grasstype, setGrasstype] = useState('');
+    const [nets1, setNets1] = useState(null);
+
 function Row(props) {
     const { row } = props;
 
@@ -52,7 +64,6 @@ function Row(props) {
 function BasicTable() {
     const [rentals, setRentals] = useState([]);
     const getRentals = () => {
-        const token = sessionStorage.getItem("JWTToken")
         return axios.get(`Rentals/RentsForPitch/${id}`,{
             headers:{
                 'Authorization': `Bearer ${token}`
@@ -119,17 +130,7 @@ function BasicTable() {
 }
 
 
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
-    const [lights, setLights] = useState(false);
-    const [sector, setSector] = useState('');
-    const [minP, setMinP] = useState('');
-    const [maxP, setMaxP] = useState('');
-    const token = sessionStorage.getItem("JWTToken")
-    const [numberOfBaskets1, setNumberOfBaskets1] = useState(null);
-
-    const [grasstype, setGrasstype] = useState('');
-    const [nets1, setNets1] = useState(null);
+  
 
     const handleOpen = () => {
         if(pitch.goal_nets != null){
