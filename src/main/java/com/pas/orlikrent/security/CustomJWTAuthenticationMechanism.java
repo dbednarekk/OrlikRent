@@ -55,7 +55,7 @@ public class CustomJWTAuthenticationMechanism implements HttpAuthenticationMecha
         context.getResponse().setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         context.getResponse().setHeader("Access-Control-Allow-Headers", "*");
         context.getResponse().setHeader("Access-Control-Allow-Credentials", "true");
-        context.getResponse().setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD");
+        context.getResponse().setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD,PATCH");
         return context;
     }
 }

@@ -3,6 +3,7 @@ package com.pas.orlikrent.dao;
 import com.pas.orlikrent.dto.pitch.BasketballPitchDTO;
 import com.pas.orlikrent.dto.pitch.FootballPitchDTO;
 import com.pas.orlikrent.exceptions.Pitch__Exception;
+import com.pas.orlikrent.fillers.DataFiller;
 import com.pas.orlikrent.model.BasketballPitch;
 import com.pas.orlikrent.model.FootballPitch;
 import com.pas.orlikrent.model.Pitch;
@@ -29,14 +30,8 @@ public class Pitch_Repository implements IPitchRepository{
 
     @PostConstruct
     private void InitData() {
-        pitches.add(new FootballPitch("Football Pitch 1 ", 15.50, true, Sector.FULL_SIZE,2,20,true, GroundType.GRASS));
-        pitches.add(new BasketballPitch("Basketball Pitch 1",10.0,true,Sector.HALF_SIZE,1,10,2));
-        pitches.add(new FootballPitch("Camp Nou",50.0,false,Sector.FULL_SIZE,2,100,false,GroundType.GRANULATE));
-        pitches.add(new BasketballPitch("Indoor Basketball Pitch", (double) 0,false,Sector.HALF_SIZE,1,20,5));
-        for (Pitch p : pitches) {
-            p.setId(UUID.randomUUID().toString());
-        }
-        //todo change this
+        DataFiller filler = new DataFiller();
+        filler.fillPitches(pitches);
     }
 
     public List<Pitch> getAll() {

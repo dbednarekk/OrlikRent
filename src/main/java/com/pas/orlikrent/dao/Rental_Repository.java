@@ -1,6 +1,7 @@
 package com.pas.orlikrent.dao;
 
 import com.pas.orlikrent.exceptions.Rental__Exception;
+import com.pas.orlikrent.fillers.ReservationFiller;
 import com.pas.orlikrent.model.PitchRental;
 import com.pas.orlikrent.model.Users.Account;
 import lombok.Data;
@@ -20,10 +21,11 @@ import java.util.UUID;
 public class Rental_Repository implements IRentalRepository {
     private final List<PitchRental> rentals = Collections.synchronizedList(new ArrayList<>());
 
-
+    @Inject
+    ReservationFiller filler;
     @PostConstruct
     private void initData() {
-
+        filler.fill(rentals);
     }
 
     public List<PitchRental> getAll() {

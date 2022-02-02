@@ -2,15 +2,11 @@ package com.pas.orlikrent.dao;
 
 import com.pas.orlikrent.exceptions.Account__Exception;
 import com.pas.orlikrent.exceptions.Base_Exception;
+import com.pas.orlikrent.fillers.DataFiller;
 import com.pas.orlikrent.model.Users.Account;
-import com.pas.orlikrent.model.Users.Admin;
-import com.pas.orlikrent.model.Users.Client;
-import com.pas.orlikrent.model.Users.Manager;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,17 +21,8 @@ public class Account_Repository implements IAccount_Repo {
 
     @PostConstruct
     private void InitData() {
-        accounts.add(new Admin("dbednarek", "abcABC123*", "bednarek@gmail.com", true, "ADMINISTRATOR"));
-        accounts.add(new Manager("mklyz", "abcABC123*", "klyz@gmail.com", true, "MANAGER", 2300.0, 12));
-        accounts.add(new Client("jkowalski", "abcABC123*", "kowalski@gmail.com", true, "USER", "Jan", "Kowalski"));
-        accounts.add(new Client("tnowak", "abcABC123*", "nowak@gmail.com", false, "USER", "Tomasz", "Nowak"));
-            accounts.get(0).setId("df3ce38f-60be-46cc-a380-1367b59beeea");
-            accounts.get(1).setId("71176e64-e76b-405f-84dc-c8a2f299a7b8");
-            accounts.get(2).setId("98d0f7fe-8a86-4f47-af82-b7267b02e2d8");
-            accounts.get(3).setId("6cf26622-d95c-40ce-95b0-73a09dee3048");
-
-
-        //todo change this
+        DataFiller filer = new DataFiller();
+        filer.fillAccounts(accounts);
     }
 
     public List<Account> getAll() {
