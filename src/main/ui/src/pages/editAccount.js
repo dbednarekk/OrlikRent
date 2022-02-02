@@ -107,13 +107,13 @@ function EditAccount() {
           }
           setError(errors)
           if(Object.keys(errors).length === 0){
-              if(role === 'MANAGER'){
+              if(currentAccount.role === 'MANAGER'){
                 handleEditManager();
               }
-              if(role === 'USER'){
+              if(currentAccount.role === 'USER'){
                   handleEditUser();
               }
-              if(role === 'ADMINISTRATOR'){
+              if(currentAccount.role === 'ADMINISTRATOR'){
                   handleEditAdmin();
               }
           }
