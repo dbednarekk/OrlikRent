@@ -24,20 +24,28 @@ function ModeratorPage() {
           }}
         >
           <PanelLayout
-            menu={[
-              {
+            menu={auth === "Client"? [
+               {
                 link: "MyRentals/",
                 Icon: AccountsListIcon,
                 text: "My Rentals",
                 Component: ListClientRentals,
-              },
+              } ,
               {
                 link: "ChangePassword/",
                 Icon: AccountsListIcon,
                 text: "Change Password",
                 Component: ResetPassword,
               }
-            ]}
+            ] :
+                [
+                  {
+                    link: "ChangePassword/",
+                    Icon: AccountsListIcon,
+                    text: "Change Password",
+                    Component: ResetPassword,
+                  }
+                ]}
           ></PanelLayout>
         </Box>
       </Box>

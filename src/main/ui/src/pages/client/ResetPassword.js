@@ -5,11 +5,12 @@ import styles from "../../styles/AddPitch.module.css";
 import { Button } from "react-bootstrap";
 import axios from "../../Services/URL";
 import { If, Then } from "react-if";
-
+import { PASSWORD_REGEX} from "../../regexConstants.ts"
 import useErrorHandler from "../../errorHandler.ts";
 import { useSnackbarQueue } from "../../components/Snackbar.ts";
 function ResetPassword() {
   const [password, setPassword] = useState("");
+  const [passwordd, setPasswordd] = useState("");
   const [passwd, setPasswd] = useState("");
   const token = JSON.parse(sessionStorage.getItem("JWTToken"))
   const handleError = useErrorHandler()
@@ -17,6 +18,7 @@ function ResetPassword() {
   const login = JSON.parse(sessionStorage.getItem("Login"))
   const [etag,setEtag] = useState('')
   const [id,setID] = useState('')
+  const [error, setError] = useState('');
   const getAccountDetails = () => {
     return axios.get(`Account/login/${login}`,{
       headers:{
@@ -36,6 +38,19 @@ function ResetPassword() {
 
 
   const handleReset =()=>{
+    const errors = {}
+
+    if(password == ''){
+      errors.passwordd = 'Password is required';            
+  }else if(!PASSWORD_REGEX.test(password)){
+      errors.passwordd = 'This is not valid password'
+  }
+  if(password != passwordd){
+      errors.passwordd = 'Passwords does not match'
+  }
+
+  setError(errors)
+
     const json = JSON.stringify({
       id: id,
       login: login,
@@ -59,7 +74,7 @@ function ResetPassword() {
   return (
     <div className={styles.body}>
       <h1>Reset Password</h1>
-      <h3>New Password:</h3>
+      <h3>Old Password:</h3>
       <TextField
         label={"Password *"}
         placeholder={"Password"}
@@ -67,11 +82,12 @@ function ResetPassword() {
         style={{
           marginTop: "16px",
         }}
+        type="password"
         onChange={(event) => {
           setPasswd(event.target.value);
         }}
       ></TextField>
-      <h3>Repeat Password:</h3>
+      <h3>New Password:</h3>
       <TextField
         label={"Password *"}
         placeholder={"Password"}
@@ -85,6 +101,20 @@ function ResetPassword() {
         }}
         min="0"
       ></TextField>
+       <h3>Repeat Password:</h3>
+       <TextField
+                label={"Password *"}
+                placeholder={"Password"}
+                value={passwordd}
+                style={{
+                    marginTop: '16px'}}
+                type="password"
+                onChange={event => {
+                    setPasswordd(event.target.value)
+                }}
+                min="0">
+            </TextField>
+            <p>{error.passwordd}</p>
       <Button
                     variant="success"
                     style={{
