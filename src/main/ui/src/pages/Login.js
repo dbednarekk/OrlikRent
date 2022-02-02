@@ -50,7 +50,7 @@ function Login() {
         <div style={{ margin: '50px' }}> 
         <button onClick={() => navigate(-1)}>Back</button>
         <div className={ styles.body }>
-            <h1>Zaloguj się</h1>
+            <h1>Log in</h1>
             <h3>Login:</h3>
             <TextField
                 label={"Login *"}
@@ -62,10 +62,10 @@ function Login() {
                     setLogin(event.target.value)
                 }}>
             </TextField>
-            <h3>Hasło:</h3>
+            <h3>Password:</h3>
             <TextField
-                label={"Hasło *"}
-                placeholder={"Hasło"}
+                label={"Password *"}
+                placeholder={"Password"}
                 value={password}
                 style={{
                     marginTop: '16px'}}
@@ -85,7 +85,7 @@ function Login() {
                         marginTop: '16px',
                     }}
                     onClick={handleAddUser}
-                >{"Zaloguj"}</Button>
+                >{"Login"}</Button>
             </div>
         </div>
     )
