@@ -5,26 +5,38 @@ import com.pas.orlikrent.model.Pitch;
 import com.pas.orlikrent.model.enums.GroundType;
 import com.pas.orlikrent.model.enums.Sector;
 import com.pas.orlikrent.security.SignableEntity;
+import com.pas.orlikrent.validators.Name;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.json.bind.annotation.JsonbTransient;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PositiveOrZero;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class FootballPitchDTO implements SignableEntity {
-
+    @NotEmpty
     private String id;
+    @Name
     private String name;
+    @DecimalMin("0.00")
+    @DecimalMax("20000.00")
+    @PositiveOrZero
     private Double price;
     private Boolean lights;
+    @NotEmpty
     private Sector sector;
+    @PositiveOrZero
     private Integer min_people;
+    @PositiveOrZero
     private Integer max_people;
     private Boolean rented;
-
+    @NotEmpty
     private GroundType grass_type;
     private Boolean goal_nets;
 

@@ -21,6 +21,7 @@ public class CustomJWTAuthenticationMechanism implements HttpAuthenticationMecha
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext httpMessageContext) throws AuthenticationException {
         if (!request.getRequestURL().toString().contains("/api/") ||
                 request.getRequestURL().toString().endsWith("/login") ||
+                request.getRequestURL().toString().contains("register") ||
                 request.getMethod().equals("OPTIONS")) {
 
             return CORS(CORS(httpMessageContext)).doNothing();

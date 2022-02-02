@@ -14,6 +14,7 @@ import com.pas.orlikrent.security.ETagFilterBinding;
 import com.pas.orlikrent.security.EntityIdentitySignerVerifier;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -96,7 +97,7 @@ public class Account_endpoint {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/client")
-    public Response createClient(@NotNull ClientForRegistrationDTO clientDTO) throws Base_Exception {
+    public Response createClient(@Valid @NotNull ClientForRegistrationDTO clientDTO) throws Base_Exception {
             this.accountManager.addClient(clientDTO);
             return Response.status(201).build();
 
@@ -105,7 +106,7 @@ public class Account_endpoint {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/manager")
-    public Response createManager(@NotNull ManagerForRegistrationDTO manager) throws Base_Exception {
+    public Response createManager(@Valid @NotNull ManagerForRegistrationDTO manager) throws Base_Exception {
 
             this.accountManager.addManager(manager);
             return Response.status(201).build();
@@ -115,7 +116,7 @@ public class Account_endpoint {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/admin")
-    public Response createAdmin(@NotNull AdminForRegistrationDTO admin) throws Base_Exception {
+    public Response createAdmin(@Valid @NotNull AdminForRegistrationDTO admin) throws Base_Exception {
 
             this.accountManager.addAdmin(admin);
             return Response.status(201).build();
@@ -136,7 +137,7 @@ public class Account_endpoint {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/UpdateClient/{id}")
     @ETagFilterBinding
-    public Response updateClient(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, ClientDTO client) {
+    public Response updateClient(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue,  @Valid @NotNull ClientDTO client) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(client, etagValue)) {
             return Response.status(412).build();
         }
@@ -162,7 +163,7 @@ public class Account_endpoint {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/UpdateManager/{id}")
     @ETagFilterBinding
-    public Response updateManager(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, ManagerDTO manager) {
+    public Response updateManager(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue,@Valid @NotNull ManagerDTO manager) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(manager, etagValue)) {
             return Response.status(412).build();
         }
@@ -188,7 +189,7 @@ public class Account_endpoint {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/UpdateAdmin/{id}")
     @ETagFilterBinding
-    public Response updateAdmin(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, AccountDTO admin) {
+    public Response updateAdmin(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue,@Valid @NotNull AccountDTO admin) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(admin, etagValue)) {
             return Response.status(412).build();
         }

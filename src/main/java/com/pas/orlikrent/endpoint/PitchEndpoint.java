@@ -9,6 +9,7 @@ import com.pas.orlikrent.security.ETagFilterBinding;
 import com.pas.orlikrent.security.EntityIdentitySignerVerifier;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -70,7 +71,7 @@ public class PitchEndpoint {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/addFootballPitch")
-    public Response createFootballPitch(@NotNull FootballPitchDTO pitch) throws Base_Exception {
+    public Response createFootballPitch(@Valid @NotNull FootballPitchDTO pitch) throws Base_Exception {
 
         this.pitchManager.addFootballPitch(pitch);
         return Response.status(201).build();
@@ -80,7 +81,7 @@ public class PitchEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/addBasketballPitch")
-    public Response createBasketballPitch(@NotNull BasketballPitchDTO pitch) throws Base_Exception {
+    public Response createBasketballPitch(@Valid @NotNull BasketballPitchDTO pitch) throws Base_Exception {
 
         this.pitchManager.addBasketballPitch(pitch);
         return Response.status(201).build();
@@ -91,7 +92,7 @@ public class PitchEndpoint {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/FootballPitch/{id}")
     @ETagFilterBinding
-    public Response updateFootballPitch(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, FootballPitchDTO pitch) {
+    public Response updateFootballPitch(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue,@Valid @NotNull FootballPitchDTO pitch) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(pitch, etagValue)) {
             return Response.status(412).build();
         }
@@ -115,7 +116,7 @@ public class PitchEndpoint {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/BasketballPitch/{id}")
     @ETagFilterBinding
-    public Response updateBasketballPitch(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, BasketballPitchDTO pitch) {
+    public Response updateBasketballPitch(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue,@Valid @NotNull BasketballPitchDTO pitch) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(pitch, etagValue)) {
             return Response.status(412).build();
         }

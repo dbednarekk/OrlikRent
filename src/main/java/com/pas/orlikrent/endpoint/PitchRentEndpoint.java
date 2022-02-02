@@ -10,6 +10,7 @@ import com.pas.orlikrent.security.ETagFilterBinding;
 import com.pas.orlikrent.security.EntityIdentitySignerVerifier;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -40,7 +41,7 @@ public class PitchRentEndpoint {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/addRent")
-    public Response createRent(PitchRentDTO2 rent2) throws Base_Exception {
+    public Response createRent(@Valid @NotNull PitchRentDTO2 rent2) throws Base_Exception {
         PitchRentDTO rent = RentMapper.rentalDTO2ToDTO(rent2);
         this.iPitchRentalManager.createRent(rent);
         return Response.status(201).build();
@@ -50,7 +51,7 @@ public class PitchRentEndpoint {
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/updateRent/{id}")
     @ETagFilterBinding
-    public Response updateRent(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue, PitchRentalDTO rent) {
+    public Response updateRent(@PathParam("id") String id, @HeaderParam("If-Match") @NotNull @NotEmpty String etagValue,@Valid @NotNull PitchRentalDTO rent) {
         if (!EntityIdentitySignerVerifier.verifyEntityIntegrity(rent, etagValue)) {
             return Response.status(412).build();
         }

@@ -21,11 +21,11 @@ import java.util.UUID;
 public class Rental_Repository implements IRentalRepository {
     private final List<PitchRental> rentals = Collections.synchronizedList(new ArrayList<>());
 
-    @Inject
-    ReservationFiller filler;
+   /* @Inject
+    ReservationFiller filler;*/
     @PostConstruct
     private void initData() {
-        filler.fill(rentals);
+       /* filler.fill(rentals);*/
     }
 
     public List<PitchRental> getAll() {

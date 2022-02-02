@@ -4,10 +4,12 @@ import com.pas.orlikrent.model.enums.GroundType;
 import com.pas.orlikrent.model.enums.Sector;
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
+
 
 @Data
 public class FootballPitch extends Pitch {
-
+    @NotEmpty
     private GroundType grass_type;
     private Boolean goal_nets;
 

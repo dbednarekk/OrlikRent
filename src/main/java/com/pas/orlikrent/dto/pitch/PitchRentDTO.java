@@ -9,15 +9,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.json.bind.annotation.JsonbTransient;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PitchRentDTO  {
-
+    @NotEmpty
     private String accountID;
+    @NotEmpty
     private String pitchID;
+    @NotEmpty
     private LocalDateTime start_date_rental;
+    @NotEmpty
     private LocalDateTime end_date_rental;
     private Boolean active;
 
