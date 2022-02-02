@@ -75,7 +75,7 @@ function AddFPitch() {
                 errors.maxP = 'Max number of people is required';            
             }else if(!NUMBER_REGEX.test(maxP)){
                 errors.maxP = 'This is not valid max number of people'
-            }else if(maxP < minP){
+            }else if(parseInt(maxP) < parseInt(minP)){
                 errors.maxP = 'Max number of people must be bigger then min number of people'
             }
             if(grasstype == ''){
