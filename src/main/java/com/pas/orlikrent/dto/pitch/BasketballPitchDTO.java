@@ -18,11 +18,10 @@ import javax.validation.constraints.PositiveOrZero;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BasketballPitchDTO implements SignableEntity {
-    @NotEmpty
+
     private String id;
     @Name
     private String name;
-
     @PositiveOrZero
     private Double price;
     private Boolean lights;

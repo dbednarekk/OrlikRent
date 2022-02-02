@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PitchRentalDTO implements SignableEntity {
-    @NotEmpty
+
     private String id;
     @NotEmpty
     private String accountID;

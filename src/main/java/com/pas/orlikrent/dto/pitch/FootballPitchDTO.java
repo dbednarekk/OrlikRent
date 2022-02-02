@@ -20,7 +20,7 @@ import javax.validation.constraints.PositiveOrZero;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FootballPitchDTO implements SignableEntity {
-    @NotEmpty
+
     private String id;
     @Name
     private String name;
@@ -33,7 +33,7 @@ public class FootballPitchDTO implements SignableEntity {
     @PositiveOrZero
     private Integer max_people;
     private Boolean rented;
-    @NotEmpty
+
     private GroundType grass_type;
     private Boolean goal_nets;
 

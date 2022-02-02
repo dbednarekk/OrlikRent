@@ -18,7 +18,7 @@ import javax.validation.constraints.PositiveOrZero;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PitchDTO implements SignableEntity {
-    @NotEmpty
+
     private String id;
     @Name
     private String name;
