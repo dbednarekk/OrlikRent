@@ -118,11 +118,11 @@ function EditPitch() {
             name,
             price,
             lights,
-            sector,
+            sector: sector.value,
             min_people: minP,
             max_people: maxP,
             rented: currentAccount.rented,
-            grass_type: grasstype,
+            grass_type: grasstype.value,
             goal_nets: nets
 
         });
@@ -148,7 +148,7 @@ function EditPitch() {
             name,
             price,
             lights,
-            sector,
+            sector: sector.value,
             min_people: minP,
             max_people: maxP,
             rented: currentAccount.rented,
