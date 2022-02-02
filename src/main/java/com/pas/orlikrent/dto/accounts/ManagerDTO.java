@@ -27,8 +27,6 @@ public class ManagerDTO implements SignableEntity {
     @Role
     private String role;
 
-    @DecimalMin("0.00")
-    @DecimalMax("20000.00")
     @PositiveOrZero
     private Double salary;
     @PositiveOrZero
@@ -38,6 +36,6 @@ public class ManagerDTO implements SignableEntity {
     @JsonbTransient
     @Override
     public String getSignablePayload() {
-        return id+login;
+        return id;
     }
 }

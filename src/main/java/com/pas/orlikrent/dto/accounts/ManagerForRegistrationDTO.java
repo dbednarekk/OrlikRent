@@ -21,8 +21,7 @@ public class ManagerForRegistrationDTO {
     private String password;
     @Email
     private String email;
-    @DecimalMin("0.00")
-    @DecimalMax("20000.00")
+
     @PositiveOrZero
     private Double salary;
     @PositiveOrZero

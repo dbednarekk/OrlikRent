@@ -35,6 +35,6 @@ public class ClientDTO implements SignableEntity {
     @JsonbTransient
     @Override
     public String getSignablePayload() {
-        return id+login;
+        return id;
     }
 }

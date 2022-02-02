@@ -108,6 +108,7 @@ public class Account_Manager implements IAccount_Manager {
     @Override
     public void updateClient(String id, ClientDTO o) throws Base_Exception {
         Client client = AccountMapper.toClientFromDTO(o);
+        client.setId(id);
         accountRepository.update(id, client);
     }
 

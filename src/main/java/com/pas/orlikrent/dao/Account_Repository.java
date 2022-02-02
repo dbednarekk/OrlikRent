@@ -81,9 +81,9 @@ public class Account_Repository implements IAccount_Repo {
 
     public void update(String oldAccount, Account newAccount) {
         synchronized (this.accounts) {
-            //todo check if id is given trough frontend, if not, set here id for newAccount, same for active
             for (int i = 0; i < accounts.size(); i++) {
                 if (oldAccount.equals(accounts.get(i).getId())) {
+                    newAccount.setPassword(accounts.get(i).getPassword());
                     this.accounts.set(i, newAccount);
                 }
             }

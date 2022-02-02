@@ -11,8 +11,7 @@ import javax.validation.constraints.PositiveOrZero;
 @Data
 @NoArgsConstructor
 public class Manager extends Account {
-    @DecimalMin("0.00")
-    @DecimalMax("20000.00")
+
     @PositiveOrZero
     private Double salary;
     @PositiveOrZero

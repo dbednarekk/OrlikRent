@@ -17,4 +17,9 @@ public class Client extends Account {
         this.first_name = first_name;
         this.last_name = last_name;
     }
+    public Client(String login, String email, Boolean active, String role, String first_name, String last_name) {
+        super(login, email, active, role);
+        this.first_name = first_name;
+        this.last_name = last_name;
+    }
 }

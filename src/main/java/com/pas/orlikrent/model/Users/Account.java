@@ -33,5 +33,11 @@ public abstract class Account implements Serializable {
         this.active = active;
         this.role = role;
     }
+    public Account(String login,  String email, Boolean active, String role) {
+        this.login = login;
+        this.email = email;
+        this.active = active;
+        this.role = role;
+    }
 
 }

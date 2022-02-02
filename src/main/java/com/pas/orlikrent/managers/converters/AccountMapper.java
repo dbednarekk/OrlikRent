@@ -30,7 +30,7 @@ public class AccountMapper {
         return new Client(client.getLogin(), client.getPassword(), client.getEmail(), true, "USER", client.getFirst_name(),client.getLast_name());
     }
     public static Client toClientFromDTO(ClientDTO client){
-        return new Client(client.getId(), client.getLogin(), client.getEmail(),client.getActive(),
+        return new Client(client.getLogin(), client.getEmail(),client.getActive(),
                 client.getRole(),client.getFirst_name(),client.getLast_name());
     }
 
