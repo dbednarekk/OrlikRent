@@ -22,12 +22,9 @@ public class PitchDTO implements SignableEntity {
     private String id;
     @Name
     private String name;
-    @DecimalMin("0.00")
-    @DecimalMax("20000.00")
     @PositiveOrZero
     private Double price;
     private Boolean lights;
-    @NotEmpty
     private Sector sector;
     @PositiveOrZero
     private Integer min_people;
