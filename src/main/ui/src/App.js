@@ -15,7 +15,7 @@ import EditPitch from "./pages/editPitch";
 import EditRent from "./pages/editRent";
 import { Switch } from "@mui/material";
 import MyProfile from "./pages/client/MyProfile";
-
+import Register from "./pages/Register"
 function App() {
 
   return (
@@ -31,6 +31,7 @@ function App() {
         <Route path="Manager//*" element={<ModeratorPage />} />
         <Route path="editAccounts/" element={<EditAccount />} />
         <Route path="login//*" element={<Login />} />
+        <Route path="register//*" element={<Register />} />
         <Route path="editPitch/" element={<EditPitch />} />
         <Route path="editRent/" element={<EditRent />} />
         <Route path="myProfile//*" element={<MyProfile />} />

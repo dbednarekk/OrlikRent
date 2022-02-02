@@ -29,7 +29,9 @@ function Header(props) {
             <Link to="/login">
               <BaseButton name="Zaloguj się" />
             </Link>
+            <Link to="/register">
             <BaseButton name="Zarejestruj się" />
+            </Link>
           </>
         )}
       </Box>
