@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 
 
 @Data
+@NoArgsConstructor
 public class FootballPitch extends Pitch {
 
     private GroundType grass_type;

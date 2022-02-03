@@ -2,11 +2,13 @@ package com.pas.orlikrent.model;
 
 import com.pas.orlikrent.model.enums.Sector;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.PositiveOrZero;
 
 
 @Data
+@NoArgsConstructor
 public class BasketballPitch extends Pitch {
     @PositiveOrZero
     private Integer numberOfBaskets;

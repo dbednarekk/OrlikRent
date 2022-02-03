@@ -103,7 +103,7 @@ public class Pitch_Manager implements IPitchManager {
                 throw new Pitch_Manager_Exception("Cannot update pitch while it has reservations");
             }
         }
-        pitches_repo.update(id, PitchMapper.footballPitchFromDTO(o));
+        pitches_repo.update(id, PitchMapper.editFootballPitchFromDTO(o));
     }
 
     @Override
@@ -113,7 +113,7 @@ public class Pitch_Manager implements IPitchManager {
                 throw new Pitch_Manager_Exception("Cannot update pitch while it has reservations");
             }
         }
-        pitches_repo.update(id, PitchMapper.basketballPitchFromDTO(o));
+        pitches_repo.update(id, PitchMapper.editBasketballPitchFromDTO(o));
     }
 
     @Override
