@@ -212,8 +212,8 @@ function EditPitch() {
         }
     }
 
-    useEffect( () => {
-        getPitch().then(res => {
+    useEffect( async () => {
+        await getPitch().then(res => {
             console.log(res)
             setName(res.data.name)
             setPrice(res.data.price)
@@ -221,10 +221,10 @@ function EditPitch() {
             setSector(res.data.sector)
             setMinP(res.data.min_people)
             setMaxP(res.data.max_people)
-            if(currentAccount.numberOfBaskets != null){
+            if (currentAccount.numberOfBaskets != null) {
                 setNumberOfBaskets(res.data.numberOfBaskets)
             }
-            if(currentAccount.goal_nets != null){
+            if (currentAccount.goal_nets != null) {
                 setGrasstype(res.data.grass_type)
                 setNets(res.data.goal_nets)
             }

@@ -197,16 +197,16 @@ function EditAccount() {
 
  
 
-    useEffect( () => {
-        getAccount().then(res => {
+    useEffect( async () => {
+        await getAccount().then(res => {
             setLogin(res.data.login)
             setEmail(res.data.email)
             setRole(res.data.role)
-            if(res.data.role === "MANAGER"){
+            if (res.data.role === "MANAGER") {
                 setSalary(res.data.salary)
                 setNumberOfShifts(res.data.numberOfShifts)
             }
-            if(res.data.role === "USER"){
+            if (res.data.role === "USER") {
                 setFirst_name(res.data.first_name)
                 setLast_name(res.data.last_name)
             }

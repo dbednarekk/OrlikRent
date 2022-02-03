@@ -15,7 +15,7 @@ const Root =()=>{
         notistackRef.current?.closeSnackbar(key)
     }
     return(
-        <React.StrictMode>
+        <>
             <SnackbarProvider
                 ref={notistackRef}
                 anchorOrigin={{
@@ -31,7 +31,7 @@ const Root =()=>{
             >
                 <App />
             </SnackbarProvider>
-        </React.StrictMode>);
+        </>);
 }
 ReactDOM.render(
     <Root/>,

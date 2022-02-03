@@ -13,13 +13,14 @@ import {useSnackbarQueue} from "../components/Snackbar.ts"
 function EditRent() {
    
     const navigate = useNavigate();
-
+    const token = sessionStorage.getItem("JWTToken");
     const currentAccount = JSON.parse(sessionStorage.getItem("id"));
     const [accountID, setAccountID] = useState('');
     const [pitchID, setPitchID] = useState('');
     const [start_date_rental, setStart_date_rental] = useState('');
     const [end_date_rental, setEnd_date_rental] = useState('');
     const [active, setActive] = useState('');
+    const [etag,setEtag] = useState('')
     const handleError = useErrorHandler()
     const showSuccess = useSnackbarQueue('success')
    
@@ -42,8 +43,9 @@ function EditRent() {
         axios.put(`Rentals/updateRent/${currentAccount.id}`, json,{
             headers: {
                 "Content-Type": "application/json",
-            //     "Accept": "application/json",
-            //     // "If-Match": currentAccount.etag,
+                "Accept": "application/json",
+                'Authorization': `Bearer ${token}`,
+                "If-Match": etag,
             }
         }).then(()=>{
               showSuccess('succesful action')
@@ -54,16 +56,24 @@ function EditRent() {
     }
 
     const getRent = () => {
-    return axios.get(`/Rentals/Rent/${currentAccount.id}`, ).then(()=>{
+    return axios.get(`/Rentals/Rent/${currentAccount.id}`,
+        {
+            "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`,
+                //     "Accept": "application/json",
+        }).then(()=>{
           showSuccess('succesful action')
-      }).catch(error => {
+      }).then((res)=> {
+        setEtag(res.headers.etag)
+        showSuccess('succesful action')
+    }).catch(error => {
         const message = error.response.data
         handleError(message, error.response.status)
       })
     }
 
-    useEffect( () => {
-        getRent().then(res => {
+    useEffect( async () => {
+        await getRent().then(res => {
             setAccountID(res.data.accountID)
             setPitchID(res.data.pitchID)
             setStart_date_rental(res.data.end_date_rental)
