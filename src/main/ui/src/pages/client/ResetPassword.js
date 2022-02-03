@@ -26,7 +26,6 @@ function ResetPassword() {
       }}).then((res) => {
       setEtag(res.headers.etag)
       setID(res.data.id)
-      console.log(res.data.id)
     }).catch(error =>{
       const message = error.response.data
       handleError(message, error.response.status)

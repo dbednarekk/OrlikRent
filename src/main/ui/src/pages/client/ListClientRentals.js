@@ -82,7 +82,6 @@ function BasicTable() {
     return getRentals().then((res) => {
       setRentals(res.data);
     }).catch(error =>{
-      console.log(error.response.data)
       const message = error.response.data
       handleError(message, error.response.status)
     });

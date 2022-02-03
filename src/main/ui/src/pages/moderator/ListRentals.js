@@ -37,9 +37,7 @@ function Row(props) {
     setOpen((state) => !state);
   };
 
-  const handleRemove = () => {
-    console.log("handle Remove");
-  };
+
   const handleEdit = (rent) => {
     sessionStorage.setItem("id", JSON.stringify(rent));
   };
@@ -148,7 +146,6 @@ function BasicTable() {
     return getRentals().then((res) => {
       setRentals(res.data);
     }).catch(error =>{
-      console.log(error.response.data)
       const message = error.response.data
       handleError(message, error.response.status)
     });

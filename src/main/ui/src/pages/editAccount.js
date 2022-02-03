@@ -130,7 +130,6 @@ function EditAccount() {
             active: currentAccount.active,
             role: currentAccount.role
         });
-        console.log(json);
         axios.put(`Account/UpdateAdmin/${currentAccount.id}`, json,{
             headers: {
                 "Content-Type": "application/json",
@@ -155,7 +154,6 @@ function EditAccount() {
             salary,
             numberOfShifts
         });
-        console.log(json);
         axios.put(`Account/UpdateManager/${currentAccount.id}`, json,{
             headers: {
                 'Content-Type': 'application/json',
@@ -180,7 +178,6 @@ function EditAccount() {
             first_name,
             last_name
         });
-        console.log(json);
         axios.put(`Account/UpdateClient/${currentAccount.id}`, json,{
             headers: {
                 'Content-Type': 'application/json',

@@ -38,9 +38,7 @@ function Row(props) {
     setOpen((state) => !state);
   };
 
-  const handleViewDetails = () => {
-    console.log("handle view details1");
-  };
+
 
   const handleEdit = ( id) => {
     sessionStorage.setItem("id", JSON.stringify(id));

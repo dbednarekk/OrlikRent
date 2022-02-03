@@ -126,7 +126,6 @@ function EditPitch() {
             goal_nets: nets
 
         });
-        console.log(json);
         axios.put(`Pitches/FootballPitch/${currentAccount.id}`, json,{
             headers: {
                 "Content-Type": "application/json",
@@ -154,7 +153,6 @@ function EditPitch() {
             rented: currentAccount.rented,
             numberOfBaskets,
         });
-        console.log(json);
         axios.put(`Pitches/BasketballPitch/${currentAccount.id}`, json,{
             headers: {
                 'Content-Type': 'application/json',
@@ -214,7 +212,6 @@ function EditPitch() {
 
     useEffect( async () => {
         await getPitch().then(res => {
-            console.log(res)
             setName(res.data.name)
             setPrice(res.data.price)
             setLights(res.data.lights)

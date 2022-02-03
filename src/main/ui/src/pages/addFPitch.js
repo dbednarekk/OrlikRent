@@ -102,7 +102,6 @@ function AddFPitch() {
             goal_nets: nets,
             grass_type: grasstype.value
         });
-        console.log(json);
         axios.post('Pitches/addFootballPitch', json,{
             headers: {
                 'Content-Type': 'application/json',

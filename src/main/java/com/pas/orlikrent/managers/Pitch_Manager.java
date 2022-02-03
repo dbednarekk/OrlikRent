@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Named
-@ApplicationScoped //todo check scope
+@ApplicationScoped
 @NoArgsConstructor
 public class Pitch_Manager implements IPitchManager {
 
@@ -84,7 +84,6 @@ public class Pitch_Manager implements IPitchManager {
         pitches_repo.add(PitchMapper.basketballPitchFromDTO(b));
     }
 
-    //todo check if the IF statment is correct  chyba tak
     @Override
     public void remove(String id) throws Base_Exception {
         for (PitchRental r : rentals.getAll()) {

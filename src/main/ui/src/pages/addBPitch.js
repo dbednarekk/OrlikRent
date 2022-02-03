@@ -91,7 +91,6 @@ function AddBPitch() {
             max_people: maxP,
             numberOfBaskets
         });
-        console.log(json);
         axios.post('Pitches/addBasketballPitch', json,{
             headers: {
                 'Content-Type': 'application/json',

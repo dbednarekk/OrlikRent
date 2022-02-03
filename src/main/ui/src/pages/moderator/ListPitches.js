@@ -35,9 +35,7 @@ function Row(props) {
   const handleSetOpen = async () => {
     setOpen((state) => !state);
   };
-  const handleRemove = () => {
-    console.log("handle Remove");
-  };
+
   const handleEdit = (pitch) => {
     sessionStorage.setItem("pitch", JSON.stringify(pitch));
   }

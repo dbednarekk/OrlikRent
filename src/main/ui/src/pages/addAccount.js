@@ -100,7 +100,6 @@ function AddAccount() {
             // active,
             role
         });
-        console.log(json);
         axios.post('Account/admin', json,{
             headers: {
                 'Content-Type': 'application/json',
@@ -124,7 +123,6 @@ function AddAccount() {
             salary,
             numberOfShifts
         });
-        console.log(json);
         axios.post('Account/manager', json,{
             headers: {
                 'Content-Type': 'application/json',
@@ -148,7 +146,6 @@ function AddAccount() {
             first_name,
             last_name
         });
-        console.log(json);
         axios.post('Account/client', json,{
             headers: {
                 'Content-Type': 'application/json',

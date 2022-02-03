@@ -60,7 +60,6 @@ function Row(props) {
     }).then((res) => {
       setRentForPitch(res.data);
     }).catch(error =>{
-      console.log(error.response.data)
       const message = error.response.data
       handleError(message, error.response.status)
     });
@@ -161,7 +160,6 @@ function BasicTable() {
   };
   useEffect(() => {
     getUpdatedPiches().catch(error =>{
-      console.log(error.response.data)
       const message = error.response.data
       handleError(message, error.response.status)
     });

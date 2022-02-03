@@ -28,7 +28,6 @@ function Login() {
             password,
            
         });
-        console.log(json);
          await axios.post('auth/login', json,{
             headers: {
                 'Content-Type': 'application/json'

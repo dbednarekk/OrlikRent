@@ -49,7 +49,6 @@ export default function PopupRentPitch({open, onCancel, id, pitch}){
           end_date_rental: end_date_rental.toISOString(),
           active: true,
         });
-        console.log(json);
          axios.post("/Rentals/addRent/", json, {
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +58,6 @@ export default function PopupRentPitch({open, onCancel, id, pitch}){
               showSuccess("successful action")
               onCancel()
           }).catch(error =>{
-            console.log(error.response.data)
             const message = error.response.data
             handleError(message, error.response.status)
           });;

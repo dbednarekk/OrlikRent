@@ -39,7 +39,6 @@ function EditRent() {
             end_date_rental,
             active,
         });
-        console.log(json);
         axios.put(`Rentals/updateRent/${currentAccount.id}`, json,{
             headers: {
                 "Content-Type": "application/json",

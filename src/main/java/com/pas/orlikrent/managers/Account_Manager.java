@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Named
-@ApplicationScoped //todo check scope
+@ApplicationScoped
 @NoArgsConstructor
 public class Account_Manager implements IAccount_Manager {
 
