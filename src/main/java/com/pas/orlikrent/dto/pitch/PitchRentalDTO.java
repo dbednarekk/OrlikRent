@@ -25,9 +25,7 @@ public class PitchRentalDTO implements SignableEntity {
     private String accountID;
     @NotEmpty
     private String pitchID;
-    @NotEmpty
     private LocalDateTime start_date_rental;
-    @NotEmpty
     private LocalDateTime end_date_rental;
     private Boolean active;
 

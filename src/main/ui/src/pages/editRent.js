@@ -43,7 +43,6 @@ function EditRent() {
         axios.put(`Rentals/updateRent/${currentAccount.id}`, json,{
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
                 'Authorization': `Bearer ${token}`,
                 "If-Match": etag,
             }
@@ -56,14 +55,11 @@ function EditRent() {
     }
 
     const getRent = () => {
-    return axios.get(`/Rentals/Rent/${currentAccount.id}`,
-        {
-            "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`,
-                //     "Accept": "application/json",
-        }).then(()=>{
-          showSuccess('succesful action')
-      }).then((res)=> {
+    return axios.get(`/Rentals/Rent/${currentAccount.id}`,{
+        headers:{
+            'Authorization': `Bearer ${token}`
+        }
+        }).then((res)=> {
         setEtag(res.headers.etag)
         showSuccess('succesful action')
     }).catch(error => {
