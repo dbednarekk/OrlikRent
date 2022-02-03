@@ -11,7 +11,7 @@ public interface IManager<T, M> {
 
     void add(T o) throws Base_Exception;
 
-    void remove(T o) throws Base_Exception;
+    void remove(M id, T o) throws Base_Exception;
 
     void update(M id, T o) throws Base_Exception;
 }

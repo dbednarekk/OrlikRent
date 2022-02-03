@@ -25,6 +25,17 @@ public class RentMapper {
 
         return new PitchRental(acc, pitch, rpDTO.getStart_date_rental(), rpDTO.getEnd_date_rental(), rpDTO.getActive());
     }
+    public static PitchRental rentalFromDTOWid(String id, PitchRentalDTO rpDTO,Account acc, Pitch pitch){
+        PitchRental rRent = new PitchRental();
+        rRent.setId(id);
+        rRent.setAccount(acc);
+        rRent.setPitch(pitch);
+        rRent.setStart_date_rental(rpDTO.getStart_date_rental());
+        rRent.setEnd_date_rental(rpDTO.getEnd_date_rental());
+        rRent.setActive(rpDTO.getActive());
+        return rRent;
+    }
+
     public static PitchRental newRentalFromDTO(PitchRentDTO rpDTO, Account acc, Pitch pitch){
             pitch.setRented(true);
         return new PitchRental(acc, pitch, rpDTO.getStart_date_rental(), rpDTO.getEnd_date_rental(), rpDTO.getActive());

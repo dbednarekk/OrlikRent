@@ -53,11 +53,11 @@ public class PitchRentalManager implements IPitchRentalManager {
     }
 
     @Override
-    public void remove(PitchRentalDTO o) throws Base_Exception {
+    public void remove(String id, PitchRentalDTO o) throws Base_Exception {
         if(o.getActive()){
             throw new Rental__Exception("Can not delete this this reservation while is active");
         }
-        this.pitch_rental_repo.remove(RentMapper.rentalFromDTO(o,account_repo.getByID(o.getAccountID()),pitchRepository.getByID(o.getPitchID())));
+        this.pitch_rental_repo.remove(RentMapper.rentalFromDTOWid(id, o,account_repo.getByID(o.getAccountID()),pitchRepository.getByID(o.getPitchID())));
     }
 
 

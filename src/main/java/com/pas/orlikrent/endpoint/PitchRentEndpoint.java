@@ -69,7 +69,7 @@ public class PitchRentEndpoint {
     @Path("/removeRent/{id}")
     public Response deleteRent(@PathParam("id") String id) throws Base_Exception {
         PitchRentalDTO rent = this.iPitchRentalManager.getByID(id);
-        this.iPitchRentalManager.remove(rent);
+        this.iPitchRentalManager.remove(id, rent);
         return Response.status(200).build();
     }
 
