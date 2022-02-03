@@ -1,6 +1,7 @@
 package com.pas.orlikrent.security;
 
 import com.pas.orlikrent.dto.AuthDTO;
+import com.pas.orlikrent.dto.accounts.AccountDTO;
 import com.pas.orlikrent.dto.accounts.AdminForRegistrationDTO;
 import com.pas.orlikrent.dto.accounts.ClientForRegistrationDTO;
 import com.pas.orlikrent.dto.accounts.ManagerForRegistrationDTO;
@@ -15,9 +16,7 @@ import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -45,6 +44,13 @@ public class AuthController {
         } else {
             return Response.status(Response.Status.UNAUTHORIZED).entity( "Incorrect login or password").build();
         }
+    }
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/self/{login}")
+    public Response getSelf(@PathParam("login") String login) throws Base_Exception {
+        AccountDTO account = accountManager.getByLogin(login);
+        return Response.ok().entity(account).header("Etag", EntityIdentitySignerVerifier.calculateEntitySignature(account)).build();
     }
     @POST
     @Consumes({MediaType.APPLICATION_JSON})

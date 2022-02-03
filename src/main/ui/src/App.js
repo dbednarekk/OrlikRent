@@ -16,6 +16,7 @@ import EditRent from "./pages/editRent";
 import { Switch } from "@mui/material";
 import MyProfile from "./pages/client/MyProfile";
 import Register from "./pages/Register"
+import img404 from "./images/404.png"
 function App() {
 
   return (
@@ -35,6 +36,15 @@ function App() {
         <Route path="editPitch/" element={<EditPitch />} />
         <Route path="editRent/" element={<EditRent />} />
         <Route path="myProfile//*" element={<MyProfile />} />
+        <Route path="*" element={ <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: '100%',
+                                height: '100vh',
+                            
+                            }}> <img src={img404} alt="404 not found"/></div>} />
       </Routes>
     </Router>
   );

@@ -27,11 +27,11 @@ function Home() {
          justifyContent: 'space-around',
          alignItems: 'center',
          width: '70%',
-         position: 'fixed',
+         position: 'relative',
          flexDirection: 'row',
          top: '15%',
          left: '15%',
-       
+        height: '100vh'
       }}>
         <Link to="/footballPitch/">
           <PitchCard

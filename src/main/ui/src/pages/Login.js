@@ -37,6 +37,9 @@ function Login() {
             const cred = parseJwt(res.data)
             sessionStorage.setItem("Login",JSON.stringify(cred.sub))
             sessionStorage.setItem("Auth",JSON.stringify(cred.auth))
+            axios.get(`auth/self/${cred.sub}`).then((res) => {
+                  sessionStorage.setItem("ID",JSON.stringify(res.data.id))
+                  })
            navigate("/")
            
           }).catch(error =>{

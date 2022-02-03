@@ -22,6 +22,7 @@ public class CustomJWTAuthenticationMechanism implements HttpAuthenticationMecha
         if (!request.getRequestURL().toString().contains("/api/") ||
                 request.getRequestURL().toString().endsWith("/login") ||
                 request.getRequestURL().toString().contains("register") ||
+                request.getRequestURL().toString().matches("^.*/api/Pitches/footballPitches/|^.*/api/Pitches/basketballPitches/|^.*/api/Rentals/RentsForPitch/.*|^.*/api/Rentals/RentsForClient/.*|^.*/api/auth/register/client|^.*/api/auth/self/.*") ||
                 request.getMethod().equals("OPTIONS")) {
 
             return CORS(CORS(httpMessageContext)).doNothing();
@@ -44,7 +45,7 @@ public class CustomJWTAuthenticationMechanism implements HttpAuthenticationMecha
                     return CORS(httpMessageContext).responseUnauthorized();
                 }
 
-                // from now container knows user login and user groups, so web.xml can verify authority
+
                 return CORS(httpMessageContext).notifyContainerAboutLogin(login, new HashSet<>(Arrays.asList(groups.split(","))));
             } catch (ParseException e) {
                 System.err.println(e.getMessage());
@@ -54,9 +55,10 @@ public class CustomJWTAuthenticationMechanism implements HttpAuthenticationMecha
     }
     private HttpMessageContext CORS(HttpMessageContext context) {
         context.getResponse().setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-        context.getResponse().setHeader("Access-Control-Allow-Headers", "*");
+        context.getResponse().setHeader("Access-Control-Allow-Headers", "*,access-control-allow-origin,access-control-allow-headers,access-control-allow-credentials,access-control-allow-methods,etag,content-type,content-length,access-control-allow-origin,access-control-allow-headers,access-control-allow-credentials,access-control-allow-methods,etag,content-type,content-length");
         context.getResponse().setHeader("Access-Control-Allow-Credentials", "true");
         context.getResponse().setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS,HEAD,PATCH");
+        context.getResponse().setHeader("Access-Control-Expose-Headers","access-control-allow-origin, access-control-allow-headers, access-control-allow-credentials, access-control-allow-methods, etag, content-type, content-length");
         return context;
     }
 }

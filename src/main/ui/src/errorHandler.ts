@@ -3,7 +3,10 @@ import useSnackbarQueue from './components/Snackbar.ts';
 function useErrorHandler() {
     const showError = useSnackbarQueue('error')
     const showWarning = useSnackbarQueue('warning')
-
+    const returnToHomePage = () =>{
+        sessionStorage.clear()
+        document.location.replace('/OrlikRentPAS/')
+    }
     return (error: string | any, status: number = 0) => {
 
         if (error === "" && status === 404) {
@@ -27,14 +30,20 @@ function useErrorHandler() {
         }
         if( status === 401 && error !== "Incorrect login or password"){
             showError("Action unauthorized, please log in")
+            setTimeout( () =>{returnToHomePage()},2000)
             return
         }
         if( status === 403){
             showError("Resources forbidden for your access level")
+            setTimeout( () =>{returnToHomePage()},2000)
             return
         }
         if( status === 412){
             showError("Etag integrity error")
+            return
+        }
+        if( status === 500){
+            showError("Internal Server Error")
             return
         }
         if (typeof error === 'string') {

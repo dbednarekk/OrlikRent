@@ -24,6 +24,7 @@ function ResetPassword() {
       headers:{
         'Authorization': `Bearer ${token}`
       }}).then((res) => {
+        console.log(res.headers.etag)
       setEtag(res.headers.etag)
       setID(res.data.id)
     }).catch(error =>{
@@ -39,13 +40,17 @@ function ResetPassword() {
   const handleReset =()=>{
     const errors = {}
 
-    if(password == ''){
-      errors.passwordd = 'Password is required';            
-  }else if(!PASSWORD_REGEX.test(password)){
-      errors.passwordd = 'This is not valid password'
+    if(password === ''){
+      errors.passwordd = 'Password is required';    
+      return        
   }
-  if(password != passwordd){
+   if(!PASSWORD_REGEX.test(password)){
+      errors.passwordd = 'This is not valid password'
+      return
+  }
+  if(password !== passwordd){
       errors.passwordd = 'Passwords does not match'
+      return
   }
 
   setError(errors)

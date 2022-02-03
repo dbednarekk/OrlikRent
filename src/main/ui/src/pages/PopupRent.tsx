@@ -24,26 +24,16 @@ export default function PopupRentPitch({open, onCancel, id, pitch}){
     const [end_date_rental, setEnd_date_rental] = useState(new Date());
     const token = sessionStorage.getItem('JWTToken') ;
     const login = JSON.parse(sessionStorage.getItem('Login')) ;
+    const clientID = JSON.parse(sessionStorage.getItem('ID')) ;
     const handleError = useErrorHandler()
     const showSuccess = useSnackbarQueue('success')
-    const [idd,setID] = useState('')
-    useEffect(() =>{
-        axios.get(`Account/login/${login}`,{
-            headers:{
-              'Authorization': `Bearer ${token}`
-            }}).then((res) => {
-                setID(res.data.id)
-              }).catch(error =>{
-                const message = error.response.data
-                handleError(message, error.response.status)
-              })
-               
-    },[])
+   
+  
     const handleSetRent = () => {
       
            
         const json = JSON.stringify({
-          accountID: idd, 
+          accountID: clientID, 
           pitchID: id,
           start_date_rental: start_date_rental.toISOString(),
           end_date_rental: end_date_rental.toISOString(),

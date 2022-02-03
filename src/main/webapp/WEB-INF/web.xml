@@ -16,10 +16,22 @@
     </security-role>
 
     <!--    Rest API rules    -->
-
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Common options</web-resource-name>
+            <url-pattern>/api/Pitches/footballPitches/</url-pattern>
+            <url-pattern>/api/Pitches/basketballPitches/</url-pattern>
+            <url-pattern>/api/Rentals/RentsForPitch/*</url-pattern>
+            <url-pattern>/api/Rentals/RentsForClient/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>logged options</web-resource-name>
             <url-pattern>/api/Pitches/footballPitches/</url-pattern>
             <url-pattern>/api/Pitches/basketballPitches/</url-pattern>
             <url-pattern>/api/Account/login/*/</url-pattern>
@@ -135,7 +147,7 @@
     </security-constraint>
 
 
-        <security-constraint>
+        <!--<security-constraint>
             <web-resource-collection>
                 <web-resource-name>api</web-resource-name>
                 <url-pattern>/*</url-pattern>
@@ -143,6 +155,6 @@
             <user-data-constraint>
                 <transport-guarantee>CONFIDENTIAL</transport-guarantee>
             </user-data-constraint>
-        </security-constraint>
+        </security-constraint>-->
 
 </web-app>
