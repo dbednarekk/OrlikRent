@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import {useNavigate} from "react-router-dom";
 import styles from '../styles/AddPitch.module.css'
 import { Button } from 'react-bootstrap';
+import Header from "../components/Header";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import React from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
@@ -213,9 +215,10 @@ function EditAccount() {
     return (
        
         <div style={{ margin: '50px' }}> 
-        <button onClick={() => navigate(-1)}>Back</button>
+        <Header title="Edit Account" />
+         <ArrowBackIcon style={{ marginTop: '75px' }} onClick={() => navigate(-1)}/>
         <div className={ styles.body }>
-            <h1>Edit {currentAccount.role} account </h1>
+            <h1>Edit {currentAccount.role}</h1><h1> account </h1>
             <h3>Login:</h3>
             <TextField
                 label={"Login *"}

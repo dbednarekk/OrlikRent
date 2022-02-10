@@ -1,7 +1,9 @@
  import { TextField } from '@mui/material';
 import { useState } from "react";
 import { useNavigate} from "react-router-dom";
-import styles from '../styles/AddPitch.module.css'
+import styles from '../styles/AddPitch.module.css';
+import Header from "../components/Header";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button } from 'react-bootstrap';
 import React from "react";
 import Switch from '@mui/material/Switch';
@@ -106,7 +108,8 @@ function AddBPitch() {
 
     return (
         <div style={{ margin: '50px' }}> 
-        <button onClick={() => navigate(-1)}>Back</button>
+              <Header title="Add Basketball pitch" />
+              <ArrowBackIcon style={{ marginTop: '75px' }} onClick={() => navigate(-1)}/>
 
 
         <div className={ styles.body }>

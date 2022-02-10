@@ -1,7 +1,9 @@
- import { TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import { useState } from "react";
+import Header from "../components/Header";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {useNavigate} from "react-router-dom";
-import styles from '../styles/AddPitch.module.css'
+import styles from '../styles/AddPitch.module.css';
 import { Button } from 'react-bootstrap';
 import React from "react";
 import axios from "../Services/URL";
@@ -161,7 +163,8 @@ function AddAccount() {
     return (
        
         <div style={{ margin: '50px' }}> 
-        <button onClick={() => navigate(-1)}>Back</button>
+        <Header title="Add Account" />
+        <ArrowBackIcon style={{ marginTop: '75px' }} onClick={() => navigate(-1)}/>
         <div className={ styles.body }>
             <h1>Add Account</h1>
             <h3>Login:</h3>

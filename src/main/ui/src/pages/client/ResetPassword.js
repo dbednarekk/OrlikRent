@@ -5,6 +5,8 @@ import styles from "../../styles/AddPitch.module.css";
 import { Button } from "react-bootstrap";
 import axios from "../../Services/URL";
 import { If, Then } from "react-if";
+import Header from "../../components/Header";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { PASSWORD_REGEX} from "../../regexConstants.ts"
 import useErrorHandler from "../../errorHandler.ts";
 import { useSnackbarQueue } from "../../components/Snackbar.ts";
@@ -35,6 +37,8 @@ function ResetPassword() {
   useEffect(() => {
     getAccountDetails();
   }, []);
+
+  const navigate = useNavigate();
 
 
   const handleReset =()=>{
@@ -77,7 +81,7 @@ function ResetPassword() {
   }
   return (
     <div className={styles.body}>
-      <h1>Reset Password</h1>
+      <Header title="Reset Password" />
       <h3>Old Password:</h3>
       <TextField
         label={"Password *"}

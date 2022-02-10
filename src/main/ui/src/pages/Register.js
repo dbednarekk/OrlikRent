@@ -6,6 +6,8 @@ import { Button } from 'react-bootstrap';
 import React from "react";
 import axios from "../Services/URL";
 import { If, Then } from 'react-if';
+import Header from "../components/Header";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import useErrorHandler from "../errorHandler.ts";
 import {useSnackbarQueue} from "../components/Snackbar.ts"
@@ -165,9 +167,9 @@ function AddAccount() {
     return (
        
         <div style={{ margin: '50px' }}> 
-        <button onClick={() => navigate(-1)}>Back</button>
+        <Header title="Register" />
+         <ArrowBackIcon style={{ marginTop: '75px' }} onClick={() => navigate(-1)}/>
         <div className={ styles.body }>
-            <h1>Register</h1>
             <h3>Login:</h3>
             <TextField
                 label={"Login *"}

@@ -40,7 +40,7 @@ function Header(props) {
             
           </>
         )}
-         <IconButton   onClick={() => {window.location.reload()}}>
+         <IconButton style={{ backgroundColor: 'lightgrey', marginLeft: '10px' }}  onClick={() => {window.location.reload(true)}}>
                     <RefreshIcon/>
                 </IconButton>
       </Box>
