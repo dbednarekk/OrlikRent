@@ -244,7 +244,7 @@ function AddAccount() {
                     setRole(event.target.value)
                 }}>
             </TextField>
-            {/* <If condition={role === "ADMINISTRATOR"}><Then>
+            <If condition={role === "ADMINISTRATOR"}><Then>
                 <Button
                     variant="success"
                     style={{
@@ -293,7 +293,7 @@ function AddAccount() {
                 }}
                 onClick={handlevalidation}
                 >{"+ Dodaj Managera"}</Button>
-            </Then></If> */}
+            </Then></If>
             <If condition={role === "USER"}><Then>
                 <h3>Name:</h3>
                 <TextField
