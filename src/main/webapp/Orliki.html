@@ -1,10 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width", initial-scale="1.0">
+    <title>Orliki</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-$END$
+    <h1> Pitches to rent</h1>
+    <form method="post" onsubmit="onRent()">
+        <div class="container">
+            <label>Account : </label>
+            <input type="text" id="AccountID" placeholder="Enter Account" name="Account" required >
+            <label>Pitch : </label>
+            <input type="text" id="PitchID" placeholder="Enter Pitch" name="Pitch" required >
+            <label>Start : </label>
+            <input type="datetime-local" id="startData" placeholder="Enter Account" name="startData" required >
+            <label>End : </label>
+            <input type="datetime-local" id="endData" placeholder="Enter Pitch" name="endData" required >
+            <button type="submit">Rent</button>
+        </div>
+    </form>
+    <table class="table" id="tableB">
+        <thead>
+        <th>Id</th>
+        <th>Lights</th>
+        <th>Max people</th>
+        <th>Min people</th>
+        <th>Name</th>
+        <th>Number Of Baskets</th>
+        <th>Price</th>
+        <th>Rented</th>
+        <th>Sector</th>
+        <th>Delete</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <table class="table1">
+        <thead>
+        <th>Nets</th>
+        <th>Type Of Grass</th>
+        <th>Id</th>
+        <th>Lights</th>
+        <th>Max people</th>
+        <th>Min people</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Rented</th>
+        <th>Sector</th>
+        <th>Delete</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <table class="tableUsers">
+        <thead>
+        <th>Nets</th>
+        <th>Type Of Grass</th>
+        <th>Id</th>
+        <th>Lights</th>
+        <th>Max people</th>
+        <th>Min people</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Rented</th>
+        <th>Sector</th>
+        <th>Delete</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <table class="tableRents">
+        <thead>
+        <th>Nets</th>
+        <th>Type Of Grass</th>
+        <th>Id</th>
+        <th>Lights</th>
+        <th>Max people</th>
+        <th>Min people</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Rented</th>
+        <th>Sector</th>
+        <th>Delete</th>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="pitches.js"></script>
 </body>
 </html>

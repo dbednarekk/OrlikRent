@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Main</title>
+    <script src="login.js"></script>
 </head>
+<link rel="stylesheet" href="main.css">
 <body>
-<center> <h1> Student Login Form </h1> </center>
-<form>
+ <h1> Student Login Form </h1> 
+<form method="post" onsubmit="">
     <div class="container">
         <label>Username : </label>
         <input type="text" placeholder="Enter Username" name="username" required>
         <label>Password : </label>
-        <input type="password" placeholder="Enter Password" name="password" required>
+        <input type="text" placeholder="Enter Password" name="password" required>
         <button type="submit">Login</button>
-        <input type="checkbox" checked="checked"> Remember me
-        <button type="button" class="cancelbtn"> Cancel</button>
         Forgot <a href="#"> password? </a>
+        <a href="addUser.html"> Register </a>
     </div>
 </form>
 </body>
+
 </html>

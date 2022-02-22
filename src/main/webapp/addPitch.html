@@ -1,10 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width", initial-scale="1.0">
+        <title>Orliki</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <h1> Add Pitch</h1>
+        <h1> Add BasketballPitch</h1>
+        <form method="post" onsubmit="createBasketball()">
+            <div class="container">
+                <label>Name : </label>
+                <input type="text" id="name" placeholder="Name" name="name" required >
+                <label>Price : </label>
+                <input type="number" id="price" placeholder="Price" name="price" required >
+                <label>Lights : </label>
+                <input type="checkbox" id="lights" name="lights" required >
+                <label>Sector : </label>
+                <select name="sector" id="sector" required>
+                    <option value="FULL_SIZE">Full size</option>
+                    <option value="HALF_SIZE">Half size</option>
+                </select>
+                <label>Minimal number of people : </label>
+                <input type="number" id="min_people" placeholder="Minimal number of people" name="min_people" required >
+                <label>Maximum number of people : </label>
+                <input type="number" id="max_people" placeholder="Maximum number of people" name="max_people" required >
+                <label>Number of baskets : </label>
+                <input type="number" id="numberOfBaskets" placeholder="Number of baskets" name="numberOfBaskets" required >
+                <button type="submit">Create</button>
+            </div>
+        </form>
+        <h1> Add FootballPitch</h1>
+        <form method="post" onsubmit="createFootball()">
+            <div class="container">
+                <label>Name : </label>
+                <input type="text" id="nameF" placeholder="Name" name="name" required >
+                <label>Price : </label>
+                <input type="number" id="priceF" placeholder="Price" name="price" required >
+                <label>Lights : </label>
+                <input type="checkbox" id="lightsF" placeholder="Lights" name="lights" required >
+                <label>Sector : </label>
+                <select name="sector" id="sectorF" required>
+                    <option value="FULL_SIZE">Full size</option>
+                    <option value="HALF_SIZE">Half size</option>
+                </select>
+                <label>Minimal number of people : </label>
+                <input type="number" id="min_peopleF" placeholder="Minimal number of people" name="min_people" required >
+                <label>Maximum number of people : </label>
+                <input type="number" id="max_peopleF" placeholder="Maximum number of people" name="max_people" required >
+                <label>Grass type : </label>
+                <select name="grass_type" id="grass_type" required>
+                    <option value="SILICONE">Silicone</option>
+                    <option value="GRANULATE">Granulate</option>
+                    <option value="GRASS">Grass</option>
+                </select>
+                <label>Goals with nets : </label>
+                <input type="checkbox" id="goal_nets" name="goal_nets" required >
+                <button type="submit">Create</button>
+            </div>
+        </form>
+        <script src="addPitch.js"></script>
+    </body>
 </html>

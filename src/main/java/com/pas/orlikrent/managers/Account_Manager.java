@@ -1,6 +1,5 @@
 package com.pas.orlikrent.managers;
 
-import com.nimbusds.jwt.SignedJWT;
 import com.pas.orlikrent.dao.IAccount_Repo;
 import com.pas.orlikrent.dto.accounts.*;
 import com.pas.orlikrent.exceptions.Account__Exception;
@@ -10,7 +9,6 @@ import com.pas.orlikrent.model.Users.Account;
 import com.pas.orlikrent.model.Users.Admin;
 import com.pas.orlikrent.model.Users.Client;
 import com.pas.orlikrent.model.Users.Manager;
-import com.pas.orlikrent.security.JWTHandler;
 import lombok.NoArgsConstructor;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -166,15 +164,13 @@ public class Account_Manager implements IAccount_Manager {
     }
     @Override
     public void resetPassword(ResetPasswdDTO dto ) throws Base_Exception, ParseException {
-        if(!JWTHandler.validateJwtSignature(dto.getToken())){
-            throw new Base_Exception("Cannot reset password, token incorrect");
-        }
-        SignedJWT signedJWT = SignedJWT.parse(dto.getToken());
-        String login = signedJWT.getJWTClaimsSet().getSubject();
-        if(!login.equals(dto.getLogin())){
-            throw new Base_Exception("Cannot reset password, logins does not match");
-        }
-        this.accountRepository.resetPassword(dto.getLogin(), dto.getOldPasswd(), dto.getNewPasswd());
+
+//        SignedJWT signedJWT = SignedJWT.parse(dto.getToken());
+//        String login = signedJWT.getJWTClaimsSet().getSubject();
+//        if(!login.equals(dto.getLogin())){
+//            throw new Base_Exception("Cannot reset password, logins does not match");
+//        }
+//        this.accountRepository.resetPassword(dto.getLogin(), dto.getOldPasswd(), dto.getNewPasswd());
 
     }
 }

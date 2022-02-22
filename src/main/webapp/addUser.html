@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,15 +8,19 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <h1> Create Admin </h1>
-    <form method="post" onsubmit="createAdmin()">
+    <h1> Create User </h1>
+    <form method="post" onsubmit="createUser()">
         <div class="container">
             <label>Login : </label>
             <input type="text" id="login" placeholder="Login" name="Login" required >
             <label>Password : </label>
             <input type="password" id="password" placeholder="Password" name="Password" required >
             <label>Email : </label>
-            <input type="email" id="email" placeholder="Email" name="Email" required >
+            <input type="email" id="email" placeholder="Email" name="Email" required ></br>
+            <label>First name : </label>
+            <input type="text" id="firstName" placeholder="First name" name="firstName" required >
+            <label>Last name : </label>
+            <input type="text" id="lastName" placeholder="Last name" name="lastName" required >
             <button type="submit">Create</button>
         </div>
     </form>

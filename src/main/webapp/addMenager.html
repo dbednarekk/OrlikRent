@@ -1,10 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width", initial-scale="1.0">
+        <title>Orliki</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <h1>  Create Manager </h1>
+        <form method="post" onsubmit="createManager()">
+            <div class="container">
+                <label>Login : </label>
+                <input type="text" id="login" placeholder="Login" name="Login" required >
+                <label>Password : </label>
+                <input type="password" id="password" placeholder="Password" name="Password" required >
+                <label>Email : </label>
+                <input type="email" id="email" placeholder="Email" name="Email" required >
+                <label>Salary : </label>
+                <input type="number" id="salary" placeholder="Salary" name="salary" required >
+                <label>Number of shifts : </label>
+                <input type="number" id="numberOfShifts" placeholder="Number of shifts" name="numberOfShifts" required >
+                <button type="submit">Create</button>
+            </div>
+        </form>
+        <script src="addAccount.js"></script>
+    </body>
 </html>
