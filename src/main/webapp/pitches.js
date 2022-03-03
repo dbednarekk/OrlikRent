@@ -18,11 +18,11 @@ function onRent(){
     const data = {}
     data["accountID"] =  document.getElementById("AccountID").value;
     data["active"] = true;
-    data["end_date_rental"] = document.getElementById("endData").value;
+    data["end_date_rental"] = document.getElementById("endData").value+":00.000Z";
     data["pitchID"] = document.getElementById("PitchID").value;
-    data["start_date_rental"] = document.getElementById("startData").value;
+    data["start_date_rental"] = document.getElementById("startData").value+":00.000Z";
     console.log(data);
-    postData("HTTPS://localhost:8181/OrlikRentPAS/api/Rentals", data).then(r => alert("Rented"))
+    postData("http://localhost:8080/OrlikRentPAS/api/Rentals/addRent", data).then(r => alert("Rented"))
 
 }
 async function loadIntoTable(url, tables){
@@ -46,7 +46,16 @@ tableBody.innerHTML = "";
         button.textContent = "Remove";
         button.className = "deleteBtn";
         rowElement.appendChild(button)
+     /*   const button2 = document.createElement("button")
+        button2.textContent = "Add";
+        button2.className = "addBtn";
+        rowElement.appendChild(button2)
+        const button3= document.createElement("button")
+        button3.textContent = "Update";
+        button3.className = "updateBtn";
+        rowElement.appendChild(button3)*/
         tableBody.appendChild(rowElement);
+
     }
 }
 
@@ -62,7 +71,7 @@ function onDelete(e){
 
 document.querySelector("table").addEventListener('click', onDelete);
 document.querySelector(".table1").addEventListener('click', onDelete);
-loadIntoTable("HTTPS://localhost:8181/OrlikRentPAS/api/Pitches/basketballPitches" , document.querySelector("table"));
-loadIntoTable("HTTPS://localhost:8181/OrlikRentPAS/api/Pitches/footballPitches" , document.querySelector(".table1"));
-loadIntoTable("HTTPS://localhost:8181/OrlikRentPAS/api/Account/clients" , document.querySelector(".tableUsers"));
-loadIntoTable("HTTPS://localhost:8181/OrlikRentPAS/api/Rentals" , document.querySelector(".tableRents"));
+loadIntoTable("http://localhost:8080/OrlikRentPAS/api/Pitches/basketballPitches" , document.querySelector("table"));
+loadIntoTable("http://localhost:8080/OrlikRentPAS/api/Pitches/footballPitches" , document.querySelector(".table1"));
+loadIntoTable("http://localhost:8080/OrlikRentPAS/api/Account/clients" , document.querySelector(".tableUsers"));
+loadIntoTable("http://localhost:8080/OrlikRentPAS/api/Rentals" , document.querySelector(".tableRents"));

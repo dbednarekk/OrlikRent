@@ -1,4 +1,4 @@
-const baseurl = "HTTPS://localhost:8181/OrlikRentPAS/api";
+const baseurl = "HTTP://localhost:8080/OrlikRentPAS/api/Account";
 function login(){
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET",baseurl + "/all",true);
